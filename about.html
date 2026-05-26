@@ -14,27 +14,6 @@
      ABOUT — museum institutional info
      ═══════════════════════════════════════════ */
 
-  .breadcrumb {
-    border-bottom: var(--hair);
-    padding: var(--s-3) var(--gutter);
-    background: var(--bg-elev);
-  }
-  .breadcrumb-inner {
-    max-width: var(--content-wide);
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.15em;
-    color: var(--mn-500);
-  }
-  .breadcrumb-path a { color: var(--mn-700); text-transform: uppercase; transition: color 0.2s; }
-  .breadcrumb-path a:hover { color: var(--fe-500); }
-  .breadcrumb-path .sep { margin: 0 var(--s-3); color: var(--mn-300); }
-  .breadcrumb-acc { color: var(--fe-500); letter-spacing: 0.2em; }
-
   /* ── Hero ── */
   .about-hero {
     max-width: var(--content-wide);
@@ -130,37 +109,6 @@
     margin: 0 auto;
     padding: var(--s-16) var(--gutter);
     border-bottom: var(--hair);
-  }
-
-  .sec-head {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: var(--s-12);
-    align-items: baseline;
-    margin-bottom: var(--s-12);
-    padding-bottom: var(--s-4);
-    border-bottom: var(--hair);
-  }
-
-  .sec-num {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.3em;
-    color: var(--fe-500);
-    text-transform: uppercase;
-  }
-
-  .sec-title {
-    font-family: var(--font-display);
-    font-size: var(--t-3xl);
-    font-weight: 400;
-    color: var(--mn-900);
-    letter-spacing: -0.01em;
-  }
-  .sec-title em { font-style: italic; color: var(--fe-500); }
-
-  @media (max-width: 768px) {
-    .sec-head { grid-template-columns: 1fr; gap: var(--s-3); }
   }
 
   /* ── Statement block (long version) ── */
@@ -424,16 +372,9 @@
     .contact-grid { grid-template-columns: 1fr; }
   }
 
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  /* ── Entrance animation (rise keyframes + reduced-motion live in styles.css) ── */
   .about-hero > * { animation: rise 0.6s ease both; }
   .about-hero > *:nth-child(2) { animation-delay: 0.1s; }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  }
 </style>
 </head>
 <body>
@@ -444,7 +385,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-brand"><strong>ES</strong> · earthscape-studio.com</div>
-    <div class="nav-center">陶 逸</div>
+    <div class="nav-center">埴 角</div>
     <div class="nav-menu">
       <a href="index.html">Index</a>
       <a href="index.html#series">Works</a>
@@ -515,7 +456,7 @@
 
   <div class="hero-right">
     <h1><em>About</em><br>Earthscape</h1>
-    <div class="hero-zh">關 於 陶 逸</div>
+    <div class="hero-zh">關 於 埴 角</div>
 
     <p class="hero-statement">
       A peninsula of earth — still attached to the mainland, but already reaching into another sea.
@@ -571,7 +512,11 @@
       </p>
 
       <p>
-        陶逸——是陶醉，也是逸出。
+        中文取名「埴角」。<em>「埴」是製陶用的黏土</em>——《尚書·禹貢》「厥土赤埴墳」，《荀子》「陶人埏埴而為器」，《道德經》「埏埴以為器，當其無，有器之用」。三千年前周朝的官制裡，陶藝匠人的正式職稱叫做「摶埴之工」。
+      </p>
+
+      <p>
+        埴角——黏土的岬角。
       </p>
 
       <p>
@@ -583,7 +528,7 @@
           Earthscape is a peninsula. Between the office I commute to each weekday and the hands I cover in clay each weekend, a piece of land has been extending out from me — still attached to the mainland, but already reaching into other waters. A cape is the edge of land that ventures into the sea. Not the center, but the periphery. It hasn't left, yet it already faces the distance.
         </p>
         <p>
-          I work with the oldest materials — kaolin, feldspar, quartz, iron oxide, wood ash. For fifteen thousand years, humans have used these to cook, to store, to record. Ceramics were the first objects that let us hand the present over to the future. 陶逸 — to be entranced, and to slip away. You are invited to look out at the sea from my peninsula.
+          I work with the oldest materials — kaolin, feldspar, quartz, iron oxide, wood ash. For fifteen thousand years, humans have used these to cook, to store, to record. Ceramics were the first objects that let us hand the present over to the future. 埴角 — clay, and the cape it forms. You are invited to look out at the sea from my peninsula.
         </p>
       </div>
     </div>
@@ -668,7 +613,7 @@
     <div class="cv-row">
       <span class="cv-year">2026</span>
       <span class="cv-tag">Studio Founded</span>
-      <span class="cv-desc">創立 Earthscape · 陶逸工作室，於台北板橋。註冊 <em>earthscape-studio.com</em>。</span>
+      <span class="cv-desc">創立 Earthscape · 埴角工作室，於台北板橋。註冊 <em>earthscape-studio.com</em>。</span>
     </div>
 
     <div class="cv-row">
@@ -791,7 +736,7 @@
   <div class="foot-inner">
     <div>
       <div class="foot-mark">Earthscape</div>
-      <div class="foot-mark-sub">陶 逸 · Studio Archive</div>
+      <div class="foot-mark-sub">埴 角 · Studio Archive</div>
     </div>
     <div class="foot-col">
       <h4>Navigate</h4>

@@ -1,4 +1,4 @@
-# Earthscape Studio · 陶逸
+# Earthscape Studio · 埴角
 
 > A peninsula of earth — still attached to the mainland, but already reaching into another sea.
 

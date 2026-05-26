@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Earthscape · 陶逸 — Studio Archive</title>
-<meta name="description" content="A peninsula of earth — ceramic vessels made from kaolin, feldspar, quartz, iron oxide and wood ash. 陶逸——一片從大地伸出去的岬角。">
+<title>Earthscape · 埴角 — Studio Archive</title>
+<meta name="description" content="A peninsula of earth — ceramic vessels made from kaolin, feldspar, quartz, iron oxide and wood ash. 埴角——一片從大地伸出去的岬角。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=Noto+Serif+TC:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -385,14 +385,9 @@
     text-transform: uppercase;
     padding: 4px 10px;
     border: 1px solid var(--accent-500);
-    color: var(--accent-700);
-    background: var(--accent-50);
+    background-color: var(--accent-500);
+    color: var(--bg);
     margin-top: var(--s-3);
-  }
-
-  .series-status.complete {
-    border-color: var(--mn-500);
-    color: var(--mn-500);
   }
 
   .series-body {
@@ -544,18 +539,8 @@
     flex-wrap: wrap;
   }
 
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent-700);
-    padding: 2px 8px;
-    border: 1px solid var(--accent-500);
-    background: var(--accent-50);
-    transition: all 0.25s ease;
-  }
-
+  /* .tag base lives in styles.css; this is the hover-fill effect
+     scoped to the journal-entry card on the index page only. */
   .journal-entry:hover .tag {
     background: var(--accent-500);
     color: var(--bg);
@@ -639,21 +624,9 @@
     letter-spacing: 0.35em;
   }
 
-  /* ── Tiny entrance animation ── */
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
+  /* ── Entrance animation (rise keyframes + reduced-motion live in styles.css) ── */
   .cover-left, .cover-right { animation: rise 0.7s ease both; }
   .cover-right { animation-delay: 0.1s; }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
 </style>
 </head>
 <body>
@@ -677,7 +650,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-brand"><strong>ES</strong> · earthscape-studio.com</div>
-    <div class="nav-center">陶 逸</div>
+    <div class="nav-center">埴 角</div>
     <div class="nav-menu">
       <a href="#cover">Index</a>
       <a href="#series">Works</a>
@@ -722,7 +695,7 @@
 
   <div class="cover-right">
     <h1 class="cover-title"><em>Earth</em>scape</h1>
-    <div class="cover-zh">陶 逸</div>
+    <div class="cover-zh">埴 角</div>
 
     <p class="cover-statement">
       A peninsula of earth — still attached to the mainland, but already reaching into another sea.
@@ -788,11 +761,11 @@
 
     <div class="etym-row">
       <div class="etym-term">
-        陶逸
-        <span class="ipa">táo · yì · n. / adj.</span>
+        埴角
+        <span class="ipa">zhí · jiǎo · n.</span>
       </div>
       <div class="etym-def">
-        <em>陶醉，與逸出</em>。「逸」既是逸品（藝術的等級），也是飄逸（姿態），也是逃逸（行動）。
+        <em>黏土的岬角</em>。「埴」者，黏土也——《尚書·禹貢》「厥土赤埴墳」，《荀子》「陶人埏埴而為器」，《道德經》「埏埴以為器」。「角」即海岬。一塊由揉土所形成的、伸進當代的、來自古老脈絡的土地。
       </div>
     </div>
 
@@ -921,7 +894,7 @@
       <div class="series-num" style="color: var(--mn-500);">CAPE · 02</div>
       <h3 class="series-title"><em>第二岬角</em><br>The Second Peninsula</h3>
       <div class="series-date">2027 · Spring</div>
-      <div class="series-status complete">Planned</div>
+      <div class="series-status">Planned</div>
     </div>
 
     <div class="series-body">
@@ -1004,7 +977,7 @@
   <div class="foot-inner">
     <div>
       <div class="foot-mark">Earthscape</div>
-      <div class="foot-mark-sub">陶 逸 · Studio Archive</div>
+      <div class="foot-mark-sub">埴 角 · Studio Archive</div>
     </div>
 
     <div class="foot-col">

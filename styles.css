@@ -1,6 +1,22 @@
 /* ═══════════════════════════════════════════
-   EARTHSCAPE · DESIGN TOKENS
-   Mineral oxide color system + Archive typography
+   EARTHSCAPE · 埴角 — SHARED STYLESHEET
+   ───────────────────────────────────────────
+   01 · TOKENS         design tokens (color, type, space)
+   02 · RESET          element reset
+   03 · TYPOGRAPHY     mono / display / label utilities
+   04 · GRAIN          paper texture overlay
+   05 · ANIMATIONS     entrance fade-rise + reduced motion
+   06 · NAV            top navigation bar
+   07 · BREADCRUMB     sub-nav strip (internal pages)
+   08 · FOOTER         site footer
+   09 · SECTION HEAD   § num + title pattern
+   10 · TAG            inline cyan badge (+ .filled variant)
+   ═══════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════
+   01 · TOKENS
+   Mineral oxide palette + archive typography
    ═══════════════════════════════════════════ */
 
 :root {
@@ -81,8 +97,9 @@
   --hair-accent: 1px solid var(--fe-500);
 }
 
+
 /* ═══════════════════════════════════════════
-   RESET
+   02 · RESET
    ═══════════════════════════════════════════ */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -121,8 +138,9 @@ button {
   color: inherit;
 }
 
+
 /* ═══════════════════════════════════════════
-   TYPOGRAPHY UTILITIES
+   03 · TYPOGRAPHY UTILITIES
    ═══════════════════════════════════════════ */
 
 .mono {
@@ -149,8 +167,9 @@ button {
   font-weight: 500;
 }
 
+
 /* ═══════════════════════════════════════════
-   PAPER TEXTURE
+   04 · GRAIN — paper texture overlay
    ═══════════════════════════════════════════ */
 
 .grain {
@@ -163,8 +182,28 @@ button {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.06 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+
 /* ═══════════════════════════════════════════
-   NAV
+   05 · ANIMATIONS
+   Subtle entrance fade-rise. Always paired with
+   prefers-reduced-motion fallback.
+   ═══════════════════════════════════════════ */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════
+   06 · NAV
    ═══════════════════════════════════════════ */
 
 .nav {
@@ -203,7 +242,6 @@ button {
 .nav-center {
   font-family: var(--font-display);
   font-size: var(--t-lg);
-  font-style: italic;
   color: var(--fe-500);
   letter-spacing: 0.02em;
 }
@@ -238,9 +276,7 @@ button {
   transition: transform 0.3s ease;
 }
 
-.nav-menu a:hover {
-  color: var(--fe-500);
-}
+.nav-menu a:hover { color: var(--fe-500); }
 
 .nav-menu a:hover::after {
   transform: scaleX(1);
@@ -248,15 +284,56 @@ button {
 }
 
 @media (max-width: 768px) {
-  .nav-inner {
-    grid-template-columns: 1fr auto;
-  }
+  .nav-inner { grid-template-columns: 1fr auto; }
   .nav-center { display: none; }
   .nav-menu { gap: var(--s-4); font-size: 0.65rem; }
 }
 
+
 /* ═══════════════════════════════════════════
-   FOOTER
+   07 · BREADCRUMB
+   Top strip on internal pages — path + accession.
+   ═══════════════════════════════════════════ */
+
+.breadcrumb {
+  border-bottom: var(--hair);
+  padding: var(--s-3) var(--gutter);
+  background: var(--bg-elev);
+}
+
+.breadcrumb-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.15em;
+  color: var(--mn-500);
+}
+
+.breadcrumb-path a {
+  color: var(--mn-700);
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.breadcrumb-path a:hover { color: var(--fe-500); }
+
+.breadcrumb-path .sep {
+  margin: 0 var(--s-3);
+  color: var(--mn-300);
+}
+
+.breadcrumb-acc {
+  color: var(--fe-500);
+  letter-spacing: 0.2em;
+}
+
+
+/* ═══════════════════════════════════════════
+   08 · FOOTER
    ═══════════════════════════════════════════ */
 
 footer.site-foot {
@@ -328,4 +405,67 @@ footer.site-foot {
 @media (max-width: 768px) {
   .foot-inner { grid-template-columns: 1fr; gap: var(--s-8); }
   .foot-bottom { flex-direction: column; gap: var(--s-2); }
+}
+
+
+/* ═══════════════════════════════════════════
+   09 · SECTION HEAD
+   § number + title pattern used to open
+   numbered article-style sections.
+   ═══════════════════════════════════════════ */
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--s-12);
+  align-items: baseline;
+  margin-bottom: var(--s-12);
+  padding-bottom: var(--s-4);
+  border-bottom: var(--hair);
+}
+
+.sec-num {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.3em;
+  color: var(--fe-500);
+  text-transform: uppercase;
+}
+
+.sec-title {
+  font-family: var(--font-display);
+  font-size: var(--t-3xl);
+  font-weight: 400;
+  color: var(--mn-900);
+  letter-spacing: -0.01em;
+}
+
+.sec-title em { font-style: italic; color: var(--fe-500); }
+
+@media (max-width: 768px) {
+  .sec-head { grid-template-columns: 1fr; gap: var(--s-3); }
+}
+
+
+/* ═══════════════════════════════════════════
+   10 · TAG
+   Inline cyan badge. Default is outlined;
+   `.tag.filled` adds the accent-50 fill used in
+   long-form contexts (e.g. journal entry head).
+   ═══════════════════════════════════════════ */
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-500);
+  padding: 2px 8px;
+  border: 1px solid var(--accent-500);
+  transition: all 0.25s ease;
+}
+
+.tag.filled {
+  color: var(--accent-700);
+  background: var(--accent-50);
 }

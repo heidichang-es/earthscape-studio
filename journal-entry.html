@@ -13,31 +13,6 @@
      JOURNAL ENTRY (research paper style)
      ═══════════════════════════════════════════ */
 
-  .breadcrumb {
-    border-bottom: var(--hair);
-    padding: var(--s-3) var(--gutter);
-    background: var(--bg-elev);
-  }
-  .breadcrumb-inner {
-    max-width: var(--content-wide);
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.15em;
-    color: var(--mn-500);
-  }
-  .breadcrumb-path a {
-    color: var(--mn-700);
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .breadcrumb-path a:hover { color: var(--fe-500); }
-  .breadcrumb-path .sep { margin: 0 var(--s-3); color: var(--mn-300); }
-  .breadcrumb-acc { color: var(--fe-500); letter-spacing: 0.2em; }
-
   /* ── Entry header (like a paper title block) ── */
   .entry-head {
     max-width: 760px;
@@ -110,16 +85,7 @@
     flex-wrap: wrap;
   }
 
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent-700);
-    padding: 2px 8px;
-    border: 1px solid var(--accent-500);
-    background: var(--accent-50);
-  }
+  /* .tag + .tag.filled live in styles.css; tags here use class="tag filled". */
 
   /* ── Abstract block ── */
   .abstract {
@@ -358,19 +324,9 @@
     article.entry figcaption { grid-template-columns: 1fr; gap: var(--s-1); }
   }
 
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  /* ── Entrance animation (rise keyframes + reduced-motion live in styles.css) ── */
   .entry-head { animation: rise 0.6s ease both; }
   .abstract { animation: rise 0.6s ease 0.1s both; }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
 </style>
 </head>
 <body>
@@ -381,7 +337,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-brand"><strong>ES</strong> · earthscape-studio.com</div>
-    <div class="nav-center">陶 逸</div>
+    <div class="nav-center">埴 角</div>
     <div class="nav-menu">
       <a href="index.html">Index</a>
       <a href="index.html#series">Works</a>
@@ -432,8 +388,8 @@
 
     <dt>Filed under</dt>
     <dd class="entry-head-tags">
-      <span class="tag">Thinking</span>
-      <span class="tag">Naming</span>
+      <span class="tag filled">Thinking</span>
+      <span class="tag filled">Naming</span>
     </dd>
   </dl>
 </header>
@@ -588,7 +544,7 @@
   <div class="foot-inner">
     <div>
       <div class="foot-mark">Earthscape</div>
-      <div class="foot-mark-sub">陶 逸 · Studio Archive</div>
+      <div class="foot-mark-sub">埴 角 · Studio Archive</div>
     </div>
     <div class="foot-col">
       <h4>Navigate</h4>
