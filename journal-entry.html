@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Peninsula Begins · JNL·012 — Earthscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=Noto+Serif+TC:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ═══════════════════════════════════════════
+     JOURNAL ENTRY (research paper style)
+     ═══════════════════════════════════════════ */
+
+  .breadcrumb {
+    border-bottom: var(--hair);
+    padding: var(--s-3) var(--gutter);
+    background: var(--bg-elev);
+  }
+  .breadcrumb-inner {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+  }
+  .breadcrumb-path a {
+    color: var(--mn-700);
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .breadcrumb-path a:hover { color: var(--fe-500); }
+  .breadcrumb-path .sep { margin: 0 var(--s-3); color: var(--mn-300); }
+  .breadcrumb-acc { color: var(--fe-500); letter-spacing: 0.2em; }
+
+  /* ── Entry header (like a paper title block) ── */
+  .entry-head {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter) var(--s-8);
+    border-bottom: var(--hair);
+  }
+
+  .entry-head-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-bottom: var(--s-8);
+    padding-bottom: var(--s-3);
+    border-bottom: var(--hair);
+  }
+
+  .entry-head-meta .seq { color: var(--fe-500); }
+
+  h1.entry-head-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5.5vw, var(--t-4xl));
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  h1.entry-head-title em { font-style: italic; color: var(--fe-500); }
+
+  .entry-head-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-lg);
+    color: var(--mn-700);
+    margin-bottom: var(--s-6);
+    letter-spacing: 0.15em;
+    font-weight: 300;
+  }
+
+  .entry-head-dl {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--s-3) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    margin-top: var(--s-6);
+    padding-top: var(--s-6);
+    border-top: var(--hair);
+  }
+
+  .entry-head-dl dt {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    padding-top: 2px;
+  }
+
+  .entry-head-dl dd {
+    color: var(--mn-900);
+  }
+
+  .entry-head-tags {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-700);
+    padding: 2px 8px;
+    border: 1px solid var(--accent-500);
+    background: var(--accent-50);
+  }
+
+  /* ── Abstract block ── */
+  .abstract {
+    max-width: 760px;
+    margin: var(--s-12) auto 0;
+    padding: var(--s-8) var(--gutter);
+    background: var(--bg-paper);
+    border-top: var(--hair);
+    border-bottom: var(--hair);
+  }
+
+  .abstract-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .abstract-body {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    line-height: 1.7;
+    color: var(--mn-700);
+  }
+
+  /* ── Article body ── */
+  article.entry {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter);
+  }
+
+  article.entry p {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+    margin-bottom: var(--s-6);
+  }
+
+  article.entry p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 0.85;
+    float: left;
+    color: var(--fe-500);
+    margin: 6px 12px 0 0;
+    font-weight: 400;
+  }
+
+  article.entry h2 {
+    font-family: var(--font-display);
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--mn-900);
+    margin: var(--s-12) 0 var(--s-4);
+    padding-bottom: var(--s-3);
+    border-bottom: var(--hair);
+    line-height: 1.3;
+  }
+
+  article.entry h2 em { font-style: italic; color: var(--fe-500); }
+
+  article.entry h2 .h2-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--fe-500);
+    display: block;
+    text-transform: uppercase;
+    margin-bottom: var(--s-1);
+    font-weight: 500;
+  }
+
+  article.entry blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-xl);
+    line-height: 1.6;
+    color: var(--mn-700);
+    border-left: var(--hair-accent);
+    padding: var(--s-2) 0 var(--s-2) var(--s-6);
+    margin: var(--s-8) 0;
+    max-width: 600px;
+  }
+
+  article.entry em {
+    color: var(--fe-500);
+    font-style: italic;
+  }
+
+  article.entry strong {
+    color: var(--mn-900);
+    font-weight: 500;
+  }
+
+  /* ── Figure (image with caption like archive plate) ── */
+  article.entry figure {
+    margin: var(--s-12) 0;
+  }
+
+  .figure-frame {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: var(--s-3);
+  }
+
+  .figure-num {
+    position: absolute;
+    top: var(--s-3);
+    left: var(--s-3);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  article.entry figcaption {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.05em;
+    color: var(--mn-500);
+    line-height: 1.6;
+    border-top: var(--hair);
+    padding-top: var(--s-2);
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--s-4);
+  }
+
+  article.entry figcaption .cap-label {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--fe-500);
+  }
+
+  /* ── Margin note (like footnote in margin) ── */
+  .margin-note {
+    background: var(--bg-elev);
+    border-left: 2px solid var(--accent-500);
+    padding: var(--s-4) var(--s-6);
+    margin: var(--s-8) 0;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    line-height: 1.7;
+    color: var(--mn-700);
+  }
+
+  .margin-note .note-label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-700);
+    margin-bottom: var(--s-2);
+  }
+
+  /* ── Footer of entry ── */
+  .entry-foot {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s-8) var(--gutter) var(--s-16);
+    border-top: var(--hair);
+  }
+
+  .entry-foot-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-bottom: var(--s-6);
+  }
+
+  .entry-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-6);
+    margin-top: var(--s-8);
+  }
+
+  .entry-nav-item {
+    padding: var(--s-4) var(--s-6);
+    border: var(--hair);
+    background: var(--bg-elev);
+    transition: all 0.2s;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .entry-nav-item:hover {
+    border-color: var(--fe-500);
+    background: var(--bg);
+  }
+
+  .entry-nav-dir {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-bottom: var(--s-2);
+  }
+
+  .entry-nav-title {
+    font-family: var(--font-display);
+    font-size: var(--t-base);
+    color: var(--mn-900);
+    line-height: 1.3;
+  }
+
+  .entry-nav-item.next { text-align: right; }
+
+  @media (max-width: 600px) {
+    .entry-head-dl { grid-template-columns: 1fr; gap: var(--s-1) 0; }
+    .entry-head-dl dt { margin-top: var(--s-3); }
+    article.entry p:first-of-type::first-letter {
+      font-size: 3rem;
+    }
+    .entry-nav { grid-template-columns: 1fr; }
+    .entry-nav-item.next { text-align: left; }
+    article.entry figcaption { grid-template-columns: 1fr; gap: var(--s-1); }
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .entry-head { animation: rise 0.6s ease both; }
+  .abstract { animation: rise 0.6s ease 0.1s both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><strong>ES</strong> · earthscape-studio.com</div>
+    <div class="nav-center">陶 逸</div>
+    <div class="nav-menu">
+      <a href="index.html">Index</a>
+      <a href="index.html#series">Works</a>
+      <a href="journal.html" style="color: var(--fe-500);">Journal</a>
+      <a href="visit.html">Visit</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <div class="breadcrumb-path">
+      <a href="index.html">Index</a>
+      <span class="sep">/</span>
+      <a href="journal.html">Journal</a>
+      <span class="sep">/</span>
+      <span style="color: var(--mn-900);">JNL · 012</span>
+    </div>
+    <div class="breadcrumb-acc">JNL · 2026 · 012</div>
+  </div>
+</div>
+
+<!-- ENTRY HEAD (paper title block) -->
+<header class="entry-head">
+
+  <div class="entry-head-meta">
+    <span class="seq">JNL · 2026 · 012</span>
+    <span>Field Notes · 工作日誌</span>
+  </div>
+
+  <h1 class="entry-head-title">A Peninsula <em>Begins</em></h1>
+  <div class="entry-head-zh">岬 角 的 開 始</div>
+
+  <dl class="entry-head-dl">
+    <dt>Date</dt>
+    <dd>2026 · 05 · 26 · Tuesday</dd>
+
+    <dt>Location</dt>
+    <dd>Studio · Banqiao, Taipei</dd>
+
+    <dt>Weather</dt>
+    <dd>多雲時陰 · 24°C · 濕度 78%</dd>
+
+    <dt>Read time</dt>
+    <dd>6 minutes</dd>
+
+    <dt>Filed under</dt>
+    <dd class="entry-head-tags">
+      <span class="tag">Thinking</span>
+      <span class="tag">Naming</span>
+    </dd>
+  </dl>
+</header>
+
+<!-- ABSTRACT -->
+<section class="abstract">
+  <div class="abstract-label">§ Abstract · 摘要</div>
+  <p class="abstract-body">
+    工作室命名為 Earthscape 的決定。從原本的字面意義（大地的景緻），延伸到 earth's cape（陶土的岬角）這個更精確的詮釋——以及這個詮釋如何回過頭來重新定義整個品牌敘事的核心。
+  </p>
+</section>
+
+<!-- ARTICLE BODY -->
+<article class="entry">
+
+  <p>
+    把工作室命名為 Earthscape，原本只是想要一個跟土地有關的字。English 裡有 landscape、seascape、cityscape——加上 earth 看起來再順理成章不過。但今天在重新看品牌敘述的時候，意識到一件事：這個名字裡藏著一個更精確的詮釋，而我之前都沒看見。
+  </p>
+
+  <p>
+    Earthscape 可以拆成 earth + scape，但也可以拆成 <em>earth's cape</em>——陶土的岬角。
+  </p>
+
+  <p>
+    Cape 在英文裡是「海角／岬角」。它是陸地伸進海裡的一塊地，<strong>仍然連著本土，但已經探進了未知的水域</strong>。Cape of Good Hope、Cape Cod、Cape Town——岬角總是邊界與探索的所在。
+  </p>
+
+  <h2>
+    <span class="h2-num">§ 01</span>
+    為什麼這個比喻比想像中重要
+  </h2>
+
+  <p>
+    我有正職。陶藝是週末做的事。三年來這個身份一直有點尷尬——對全職陶藝家來說我太業餘，對上班族來說我又花太多時間在土上。每次別人問「你是做什麼的」，回答總是會卡一下。
+  </p>
+
+  <p>
+    岬角這個比喻讓我突然不卡了。<strong>我不需要選擇站在陸地或海洋。我就站在岬角上——那塊還連著本土、但已經朝向遠方的延伸地。</strong>
+  </p>
+
+  <blockquote>
+    Earthscape 是一片岬角。在我每日通勤的辦公室與每個週末沾滿土的雙手之間，有一塊地正在從我身上伸出去。
+  </blockquote>
+
+  <div class="margin-note">
+    <span class="note-label">§ Note · 補注</span>
+    這個比喻的另一個好處是：它把「沒辭職」這件事變成品牌敘事的一部分，不需要假裝。藝廊、客戶、訪談——當別人問起時，我可以直接說明這個位置，而不是迴避或編造。
+  </div>
+
+  <h2>
+    <span class="h2-num">§ 02</span>
+    重新看四種讀法
+  </h2>
+
+  <p>
+    一旦意識到 earth's cape 這層，整個名字的四種讀法就有了不同的層次：
+  </p>
+
+  <p>
+    <strong>earthscape</strong>——大地的景緻。這是美學的層次，講作品的調性。<br>
+    <strong>earth scape</strong>——土的紋理。這是材料的層次，講原料與手感。<br>
+    <strong>earth's cape</strong>——陶土的岬角。這是身份的層次，講創作者的位置。<br>
+    <strong>escape</strong>——出走。這是行動的層次，講為什麼要做這件事。
+  </p>
+
+  <p>
+    美學、材料、身份、行動——四個面向剛好構成一個品牌的完整骨架。而它們同時藏在同一個字裡。
+  </p>
+
+  <figure>
+    <div class="figure-frame">
+      <div class="figure-num">Plate I</div>
+      <svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" style="width:80%; opacity:0.85;">
+        <defs>
+          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7FC8E8" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#1E9BD8" stop-opacity="0.15"/>
+          </linearGradient>
+          <linearGradient id="land" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#A8421C" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#4A1B0C" stop-opacity="0.7"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="600" height="380" fill="url(#sea)"/>
+        <path d="M 0 120 Q 50 130, 100 125 Q 160 120, 220 140 Q 270 155, 310 180 Q 340 200, 360 230 Q 370 250, 365 280 Q 360 310, 340 340 Q 320 360, 290 365 Q 260 360, 240 340 Q 230 320, 240 290 Q 250 270, 270 260 Q 290 250, 290 230 Q 285 215, 270 205 Q 250 195, 220 195 Q 180 190, 130 190 Q 80 185, 30 180 Q 0 175, 0 170 Z"
+              fill="url(#land)"/>
+        <text x="100" y="100" font-family="JetBrains Mono" font-size="9" fill="#6B5F58" letter-spacing="0.15em">MAINLAND</text>
+        <text x="290" y="395" font-family="JetBrains Mono" font-size="9" fill="#0E5A82" letter-spacing="0.15em" text-anchor="middle">PENINSULA · 岬</text>
+        <text x="500" y="220" font-family="JetBrains Mono" font-size="9" fill="#0E5A82" letter-spacing="0.15em">SEA</text>
+        <circle cx="305" cy="335" r="3" fill="#A8421C"/>
+        <line x1="305" y1="335" x2="430" y2="280" stroke="#6B5F58" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="435" y="278" font-family="JetBrains Mono" font-size="8" fill="#6B5F58" letter-spacing="0.1em">YOU ARE HERE</text>
+      </svg>
+    </div>
+    <figcaption>
+      <span class="cap-label">PLATE I</span>
+      <span>A diagram of the peninsula condition. 仍連著本土、已探進另一片水域——岬角作為身份的圖示。</span>
+    </figcaption>
+  </figure>
+
+  <h2>
+    <span class="h2-num">§ 03</span>
+    對日常工作的影響
+  </h2>
+
+  <p>
+    這個詮釋會改變幾件事：
+  </p>
+
+  <p>
+    <strong>對外溝通</strong>：藝廊提案時可以直接引用「岬角」這個比喻，比「斜槓陶藝家」優雅一萬倍。<br>
+    <strong>作品命名</strong>：第一個系列叫 Cape · 01，第二個叫 Cape · 02——每個展覽都是一個岬角的延伸。<br>
+    <strong>視覺設計</strong>：網站的色彩系統已經呼應這個——大地紅 + 礦物黑 + 米白 + 一點點海的藍。<br>
+    <strong>內在動力</strong>：知道自己的位置，比假裝在別的地方更踏實。
+  </p>
+
+  <blockquote>
+    岬角是還沒離開的離開。
+  </blockquote>
+
+  <p>
+    這篇日記其實不長，但我想把這個轉折記下來。三個月後、半年後、五年後回看，會記得是哪一天突然看清楚的。
+  </p>
+
+  <p>
+    今天的氣壓很低，外面正在下雨。窯沒開，土沒揉，但腦袋裡有什麼東西鬆動了。
+  </p>
+
+</article>
+
+<!-- ENTRY FOOT -->
+<footer class="entry-foot">
+  <div class="entry-foot-meta">
+    <span>End of entry · JNL · 012</span>
+    <span>2026 · 05 · 26</span>
+  </div>
+
+  <div class="entry-nav">
+    <a href="#" class="entry-nav-item">
+      <div class="entry-nav-dir">← Older · JNL · 011</div>
+      <div class="entry-nav-title">氧化鐵的三種紅</div>
+    </a>
+    <a href="#" class="entry-nav-item next">
+      <div class="entry-nav-dir">Newer →</div>
+      <div class="entry-nav-title">(尚未發表)</div>
+    </a>
+  </div>
+</footer>
+
+<!-- FOOTER -->
+<footer class="site-foot">
+  <div class="foot-inner">
+    <div>
+      <div class="foot-mark">Earthscape</div>
+      <div class="foot-mark-sub">陶 逸 · Studio Archive</div>
+    </div>
+    <div class="foot-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="index.html#series">Works</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Elsewhere</h4>
+      <ul>
+        <li><a href="https://instagram.com/earthscape.studio">Instagram</a></li>
+        <li><a href="mailto:hello@earthscape-studio.com">Contact</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Earthscape Studio · All rights reserved</span>
+    <span>A peninsula of earth · Made in Taiwan</span>
+  </div>
+</footer>
+
+</body>
+</html>

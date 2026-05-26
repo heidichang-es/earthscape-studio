@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal · Field Notes — Earthscape Studio</title>
+<meta name="description" content="Working notes from the studio. 工作室的田野紀錄與日誌。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=Noto+Serif+TC:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ═══════════════════════════════════════════
+     JOURNAL INDEX
+     ═══════════════════════════════════════════ */
+
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    border-bottom: var(--hair);
+    padding: var(--s-3) var(--gutter);
+    background: var(--bg-elev);
+  }
+  .breadcrumb-inner {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+  }
+  .breadcrumb-path a {
+    color: var(--mn-700);
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .breadcrumb-path a:hover { color: var(--fe-500); }
+  .breadcrumb-path .sep { margin: 0 var(--s-3); color: var(--mn-300); }
+  .breadcrumb-acc { color: var(--fe-500); letter-spacing: 0.2em; }
+
+  /* ── Page header ── */
+  .journal-hero {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter) var(--s-8);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--s-16);
+    border-bottom: var(--hair);
+  }
+
+  .hero-meta dt {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-top: var(--s-2);
+  }
+  .hero-meta dd {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--mn-900);
+    margin-bottom: var(--s-2);
+  }
+  .hero-meta dt:first-child { margin-top: 0; }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, var(--t-5xl));
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  .hero-title em { font-style: italic; color: var(--fe-500); }
+
+  .hero-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-xl);
+    color: var(--mn-700);
+    letter-spacing: 0.3em;
+    margin-bottom: var(--s-6);
+    font-weight: 300;
+  }
+
+  .hero-desc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    color: var(--mn-700);
+    line-height: 1.65;
+    max-width: 540px;
+    border-left: var(--hair-accent);
+    padding-left: var(--s-6);
+  }
+
+  @media (max-width: 880px) {
+    .journal-hero { grid-template-columns: 1fr; gap: var(--s-6); padding: var(--s-8) var(--gutter); }
+  }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-6) var(--gutter);
+    border-bottom: var(--hair);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-4);
+    flex-wrap: wrap;
+    background: var(--bg-elev);
+  }
+
+  .filter-tags {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-right: var(--s-2);
+  }
+
+  .filter-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mn-700);
+    padding: 4px 10px;
+    border: 1px solid var(--mn-100);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-tag:hover {
+    border-color: var(--accent-500);
+    color: var(--accent-700);
+  }
+
+  .filter-tag.active {
+    border-color: var(--accent-500);
+    background: var(--accent-50);
+    color: var(--accent-700);
+  }
+
+  .filter-count {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  /* ── Entry list ── */
+  .entries {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter) var(--s-16);
+  }
+
+  .year-marker {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--s-8);
+    align-items: baseline;
+    padding-bottom: var(--s-6);
+    margin-bottom: var(--s-6);
+    border-bottom: 1px solid var(--mn-300);
+  }
+
+  .year-marker .year-num {
+    font-family: var(--font-display);
+    font-size: var(--t-3xl);
+    font-weight: 300;
+    color: var(--fe-500);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .year-marker .year-count {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  .entry-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px;
+    gap: var(--s-8);
+    padding: var(--s-6) 0;
+    border-bottom: var(--hair);
+    align-items: baseline;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .entry-row:hover {
+    background: var(--bg-elev);
+    padding-left: var(--s-3);
+    padding-right: var(--s-3);
+    margin-left: calc(var(--s-3) * -1);
+    margin-right: calc(var(--s-3) * -1);
+  }
+
+  .entry-row:hover .entry-title {
+    color: var(--fe-500);
+  }
+
+  .entry-date {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+  }
+
+  .entry-date .day {
+    font-family: var(--font-display);
+    font-size: var(--t-2xl);
+    color: var(--mn-900);
+    display: block;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .entry-date .month {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  .entry-body {
+    min-width: 0;
+  }
+
+  .entry-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--mn-500);
+    margin-bottom: var(--s-1);
+  }
+
+  .entry-title {
+    font-family: var(--font-display);
+    font-size: var(--t-xl);
+    font-weight: 400;
+    color: var(--mn-900);
+    line-height: 1.3;
+    margin-bottom: var(--s-2);
+    transition: color 0.2s;
+  }
+
+  .entry-title em { font-style: italic; }
+
+  .entry-excerpt {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    line-height: 1.8;
+    color: var(--mn-700);
+    max-width: 60ch;
+  }
+
+  .entry-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    align-items: flex-end;
+    justify-self: end;
+  }
+
+  .entry-tags {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-700);
+    padding: 2px 8px;
+    border: 1px solid var(--accent-500);
+    background: var(--accent-50);
+  }
+
+  .entry-readtime {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 880px) {
+    .entry-row {
+      grid-template-columns: 60px 1fr;
+      gap: var(--s-4);
+    }
+    .entry-meta {
+      grid-column: 1 / -1;
+      align-items: flex-start;
+      padding-left: calc(60px + var(--s-4));
+      margin-top: var(--s-3);
+    }
+    .entry-tags { justify-content: flex-start; }
+    .year-marker { grid-template-columns: 60px 1fr; gap: var(--s-4); }
+  }
+
+  @media (max-width: 480px) {
+    .entry-meta { padding-left: 0; }
+  }
+
+  /* ── Subscribe block ── */
+  .subscribe {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter);
+    border-top: var(--hair);
+    background: var(--bg-paper);
+  }
+
+  .sub-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .sub-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .sub-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-3xl);
+    color: var(--mn-900);
+    line-height: 1.2;
+    margin-bottom: var(--s-3);
+    font-weight: 300;
+  }
+
+  .sub-desc {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    line-height: 1.85;
+    color: var(--mn-700);
+    margin-bottom: var(--s-6);
+  }
+
+  .sub-form {
+    display: flex;
+    gap: var(--s-2);
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .sub-input {
+    flex: 1;
+    padding: var(--s-3) var(--s-4);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--mn-300);
+    background: var(--bg);
+    color: var(--mn-900);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .sub-input:focus { border-color: var(--fe-500); }
+  .sub-input::placeholder { color: var(--mn-300); text-transform: uppercase; }
+
+  .sub-btn {
+    padding: var(--s-3) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    border: 1px solid var(--fe-500);
+    background: var(--fe-500);
+    color: var(--bg);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .sub-btn:hover {
+    background: var(--fe-700);
+    border-color: var(--fe-700);
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .journal-hero > * { animation: rise 0.6s ease both; }
+  .journal-hero > *:nth-child(2) { animation-delay: 0.08s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><strong>ES</strong> · earthscape-studio.com</div>
+    <div class="nav-center">陶 逸</div>
+    <div class="nav-menu">
+      <a href="index.html">Index</a>
+      <a href="index.html#series">Works</a>
+      <a href="journal.html" style="color: var(--fe-500);">Journal</a>
+      <a href="visit.html">Visit</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <div class="breadcrumb-path">
+      <a href="index.html">Index</a>
+      <span class="sep">/</span>
+      <span style="color: var(--mn-900);">Journal</span>
+    </div>
+    <div class="breadcrumb-acc">JNL · 2026 · 全 12 篇</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="journal-hero">
+  <dl class="hero-meta">
+    <dt>Collection</dt><dd>Field Notes & Observations</dd>
+    <dt>Format</dt><dd>Working journal</dd>
+    <dt>Frequency</dt><dd>Weekly · 不定期</dd>
+    <dt>Started</dt><dd>2026 · Spring</dd>
+    <dt>Entries</dt><dd>12 (and counting)</dd>
+    <dt>Language</dt><dd>中文 · English</dd>
+  </dl>
+
+  <div>
+    <h1 class="hero-title"><em>Journal</em></h1>
+    <div class="hero-zh">工 作 日 誌</div>
+    <p class="hero-desc">
+      Notes from the workbench — failures, glazes, firings, thoughts.<br>
+      A field journal kept while building the first peninsula.
+    </p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-tags">
+    <span class="filter-label">FILTER §</span>
+    <button class="filter-tag active">All · 全部</button>
+    <button class="filter-tag">Making</button>
+    <button class="filter-tag">Firing</button>
+    <button class="filter-tag">Glaze</button>
+    <button class="filter-tag">Thinking</button>
+    <button class="filter-tag">Failed</button>
+    <button class="filter-tag">Exhibition</button>
+  </div>
+  <div class="filter-count">Showing 12 of 12 entries</div>
+</div>
+
+<!-- ENTRIES -->
+<section class="entries">
+
+  <!-- ━━━━━━━ 2026 ━━━━━━━ -->
+  <div class="year-marker">
+    <span class="year-num">2026</span>
+    <span class="year-count">§ 12 entries · Spring – Summer</span>
+  </div>
+
+  <a href="journal-entry.html" class="entry-row" style="text-decoration: none; color: inherit;">
+    <div class="entry-date">
+      <span class="day">26</span>
+      <span class="month">MAY</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 012</div>
+      <h3 class="entry-title">A Peninsula Begins</h3>
+      <p class="entry-excerpt">
+        把工作室命名為 Earthscape，原本只是想要一個跟土地有關的字。後來才意識到「earth's cape」——陶土的岬角——更接近我此刻的真實狀態。在受薪的日常與沾滿土的週末之間，有一塊地正在從我身上伸出去。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Thinking</span>
+        <span class="tag">Naming</span>
+      </div>
+      <span class="entry-readtime">6 min read</span>
+    </div>
+  </a>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">23</span>
+      <span class="month">MAY</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 011</div>
+      <h3 class="entry-title">氧化鐵的三種紅</h3>
+      <p class="entry-excerpt">
+        試了黃鐵、紅鐵、黑鐵三種氧化鐵的比例。最後在 5% 紅鐵 + 2% 黑鐵的配方上找到想要的暗赤色——像是地層橫切面看到的那種飽和。寫下完整的試片紀錄，下次想複製這個色時不用重新試。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Glaze</span>
+        <span class="tag">Iron</span>
+      </div>
+      <span class="entry-readtime">8 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">18</span>
+      <span class="month">MAY</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 010</div>
+      <h3 class="entry-title">第一個大花器的失敗</h3>
+      <p class="entry-excerpt">
+        Prototype 階段做的大花器，乾燥時口沿裂開了。原因是底部太厚、口沿太薄，水份蒸發速度不一。下一批改用緩乾法——濕布覆蓋 + 塑膠袋鬆綁，讓水分有時間從厚的地方移到薄的地方。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Making</span>
+        <span class="tag">Failed</span>
+      </div>
+      <span class="entry-readtime">5 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">14</span>
+      <span class="month">MAY</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 009</div>
+      <h3 class="entry-title">關於岬角這個比喻</h3>
+      <p class="entry-excerpt">
+        為什麼是岬角，不是島嶼？島嶼是脫離本土的，岬角還連著。我不打算辭職全心做陶，這個現實本身就是品牌敘事的一部分，不需要假裝。岬角這個位置，比「全職陶藝家」更接近真實的我。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Thinking</span>
+      </div>
+      <span class="entry-readtime">7 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">10</span>
+      <span class="month">MAY</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 008</div>
+      <h3 class="entry-title">Reduction firing, first attempt</h3>
+      <p class="entry-excerpt">
+        第一次嘗試還原焰。在 950°C 開始關閉風門，讓窯內缺氧。看著電窯指示燈跳動，等待氧化鐵從紅色變成更深的紫紅色。整整 4 小時的等待，最後出窯時——值得。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Firing</span>
+        <span class="tag">Glaze</span>
+      </div>
+      <span class="entry-readtime">12 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">05</span>
+      <span class="month">MAY</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 007</div>
+      <h3 class="entry-title">草木灰的不確定性</h3>
+      <p class="entry-excerpt">
+        燒柚木、燒龍眼、燒咖啡渣——三種灰加進同一個基底釉，得到完全不同的三種綠。古人說灰釉是天意，今天終於懂為什麼。每一窯都是一次賭博，每一次出窯都是一個小奇蹟。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Glaze</span>
+      </div>
+      <span class="entry-readtime">9 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">28</span>
+      <span class="month">APR</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 006</div>
+      <h3 class="entry-title">花器尺寸的取捨</h3>
+      <p class="entry-excerpt">
+        本來想做 H40 的大花器，但電窯內部只有 H35。要嘛買大窯，要嘛改尺寸。決定把上限定在 H32——剛好能塞進窯、剛好能單手抱起、剛好對應日常的花藝尺寸。所有限制最後都會回饋到設計上。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Making</span>
+        <span class="tag">Thinking</span>
+      </div>
+      <span class="entry-readtime">6 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">22</span>
+      <span class="month">APR</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 005</div>
+      <h3 class="entry-title">關於展覽提案的猶豫</h3>
+      <p class="entry-excerpt">
+        想要的藝廊有三間，但每間都需要客製提案。寫了又刪、刪了又寫——到底要說自己是「斜槓陶藝家」還是「正在轉型的創作者」？最後決定：誠實。藝廊可以接受還沒辭職的人，只要作品到位。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Thinking</span>
+        <span class="tag">Exhibition</span>
+      </div>
+      <span class="entry-readtime">11 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">15</span>
+      <span class="month">APR</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 004</div>
+      <h3 class="entry-title">高嶺土的白</h3>
+      <p class="entry-excerpt">
+        改用苗栗土試做——比之前的桃園土更白、更細，但收縮率也更高。前 3 個杯子全部因收縮不均裂開。第 4 個調整厚薄後成功。每換一個土，都像認識一個新朋友，需要時間。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Making</span>
+        <span class="tag">Failed</span>
+      </div>
+      <span class="entry-readtime">7 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">08</span>
+      <span class="month">APR</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 003</div>
+      <h3 class="entry-title">Prototype 階段結束</h3>
+      <p class="entry-excerpt">
+        三個月的試做告一段落。十二個 prototype，八個成功、四個失敗。決定正式進入第一系列 Cape · 01 的製作。今天去訂了 120 公斤土，倉庫角落已經堆滿包裝。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Making</span>
+      </div>
+      <span class="entry-readtime">5 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">30</span>
+      <span class="month">MAR</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 002</div>
+      <h3 class="entry-title">關於工作節奏</h3>
+      <p class="entry-excerpt">
+        全職工作 + 週末陶藝的節奏。平日想釉藥、想造型、想敘事；週末動手、燒窯、清潔。腦力勞動跟手作勞動的切換，反而讓兩邊都更清楚。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Thinking</span>
+      </div>
+      <span class="entry-readtime">8 min read</span>
+    </div>
+  </div>
+
+  <div class="entry-row">
+    <div class="entry-date">
+      <span class="day">15</span>
+      <span class="month">MAR</span>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">JNL · 001</div>
+      <h3 class="entry-title">Day Zero</h3>
+      <p class="entry-excerpt">
+        第一篇日記。決定開始記錄這段時期——從決定做工作室、到第一場展覽提案之間的所有細節。失敗、猶豫、釉色實驗、跟客戶的對話，都記下來。未來回看，這些瑣碎的紀錄會比成品本身更珍貴。
+      </p>
+    </div>
+    <div class="entry-meta">
+      <div class="entry-tags">
+        <span class="tag">Thinking</span>
+      </div>
+      <span class="entry-readtime">4 min read</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="subscribe">
+  <div class="sub-inner">
+    <div class="sub-label">§ Optional</div>
+    <h2 class="sub-title">A letter from the peninsula.</h2>
+    <p class="sub-desc">
+      Quarterly notes on what's being made, what's failed, and what's next.<br>
+      季度通訊 · 製作、失敗、與下一步的紀錄。
+    </p>
+    <form class="sub-form" onsubmit="event.preventDefault(); alert('Subscription would be wired to your email service of choice.');">
+      <input type="email" class="sub-input" placeholder="your email" required>
+      <button type="submit" class="sub-btn">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-foot">
+  <div class="foot-inner">
+    <div>
+      <div class="foot-mark">Earthscape</div>
+      <div class="foot-mark-sub">陶 逸 · Studio Archive</div>
+    </div>
+    <div class="foot-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="index.html#series">Works</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Elsewhere</h4>
+      <ul>
+        <li><a href="https://instagram.com/earthscape.studio">Instagram</a></li>
+        <li><a href="mailto:hello@earthscape-studio.com">Contact</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Earthscape Studio · All rights reserved</span>
+    <span>A peninsula of earth · Made in Taiwan</span>
+  </div>
+</footer>
+
+</body>
+</html>
