@@ -19,12 +19,12 @@ import Breadcrumb from '../components/Breadcrumb.astro';
     <p class="message-en">
       Studio visits will open by appointment in late 2026.
     </p>
-    <p class="message-zh">
+    <p class="message-zh zh">
       工作室參觀預約即將開放。
     </p>
 
     <div class="notify">
-      <span class="notify-label">§ Get Notified · 接收通知</span>
+      <span class="notify-label label">§ Get Notified · 接收通知</span>
       <a href="mailto:hello@earthscape-studio.com?subject=Notify%20me%20when%20visits%20open" class="btn-notify">
         hello@earthscape-studio.com →
       </a>
@@ -47,7 +47,6 @@ import Breadcrumb from '../components/Breadcrumb.astro';
   }
 
   .coming-soon h1 {
-    font-family: var(--font-display);
     font-size: clamp(3rem, 9vw, var(--t-5xl));
     font-weight: 300;
     line-height: 1;
@@ -58,7 +57,6 @@ import Breadcrumb from '../components/Breadcrumb.astro';
   .coming-soon h1 em { color: var(--fe-500); }
 
   .zh {
-    font-family: var(--font-zh);
     font-size: var(--t-2xl);
     color: var(--mn-700);
     letter-spacing: 0.5em;
@@ -77,7 +75,6 @@ import Breadcrumb from '../components/Breadcrumb.astro';
   }
 
   .message-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-base);
     color: var(--mn-900);
     line-height: 2;
@@ -94,10 +91,7 @@ import Breadcrumb from '../components/Breadcrumb.astro';
 
   .notify-label {
     display: block;
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
     letter-spacing: 0.3em;
-    text-transform: uppercase;
     color: var(--fe-500);
     margin-bottom: var(--s-4);
   }

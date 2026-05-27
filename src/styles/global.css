@@ -150,21 +150,34 @@ button {
    03 · TYPOGRAPHY UTILITIES
    ═══════════════════════════════════════════ */
 
-.mono {
-  font-family: var(--font-mono);
-  font-feature-settings: "tnum", "zero";
+/* Headings default to the display serif (Cormorant Garamond) and weight 400
+   to override the browser's bold default. Per-component rules then set size,
+   weight (e.g. 300 for very large), line-height, etc. */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 
-.display { font-family: var(--font-display); }
+/* Chinese-content paragraphs use Noto Serif TC for proper character coverage
+   and consistent rhythm. Add `class="cover-zh zh"` and skip `font-family:
+   var(--font-zh)` in the per-component rule. */
+.zh {
+  font-family: var(--font-zh);
+}
 
+/* Mono caption / label base. Compose into per-component classes by adding
+   `class="my-component label"` and overriding only the properties that
+   differ (size, letter-spacing, color). Keeps font-family, uppercase, and
+   the mn-500 default in one place. */
 .label {
   font-family: var(--font-mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.18em;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--mn-500);
 }
 
+/* Brand-accent label (used standalone in markup; not a modifier of .label) */
 .label-strong {
   font-family: var(--font-mono);
   font-size: var(--t-xs);
@@ -377,11 +390,16 @@ footer.site-foot {
 
 .foot-mark {
   font-family: var(--font-display);
-  font-style: italic;
   font-size: var(--t-3xl);
   color: var(--fe-500);
   line-height: 1;
   margin-bottom: var(--s-3);
+}
+
+.foot-mark em {
+  font-style: italic;
+  color: var(--fe-700);
+  font-weight: 500;
 }
 
 .foot-mark-sub {

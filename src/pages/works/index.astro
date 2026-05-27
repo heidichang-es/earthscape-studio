@@ -53,7 +53,7 @@ function plannedTotal(series: string): number {
   <section class="catalog-hero">
     <span class="label-strong">§ Catalog · 作品目錄</span>
     <h1><em>The</em> Catalog</h1>
-    <div class="hero-zh">作 品 目 錄</div>
+    <div class="hero-zh zh">作 品 目 錄</div>
     <p class="hero-desc">
       All works archived by series, type and accession number.<br />
       所有作品依系列、類別與藏品編號編列。
@@ -74,9 +74,9 @@ function plannedTotal(series: string): number {
         <div class="series-summary">
           <div class="summary-line">
             <span class="summary-num">{items.length}</span>
-            <span class="summary-of">of</span>
+            <span class="summary-of label">of</span>
             <span class="summary-num">{plannedSum}</span>
-            <span class="summary-label">pieces completed</span>
+            <span class="summary-label label">pieces completed</span>
           </div>
           <div class="summary-inventory">
             {typeOrder.map(t => {
@@ -85,7 +85,7 @@ function plannedTotal(series: string): number {
               if (total === 0) return null;
               return (
                 <div class="inv-cell">
-                  <span class="inv-type">{t}</span>
+                  <span class="inv-type label">{t}</span>
                   <span class="inv-progress">{made}/{total}</span>
                 </div>
               );
@@ -98,11 +98,11 @@ function plannedTotal(series: string): number {
             <a href={`/works/${w.id}`} class="catalog-card">
               <div class="card-thumb">
                 <span class="thumb-glyph">◇</span>
-                <span class="thumb-type">{w.data.type} · {w.data.serial}</span>
+                <span class="thumb-type label">{w.data.type} · {w.data.serial}</span>
               </div>
-              <div class="card-acc">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
+              <div class="card-acc label">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
               <h3 class="card-name">{w.data.title}</h3>
-              <div class="card-name-zh">{w.data.titleZh}</div>
+              <div class="card-name-zh zh">{w.data.titleZh}</div>
               {w.data.dimensions && <div class="card-dim">{w.data.dimensions}</div>}
             </a>
           ))}
@@ -111,11 +111,11 @@ function plannedTotal(series: string): number {
             <div class="catalog-card planned">
               <div class="card-thumb">
                 <span class="thumb-glyph">·</span>
-                <span class="thumb-type">{plannedSum - items.length} forthcoming</span>
+                <span class="thumb-type label">{plannedSum - items.length} forthcoming</span>
               </div>
-              <div class="card-acc">尚未編列</div>
+              <div class="card-acc label">尚未編列</div>
               <h3 class="card-name">In Production</h3>
-              <div class="card-name-zh">製 作 中</div>
+              <div class="card-name-zh zh">製 作 中</div>
             </div>
           )}
         </div>
@@ -141,7 +141,6 @@ function plannedTotal(series: string): number {
   }
 
   .catalog-hero h1 {
-    font-family: var(--font-display);
     font-size: clamp(2.5rem, 7vw, var(--t-5xl));
     font-weight: 300;
     line-height: 1;
@@ -152,7 +151,6 @@ function plannedTotal(series: string): number {
   .catalog-hero h1 em { color: var(--fe-500); }
 
   .hero-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-xl);
     color: var(--mn-700);
     letter-spacing: 0.3em;
@@ -205,18 +203,10 @@ function plannedTotal(series: string): number {
   }
 
   .summary-of {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    color: var(--mn-500);
     letter-spacing: 0.15em;
-    text-transform: uppercase;
   }
 
   .summary-label {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
     color: var(--mn-700);
     margin-left: var(--s-2);
   }
@@ -238,11 +228,8 @@ function plannedTotal(series: string): number {
   }
 
   .inv-type {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
     letter-spacing: 0.18em;
     color: var(--fe-500);
-    text-transform: uppercase;
   }
 
   .inv-progress {
@@ -296,26 +283,17 @@ function plannedTotal(series: string): number {
     position: absolute;
     bottom: var(--s-3);
     left: var(--s-3);
-    font-family: var(--font-mono);
     font-size: 0.6rem;
     letter-spacing: 0.18em;
-    color: var(--mn-500);
-    text-transform: uppercase;
   }
 
   .card-acc {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
     color: var(--fe-500);
     margin-bottom: var(--s-1);
-    text-transform: uppercase;
   }
 
   .card-name {
-    font-family: var(--font-display);
     font-size: var(--t-lg);
-    font-weight: 400;
     color: var(--mn-900);
     line-height: 1.3;
     margin-bottom: 2px;
@@ -325,7 +303,6 @@ function plannedTotal(series: string): number {
   .card-name em { color: var(--fe-500); }
 
   .card-name-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-sm);
     color: var(--mn-700);
     letter-spacing: 0.15em;

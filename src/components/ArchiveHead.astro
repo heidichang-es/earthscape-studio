@@ -17,7 +17,7 @@ const today = updated ?? new Intl.DateTimeFormat('en-US', {
 ---
 
 <div class="archive-head">
-  <div class="archive-meta">
+  <div class="archive-meta label">
     <span>{vol}</span>
     <span>{est}</span>
     <span>Updated {today}</span>
@@ -38,11 +38,6 @@ const today = updated ?? new Intl.DateTimeFormat('en-US', {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: var(--s-2) var(--s-6);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mn-500);
   }
 
   @media (max-width: 600px) {

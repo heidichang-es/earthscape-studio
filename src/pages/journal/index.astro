@@ -41,7 +41,7 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
 
     <div>
       <h1 class="hero-title"><em>Journal</em></h1>
-      <div class="hero-zh">工 作 日 誌</div>
+      <div class="hero-zh zh">工 作 日 誌</div>
       <p class="hero-desc">
         Notes from the workbench — failures, glazes, firings, thoughts.<br />
         A field journal kept while building the first peninsula.
@@ -52,11 +52,11 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   <!-- FILTER BAR -->
   <div class="filter-bar">
     <div class="filter-tags">
-      <span class="filter-label">FILTER §</span>
-      <button class="filter-tag active" data-tag="">All · 全部</button>
-      {allTags.map(t => <button class="filter-tag" data-tag={t}>{t}</button>)}
+      <span class="filter-label label">FILTER §</span>
+      <button class="filter-tag label active" data-tag="">All · 全部</button>
+      {allTags.map(t => <button class="filter-tag label" data-tag={t}>{t}</button>)}
     </div>
-    <div class="filter-count">Showing {totalEntries} of {totalEntries} entries</div>
+    <div class="filter-count label">Showing {totalEntries} of {totalEntries} entries</div>
   </div>
 
   <!-- ENTRIES -->
@@ -65,7 +65,7 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
       <div class="year-group" data-year={year}>
         <div class="year-marker">
           <span class="year-num">{year}</span>
-          <span class="year-count">§ <span class="year-count-num">{yearEntries.length}</span> entries</span>
+          <span class="year-count label">§ <span class="year-count-num">{yearEntries.length}</span> entries</span>
         </div>
 
         {yearEntries.map(entry => (
@@ -76,18 +76,18 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
           >
             <div class="entry-date">
               <span class="day">{String(entry.data.date.getUTCDate()).padStart(2, '0')}</span>
-              <span class="month">{months[entry.data.date.getUTCMonth()]}</span>
+              <span class="month label">{months[entry.data.date.getUTCMonth()]}</span>
             </div>
             <div class="entry-body">
-              <div class="entry-num">{entry.data.accession}</div>
+              <div class="entry-num label">{entry.data.accession}</div>
               <h3 class="entry-title">{entry.data.title}</h3>
-              <p class="entry-excerpt">{entry.data.excerpt}</p>
+              <p class="entry-excerpt zh">{entry.data.excerpt}</p>
             </div>
             <div class="entry-meta">
               <div class="entry-tags">
                 {entry.data.tags.map(t => <Tag>{t}</Tag>)}
               </div>
-              {entry.data.readTime && <span class="entry-readtime">{entry.data.readTime} read</span>}
+              {entry.data.readTime && <span class="entry-readtime label">{entry.data.readTime} read</span>}
             </div>
           </a>
         ))}
@@ -98,9 +98,9 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   <!-- SUBSCRIBE -->
   <section class="subscribe">
     <div class="sub-inner">
-      <div class="sub-label">§ Optional</div>
+      <div class="sub-label label">§ Optional</div>
       <h2 class="sub-title">A letter from the peninsula.</h2>
-      <p class="sub-desc">
+      <p class="sub-desc zh">
         Quarterly notes on what's being made, what's failed, and what's next.<br />
         季度通訊 · 製作、失敗、與下一步的紀錄。
       </p>
@@ -190,7 +190,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   .hero-meta dt:first-child { margin-top: 0; }
 
   .hero-title {
-    font-family: var(--font-display);
     font-size: clamp(2.5rem, 7vw, var(--t-5xl));
     font-weight: 300;
     line-height: 1;
@@ -201,7 +200,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   .hero-title em { color: var(--fe-500); }
 
   .hero-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-xl);
     color: var(--mn-700);
     letter-spacing: 0.3em;
@@ -246,19 +244,12 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   }
 
   .filter-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mn-500);
     margin-right: var(--s-2);
   }
 
   .filter-tag {
-    font-family: var(--font-mono);
     font-size: 0.6rem;
     letter-spacing: 0.15em;
-    text-transform: uppercase;
     color: var(--mn-700);
     padding: 4px 10px;
     border: 1px solid var(--mn-100);
@@ -279,11 +270,7 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   }
 
   .filter-count {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
     letter-spacing: 0.18em;
-    color: var(--mn-500);
-    text-transform: uppercase;
   }
 
   /* ── Entry list ── */
@@ -312,13 +299,7 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     line-height: 1;
   }
 
-  .year-marker .year-count {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mn-500);
-  }
+  /* .year-marker .year-count uses the global .label utility */
 
   .entry-row {
     display: grid;
@@ -362,28 +343,16 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     margin-bottom: 2px;
   }
 
-  .entry-date .month {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mn-500);
-  }
+  /* .entry-date .month uses .label utility defaults */
 
   .entry-body { min-width: 0; }
 
   .entry-num {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--mn-500);
     margin-bottom: var(--s-1);
   }
 
   .entry-title {
-    font-family: var(--font-display);
     font-size: var(--t-xl);
-    font-weight: 400;
     color: var(--mn-900);
     line-height: 1.3;
     margin-bottom: var(--s-2);
@@ -393,7 +362,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   /* .entry-title em uses the global em rule (upright, weight 400) */
 
   .entry-excerpt {
-    font-family: var(--font-zh);
     font-size: var(--t-sm);
     line-height: 1.8;
     color: var(--mn-700);
@@ -416,11 +384,8 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   }
 
   .entry-readtime {
-    font-family: var(--font-mono);
     font-size: 0.6rem;
     letter-spacing: 0.18em;
-    color: var(--mn-500);
-    text-transform: uppercase;
   }
 
   @media (max-width: 880px) {
@@ -444,7 +409,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     max-width: var(--content-wide);
     margin: 0 auto;
     padding: var(--s-12) var(--gutter);
-    border-top: var(--hair);
     background: var(--bg-paper);
   }
 
@@ -455,16 +419,12 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   }
 
   .sub-label {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
     letter-spacing: 0.3em;
-    text-transform: uppercase;
     color: var(--fe-500);
     margin-bottom: var(--s-3);
   }
 
   .sub-title {
-    font-family: var(--font-display);
     font-style: italic;
     font-size: var(--t-3xl);
     color: var(--mn-900);
@@ -474,7 +434,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
   }
 
   .sub-desc {
-    font-family: var(--font-zh);
     font-size: var(--t-sm);
     line-height: 1.85;
     color: var(--mn-700);

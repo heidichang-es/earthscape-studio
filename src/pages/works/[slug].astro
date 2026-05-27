@@ -49,7 +49,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     <!-- LEFT: image stack -->
     <div class="work-images">
       <div class="work-image-main">
-        <div class="image-corner">Plate I · Front view</div>
+        <div class="image-corner label">Plate I · Front view</div>
 
         <svg class="vessel-placeholder" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -77,19 +77,19 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
       </div>
 
       <div class="work-image-thumbs">
-        <div class="work-thumb active"><div class="work-thumb-label">I · Front</div></div>
-        <div class="work-thumb"><div class="work-thumb-label">II · Profile</div></div>
-        <div class="work-thumb"><div class="work-thumb-label">III · Rim</div></div>
-        <div class="work-thumb"><div class="work-thumb-label">IV · Base</div></div>
+        <div class="work-thumb active"><div class="work-thumb-label label">I · Front</div></div>
+        <div class="work-thumb"><div class="work-thumb-label label">II · Profile</div></div>
+        <div class="work-thumb"><div class="work-thumb-label label">III · Rim</div></div>
+        <div class="work-thumb"><div class="work-thumb-label label">IV · Base</div></div>
       </div>
     </div>
 
     <!-- RIGHT: information -->
     <div class="work-info">
-      <div class="work-accession">{data.accession}</div>
+      <div class="work-accession label">{data.accession}</div>
 
       <h1 class="work-title">{data.title.replace(/No\.(\d+)/, '').trim()} <em>No.{data.serial}</em></h1>
-      <div class="work-title-zh">{data.titleZh}</div>
+      <div class="work-title-zh zh">{data.titleZh}</div>
 
       <!-- Tombstone -->
       <div class="tombstone">
@@ -132,7 +132,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
       <!-- Statement -->
       {data.statement && <p class="work-statement">{data.statement}</p>}
-      {data.statementZh && <p class="work-statement-zh">{data.statementZh}</p>}
+      {data.statementZh && <p class="work-statement-zh zh">{data.statementZh}</p>}
 
       <!-- Materials breakdown -->
       {data.materials.length > 0 && (
@@ -173,15 +173,15 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
             <div class="firing-stats">
               <div class="firing-stat">
                 <div class="firing-stat-val">{data.firing.temp}</div>
-                <div class="firing-stat-lbl">Peak</div>
+                <div class="firing-stat-lbl label">Peak</div>
               </div>
               <div class="firing-stat">
                 <div class="firing-stat-val">{data.firing.duration}</div>
-                <div class="firing-stat-lbl">Total</div>
+                <div class="firing-stat-lbl label">Total</div>
               </div>
               <div class="firing-stat">
                 <div class="firing-stat-val">{data.firing.atmosphere.slice(0, 4)}.</div>
-                <div class="firing-stat-lbl">Atmosphere</div>
+                <div class="firing-stat-lbl label">Atmosphere</div>
               </div>
             </div>
           </div>
@@ -190,11 +190,11 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
       <!-- Inquiry -->
       <div class="inquiry">
-        <div class="inquiry-status">{statusLabel}</div>
+        <div class="inquiry-status label">{statusLabel}</div>
 
         <div class="inquiry-actions">
-          <a href={`mailto:hello@earthscape-studio.com?subject=${inquirySubject}`} class="btn-inquire">Inquire</a>
-          <a href="/visit" class="btn-inquire ghost">Book a Studio Visit</a>
+          <a href={`mailto:hello@earthscape-studio.com?subject=${inquirySubject}`} class="btn-inquire label">Inquire</a>
+          <a href="/visit" class="btn-inquire ghost label">Book a Studio Visit</a>
         </div>
       </div>
     </div>
@@ -205,7 +205,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     <section class="related">
       <div class="related-head">
         <h2><em>Related</em> in {data.series.split('—')[0].trim()}</h2>
-        <a href="/works" class="related-link">View All →</a>
+        <a href="/works" class="related-link label">View All →</a>
       </div>
 
       <div class="related-grid">
@@ -214,7 +214,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
             <div class="related-image">
               <span class="placeholder-glyph">◇</span>
             </div>
-            <div class="related-acc">{w.data.accession.replace('ES · 2026 · ', '')}</div>
+            <div class="related-acc label">{w.data.accession.replace('ES · 2026 · ', '')}</div>
             <div class="related-name">{w.data.title}</div>
           </a>
         ))}
@@ -267,11 +267,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     position: absolute;
     top: var(--s-3);
     left: var(--s-3);
-    font-family: var(--font-mono);
     font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--mn-500);
-    text-transform: uppercase;
   }
 
   .image-scale {
@@ -328,24 +324,18 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   }
 
   .work-thumb-label {
-    font-family: var(--font-mono);
     font-size: 0.55rem;
     letter-spacing: 0.15em;
-    color: var(--mn-500);
-    text-transform: uppercase;
   }
 
   /* ── Info ── */
   .work-accession {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
     letter-spacing: 0.3em;
     color: var(--fe-500);
     margin-bottom: var(--s-3);
   }
 
   .work-title {
-    font-family: var(--font-display);
     font-size: var(--t-4xl);
     font-weight: 300;
     color: var(--mn-900);
@@ -357,7 +347,6 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   .work-title em { color: var(--fe-500); }
 
   .work-title-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-xl);
     color: var(--mn-700);
     letter-spacing: 0.2em;
@@ -413,7 +402,6 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   }
 
   .work-statement-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-base);
     line-height: 2;
     color: var(--mn-900);
@@ -495,11 +483,8 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   }
 
   .firing-stat-lbl {
-    font-family: var(--font-mono);
     font-size: 0.55rem;
     letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--mn-500);
   }
 
   /* ── Inquiry ── */
@@ -511,10 +496,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
   .inquiry-status {
     display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
     letter-spacing: 0.25em;
-    text-transform: uppercase;
     color: var(--accent-700);
     border: 1px solid var(--accent-500);
     background: var(--accent-50);
@@ -530,10 +512,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
   .btn-inquire {
     display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
     letter-spacing: 0.3em;
-    text-transform: uppercase;
     padding: var(--s-3) var(--s-6);
     border: 1px solid var(--fe-500);
     color: var(--fe-500);
@@ -574,19 +553,13 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   }
 
   .related-head h2 {
-    font-family: var(--font-display);
     font-size: var(--t-2xl);
-    font-weight: 400;
     color: var(--mn-900);
   }
 
   .related-head h2 em { color: var(--fe-500); }
 
   .related-link {
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
     color: var(--mn-700);
     border-bottom: 1px solid var(--fe-500);
     padding-bottom: 2px;
@@ -626,10 +599,7 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   }
 
   .related-acc {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
     letter-spacing: 0.18em;
-    color: var(--mn-500);
     margin-bottom: 2px;
   }
 

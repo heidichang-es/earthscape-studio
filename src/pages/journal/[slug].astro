@@ -41,13 +41,13 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
 
   <!-- ENTRY HEAD -->
   <header class="entry-head">
-    <div class="entry-head-meta">
+    <div class="entry-head-meta label">
       <span class="seq">{data.accession.replace('JNL ·', `JNL · ${d.getUTCFullYear()} ·`)}</span>
       <span>Field Notes · 工作日誌</span>
     </div>
 
     <h1 class="entry-head-title">{data.title}</h1>
-    {data.titleZh && <div class="entry-head-zh">{data.titleZh}</div>}
+    {data.titleZh && <div class="entry-head-zh zh">{data.titleZh}</div>}
 
     <dl class="entry-head-dl">
       <dt>Date</dt>
@@ -67,7 +67,7 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   <!-- ABSTRACT -->
   {data.abstract && (
     <section class="abstract">
-      <div class="abstract-label">§ Abstract · 摘要</div>
+      <div class="abstract-label label">§ Abstract · 摘要</div>
       <p class="abstract-body">{data.abstract}</p>
     </section>
   )}
@@ -79,7 +79,7 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
 
   <!-- ENTRY FOOT -->
   <footer class="entry-foot">
-    <div class="entry-foot-meta">
+    <div class="entry-foot-meta label">
       <span>End of entry · {data.accession}</span>
       <span>{dateStr}</span>
     </div>
@@ -87,24 +87,24 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
     <div class="entry-nav">
       {older ? (
         <a href={`/journal/${older.id}`} class="entry-nav-item">
-          <div class="entry-nav-dir">← Older · {older.data.accession}</div>
+          <div class="entry-nav-dir label">← Older · {older.data.accession}</div>
           <div class="entry-nav-title">{older.data.title}</div>
         </a>
       ) : (
         <span class="entry-nav-item" style="opacity: 0.4; cursor: default;">
-          <div class="entry-nav-dir">← Older</div>
+          <div class="entry-nav-dir label">← Older</div>
           <div class="entry-nav-title">(尚無更早)</div>
         </span>
       )}
 
       {newer ? (
         <a href={`/journal/${newer.id}`} class="entry-nav-item next">
-          <div class="entry-nav-dir">Newer →</div>
+          <div class="entry-nav-dir label">Newer →</div>
           <div class="entry-nav-title">{newer.data.title}</div>
         </a>
       ) : (
         <span class="entry-nav-item next" style="opacity: 0.4; cursor: default;">
-          <div class="entry-nav-dir">Newer →</div>
+          <div class="entry-nav-dir label">Newer →</div>
           <div class="entry-nav-title">(尚未發表)</div>
         </span>
       )}
@@ -124,11 +124,7 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   .entry-head-meta {
     display: flex;
     justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
     letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--mn-500);
     margin-bottom: var(--s-8);
     padding-bottom: var(--s-3);
     border-bottom: var(--hair);
@@ -137,7 +133,6 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   .entry-head-meta .seq { color: var(--fe-500); }
 
   h1.entry-head-title {
-    font-family: var(--font-display);
     font-size: clamp(2.25rem, 5.5vw, var(--t-4xl));
     font-weight: 300;
     line-height: 1.1;
@@ -148,7 +143,6 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   h1.entry-head-title em { color: var(--fe-500); }
 
   .entry-head-zh {
-    font-family: var(--font-zh);
     font-size: var(--t-lg);
     color: var(--mn-700);
     margin-bottom: var(--s-6);
@@ -195,10 +189,7 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   }
 
   .abstract-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
     letter-spacing: 0.3em;
-    text-transform: uppercase;
     color: var(--fe-500);
     margin-bottom: var(--s-3);
   }
@@ -237,9 +228,7 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   }
 
   article.entry :global(h2) {
-    font-family: var(--font-display);
     font-size: var(--t-2xl);
-    font-weight: 400;
     color: var(--mn-900);
     margin: var(--s-12) 0 var(--s-4);
     padding-bottom: var(--s-3);
@@ -288,9 +277,7 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   article.entry :global(.statement-en p::first-letter) { all: unset; }
 
   article.entry :global(.statement-en h3) {
-    font-family: var(--font-display);
     font-size: var(--t-lg);
-    font-weight: 400;
     color: var(--mn-700);
     font-style: italic;
     margin: var(--s-8) 0 var(--s-3);
@@ -314,11 +301,6 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   .entry-foot-meta {
     display: flex;
     justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mn-500);
     margin-bottom: var(--s-6);
   }
 
@@ -346,11 +328,6 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   }
 
   .entry-nav-dir {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mn-500);
     margin-bottom: var(--s-2);
   }
 
