@@ -95,21 +95,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     ))}
   </section>
 
-  <!-- SUBSCRIBE -->
-  <section class="subscribe">
-    <div class="sub-inner">
-      <div class="sub-label label">§ Optional</div>
-      <h2 class="sub-title">A letter from the peninsula.</h2>
-      <p class="sub-desc zh">
-        Quarterly notes on what's being made, what's failed, and what's next.<br />
-        季度通訊 · 製作、失敗、與下一步的紀錄。
-      </p>
-      <form class="sub-form">
-        <input type="email" class="sub-input" placeholder="your email" required />
-        <button type="submit" class="sub-btn">Subscribe</button>
-      </form>
-    </div>
-  </section>
 </BaseLayout>
 
 <script>
@@ -151,13 +136,6 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     });
   });
 
-  // Newsletter subscribe is not yet wired to a real service; prevent the form
-  // from reloading the page and show a placeholder confirmation.
-  const subForm = document.querySelector<HTMLFormElement>('.sub-form');
-  subForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert('Subscription would be wired to your email service of choice.');
-  });
 </script>
 
 <style>
@@ -404,80 +382,4 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     .entry-meta { padding-left: 0; }
   }
 
-  /* ── Subscribe ── */
-  .subscribe {
-    max-width: var(--content-wide);
-    margin: 0 auto;
-    padding: var(--s-12) var(--gutter);
-    background: var(--bg-paper);
-  }
-
-  .sub-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .sub-label {
-    letter-spacing: 0.3em;
-    color: var(--fe-500);
-    margin-bottom: var(--s-3);
-  }
-
-  .sub-title {
-    font-style: italic;
-    font-size: var(--t-3xl);
-    color: var(--mn-900);
-    line-height: 1.2;
-    margin-bottom: var(--s-3);
-    font-weight: 300;
-  }
-
-  .sub-desc {
-    font-size: var(--t-sm);
-    line-height: 1.85;
-    color: var(--mn-700);
-    margin-bottom: var(--s-6);
-  }
-
-  .sub-form {
-    display: flex;
-    gap: var(--s-2);
-    max-width: 440px;
-    margin: 0 auto;
-  }
-
-  .sub-input {
-    flex: 1;
-    padding: var(--s-3) var(--s-4);
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.1em;
-    border: 1px solid var(--mn-300);
-    background: var(--bg);
-    color: var(--mn-900);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .sub-input:focus { border-color: var(--fe-500); }
-  .sub-input::placeholder { color: var(--mn-300); text-transform: uppercase; }
-
-  .sub-btn {
-    padding: var(--s-3) var(--s-6);
-    font-family: var(--font-mono);
-    font-size: var(--t-xs);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    border: 1px solid var(--fe-500);
-    background: var(--fe-500);
-    color: var(--bg);
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .sub-btn:hover {
-    background: var(--fe-700);
-    border-color: var(--fe-700);
-  }
 </style>
