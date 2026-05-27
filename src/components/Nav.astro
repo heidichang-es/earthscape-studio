@@ -8,11 +8,11 @@ interface Props {
 const { active } = Astro.props;
 
 const items: Array<{ key: NavKey; label: string; href: string }> = [
-  { key: 'index', label: 'Index', href: '/' },
-  { key: 'visit', label: 'Visit', href: '/visit' },
-  { key: 'about', label: 'About', href: '/about' },
-  // Works + Journal hidden until real content lands. Re-enable in nav once
-  // the catalog has real photographs and the journal has authored entries.
+  { key: 'index',   label: 'Index',   href: '/' },
+  { key: 'journal', label: 'Journal', href: '/journal' },
+  { key: 'visit',   label: 'Visit',   href: '/visit' },
+  { key: 'about',   label: 'About',   href: '/about' },
+  // Works hidden until the catalog has real photographs.
 ];
 ---
 

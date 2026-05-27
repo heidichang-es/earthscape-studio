@@ -31,7 +31,6 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   title={`${data.title} · ${data.accession} — Earthscape`}
   description={data.excerpt}
   active="journal"
-  noindex
 >
   <Breadcrumb
     slot="top"
@@ -270,6 +269,39 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
   article.entry :global(strong) {
     color: var(--mn-900);
     font-weight: 500;
+  }
+
+  /* Optional English translation block (mirror of the .statement-en pattern on /about) */
+  article.entry :global(.statement-en) {
+    margin-top: var(--s-12);
+    padding-top: var(--s-8);
+    border-top: var(--hair);
+  }
+
+  article.entry :global(.statement-en p) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-base);
+    line-height: 1.85;
+    color: var(--mn-700);
+  }
+
+  article.entry :global(.statement-en p::first-letter) { all: unset; }
+
+  article.entry :global(.statement-en h3) {
+    font-family: var(--font-display);
+    font-size: var(--t-lg);
+    font-weight: 400;
+    color: var(--mn-700);
+    font-style: italic;
+    margin: var(--s-8) 0 var(--s-3);
+    padding-bottom: var(--s-2);
+    border-bottom: var(--hair);
+    line-height: 1.3;
+  }
+
+  article.entry :global(.statement-en h3 em) {
+    color: var(--fe-500);
   }
 
   /* ── Entry foot / nav ── */

@@ -7,10 +7,9 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [
     sitemap({
-      // Journal, works, and visit are WIP / coming-soon. Re-include each one
+      // Works and visit are still WIP / coming-soon. Re-include each one
       // in sitemap as it ships real content.
       filter: (page) =>
-        !page.startsWith('https://earthscape-studio.com/journal') &&
         !page.startsWith('https://earthscape-studio.com/works') &&
         !page.startsWith('https://earthscape-studio.com/visit'),
     }),

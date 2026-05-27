@@ -3,14 +3,14 @@ import { glob } from 'astro/loaders';
 
 /**
  * Journal entries — research-notebook-style essays, field notes,
- * studio diary. ID = filename slug (e.g. `jnl-012`).
+ * studio diary. ID = filename slug (e.g. `jnl-001`).
  */
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
   schema: z.object({
     title: z.string(),
     titleZh: z.string().optional(),
-    accession: z.string(),                 // e.g. "JNL · 012"
+    accession: z.string(),                 // e.g. "JNL · 001"
     date: z.coerce.date(),
     tags: z.array(z.string()),
     excerpt: z.string(),
