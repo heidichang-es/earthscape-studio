@@ -1,0 +1,660 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works');
+  return works.map(work => ({
+    params: { slug: work.id },
+    props: { work, allWorks: works },
+  }));
+}
+
+const { work, allWorks } = Astro.props;
+const { data } = work;
+
+const dateStr = `${data.date.getUTCFullYear()} · ${String(data.date.getUTCMonth() + 1).padStart(2, '0')} · ${String(data.date.getUTCDate()).padStart(2, '0')}`;
+
+// Related: other works in the same series, excluding this one (up to 4)
+const related = allWorks
+  .filter(w => w.id !== work.id && w.data.series === data.series)
+  .slice(0, 4);
+
+const statusLabel = {
+  available: 'Available · 可洽詢',
+  reserved: 'Reserved · 已預訂',
+  sold: 'Sold · 已售出',
+  'not-for-sale': 'Not for sale · 非售品',
+}[data.status];
+
+const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
+---
+
+<BaseLayout
+  title={`${data.accession} — Earthscape Studio`}
+  description={data.statement ?? data.titleZh}
+  active="works"
+  noindex
+>
+  <Breadcrumb
+    slot="top"
+    current={data.accession.split('·').slice(-2).join('·').trim()}
+    acc={data.accession}
+    trail={[{ label: 'Works', href: '/works' }]}
+  />
+
+  <!-- MAIN -->
+  <section class="work">
+    <!-- LEFT: image stack -->
+    <div class="work-images">
+      <div class="work-image-main">
+        <div class="image-corner">Plate I · Front view</div>
+
+        <svg class="vessel-placeholder" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="vessel-fe" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7A2D14"/>
+              <stop offset="40%" stop-color="#A8421C"/>
+              <stop offset="80%" stop-color="#7A2D14"/>
+              <stop offset="100%" stop-color="#4A1B0C"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="100" cy="240" rx="55" ry="6" fill="rgba(26,22,20,0.15)"/>
+          <path d="M 75 30 Q 75 38, 78 45 L 80 60 Q 60 80, 50 120 Q 42 165, 50 200 Q 55 225, 75 235 L 125 235 Q 145 225, 150 200 Q 158 165, 150 120 Q 140 80, 120 60 L 122 45 Q 125 38, 125 30 Z"
+                fill="url(#vessel-fe)"/>
+          <path d="M 80 70 Q 65 100, 58 140 Q 53 180, 60 215"
+                stroke="rgba(255,200,170,0.18)" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <ellipse cx="100" cy="32" rx="25" ry="4" fill="#3D2820"/>
+          <ellipse cx="100" cy="30" rx="25" ry="3" fill="#1A1614"/>
+        </svg>
+
+        <div class="image-scale">
+          <span>0</span>
+          <div class="scale-bar"></div>
+          <span>10cm</span>
+        </div>
+      </div>
+
+      <div class="work-image-thumbs">
+        <div class="work-thumb active"><div class="work-thumb-label">I · Front</div></div>
+        <div class="work-thumb"><div class="work-thumb-label">II · Profile</div></div>
+        <div class="work-thumb"><div class="work-thumb-label">III · Rim</div></div>
+        <div class="work-thumb"><div class="work-thumb-label">IV · Base</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: information -->
+    <div class="work-info">
+      <div class="work-accession">{data.accession}</div>
+
+      <h1 class="work-title">{data.title.replace(/No\.(\d+)/, '').trim()} <em>No.{data.serial}</em></h1>
+      <div class="work-title-zh">{data.titleZh}</div>
+
+      <!-- Tombstone -->
+      <div class="tombstone">
+        <dl>
+          <dt>Series</dt><dd>{data.series}</dd>
+
+          <dt>Category</dt>
+          <dd>
+            {data.type === 'LV' && 'Large vessel · 大型花器'}
+            {data.type === 'MV' && 'Mid vessel · 中型花器'}
+            {data.type === 'CP' && 'Cup · 杯'}
+            {data.type === 'BW' && 'Bowl · 缽'}
+            {data.type === 'JR' && 'Jar · 罐'}
+            {data.type === 'OB' && 'Object · 擺件'}
+          </dd>
+
+          {data.dimensions && (
+            <>
+              <dt>Dimensions</dt>
+              <dd>{data.dimensions} {data.dimensionsAlt && <span class="unit">{data.dimensionsAlt}</span>}</dd>
+            </>
+          )}
+
+          {data.weight && <><dt>Weight</dt><dd>{data.weight}</dd></>}
+
+          <dt>Created</dt><dd>{dateStr}</dd>
+
+          {data.medium && <><dt>Medium</dt><dd>{data.medium}</dd></>}
+
+          {data.firing && (
+            <>
+              <dt>Firing</dt>
+              <dd>{data.firing.temp} · {data.firing.atmosphere}</dd>
+            </>
+          )}
+
+          {data.edition && <><dt>Edition</dt><dd>{data.edition}</dd></>}
+        </dl>
+      </div>
+
+      <!-- Statement -->
+      {data.statement && <p class="work-statement">{data.statement}</p>}
+      {data.statementZh && <p class="work-statement-zh">{data.statementZh}</p>}
+
+      <!-- Materials breakdown -->
+      {data.materials.length > 0 && (
+        <div class="work-materials">
+          <span class="label">Composition · 組成</span>
+          {data.materials.map((m, i) => (
+            <div class="material-row" style={i === data.materials.length - 1 ? 'border-bottom: none;' : undefined}>
+              <span class="mono-formula" set:html={m.formula.replace(/(\d)/g, '<sub>$1</sub>').replace(/<sub>(\d)<\/sub>(?=[a-zA-Z])/g, '<sub>$1</sub>')}></span>
+              <span class="mat-name">{m.name}</span>
+              <span class="mat-pct">{m.pct}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <!-- Firing curve -->
+      {data.firing && (
+        <div class="firing">
+          <span class="label">Firing Profile · 燒成曲線</span>
+
+          <div class="firing-card">
+            <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <line x1="0" y1="80" x2="400" y2="80" stroke="#D9D2CB" stroke-width="0.5"/>
+              <line x1="0" y1="50" x2="400" y2="50" stroke="#D9D2CB" stroke-width="0.5" stroke-dasharray="2,2"/>
+              <line x1="0" y1="20" x2="400" y2="20" stroke="#D9D2CB" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+              <path d="M 0 80 Q 60 78, 100 65 L 140 50 Q 180 40, 220 25 L 260 12 Q 280 10, 300 12 L 340 28 Q 380 50, 400 75"
+                    fill="none" stroke="#A8421C" stroke-width="1.5" stroke-linecap="round"/>
+
+              <circle cx="280" cy="10" r="3" fill="#A8421C"/>
+
+              <text x="280" y="6" font-family="JetBrains Mono" font-size="6" fill="#7A2D14" text-anchor="middle">{data.firing.temp}</text>
+              <text x="10" y="95" font-family="JetBrains Mono" font-size="5" fill="#6B5F58" letter-spacing="0.1em">0h</text>
+              <text x="200" y="95" font-family="JetBrains Mono" font-size="5" fill="#6B5F58" letter-spacing="0.1em" text-anchor="middle">10h</text>
+              <text x="390" y="95" font-family="JetBrains Mono" font-size="5" fill="#6B5F58" letter-spacing="0.1em" text-anchor="end">{data.firing.duration}</text>
+            </svg>
+
+            <div class="firing-stats">
+              <div class="firing-stat">
+                <div class="firing-stat-val">{data.firing.temp}</div>
+                <div class="firing-stat-lbl">Peak</div>
+              </div>
+              <div class="firing-stat">
+                <div class="firing-stat-val">{data.firing.duration}</div>
+                <div class="firing-stat-lbl">Total</div>
+              </div>
+              <div class="firing-stat">
+                <div class="firing-stat-val">{data.firing.atmosphere.slice(0, 4)}.</div>
+                <div class="firing-stat-lbl">Atmosphere</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Inquiry -->
+      <div class="inquiry">
+        <div class="inquiry-status">{statusLabel}</div>
+
+        <div class="inquiry-actions">
+          <a href={`mailto:hello@earthscape-studio.com?subject=${inquirySubject}`} class="btn-inquire">Inquire</a>
+          <a href="/visit" class="btn-inquire ghost">Book a Studio Visit</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELATED -->
+  {related.length > 0 && (
+    <section class="related">
+      <div class="related-head">
+        <h2><em>Related</em> in {data.series.split('—')[0].trim()}</h2>
+        <a href="/works" class="related-link">View All →</a>
+      </div>
+
+      <div class="related-grid">
+        {related.map(w => (
+          <a href={`/works/${w.id}`} class="related-item">
+            <div class="related-image">
+              <span class="placeholder-glyph">◇</span>
+            </div>
+            <div class="related-acc">{w.data.accession.replace('ES · 2026 · ', '')}</div>
+            <div class="related-name">{w.data.title}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  /* ── Main grid ── */
+  .work {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter) var(--s-16);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--s-16);
+  }
+
+  .work-images, .work-info {
+    animation: rise 0.6s ease both;
+  }
+  .work-info { animation-delay: 0.1s; padding-top: var(--s-2); }
+
+  /* ── Images ── */
+  .work-images {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .work-image-main {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vessel-placeholder {
+    width: 60%;
+    height: 70%;
+    opacity: 0.85;
+  }
+
+  .image-corner {
+    position: absolute;
+    top: var(--s-3);
+    left: var(--s-3);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  .image-scale {
+    position: absolute;
+    bottom: var(--s-4);
+    right: var(--s-4);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .scale-bar {
+    width: 50px;
+    height: 1px;
+    background: var(--mn-500);
+    position: relative;
+  }
+  .scale-bar::before, .scale-bar::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 4px;
+    background: var(--mn-500);
+    top: -2px;
+  }
+  .scale-bar::before { left: 0; }
+  .scale-bar::after { right: 0; }
+
+  .work-image-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-2);
+  }
+
+  .work-thumb {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .work-thumb:hover { border-color: var(--fe-500); }
+  .work-thumb.active {
+    border-color: var(--fe-500);
+    box-shadow: inset 0 0 0 1px var(--fe-500);
+  }
+
+  .work-thumb-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  /* ── Info ── */
+  .work-accession {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .work-title {
+    font-family: var(--font-display);
+    font-size: var(--t-4xl);
+    font-weight: 300;
+    color: var(--mn-900);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--s-2);
+  }
+
+  .work-title em { font-style: italic; color: var(--fe-500); }
+
+  .work-title-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-xl);
+    color: var(--mn-700);
+    letter-spacing: 0.2em;
+    margin-bottom: var(--s-8);
+    font-weight: 300;
+  }
+
+  /* ── Tombstone ── */
+  .tombstone {
+    border-top: var(--hair);
+    border-bottom: var(--hair);
+    padding: var(--s-6) 0;
+    margin-bottom: var(--s-8);
+  }
+
+  .tombstone dl {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: var(--s-3) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+  }
+
+  .tombstone dt {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    padding-top: 2px;
+  }
+
+  .tombstone dd {
+    color: var(--mn-900);
+    font-size: var(--t-sm);
+  }
+
+  .tombstone dd .unit {
+    color: var(--mn-500);
+    font-size: 0.85em;
+  }
+
+  /* ── Statement ── */
+  .work-statement {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    line-height: 1.65;
+    color: var(--mn-700);
+    border-left: var(--hair-accent);
+    padding-left: var(--s-6);
+    margin-bottom: var(--s-6);
+    max-width: 480px;
+  }
+
+  .work-statement-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+    margin-bottom: var(--s-8);
+    max-width: 480px;
+  }
+
+  /* ── Materials breakdown ── */
+  .work-materials { margin-bottom: var(--s-8); }
+
+  .work-materials :global(.label) {
+    display: block;
+    margin-bottom: var(--s-4);
+  }
+
+  .material-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px;
+    align-items: baseline;
+    padding: var(--s-2) 0;
+    border-bottom: var(--hair);
+    font-size: var(--t-sm);
+  }
+
+  .material-row .mono-formula {
+    font-family: var(--font-mono);
+    color: var(--fe-500);
+    font-size: var(--t-sm);
+  }
+
+  .material-row .mat-name {
+    font-family: var(--font-zh);
+    color: var(--mn-900);
+  }
+
+  .material-row .mat-pct {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--mn-500);
+    text-align: right;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Firing ── */
+  .firing { margin-bottom: var(--s-8); }
+
+  .firing :global(.label) {
+    display: block;
+    margin-bottom: var(--s-4);
+  }
+
+  .firing-card {
+    background: var(--bg-paper);
+    border: var(--hair);
+    padding: var(--s-4) var(--s-6);
+  }
+
+  .firing-card svg {
+    width: 100%;
+    height: 90px;
+    margin-bottom: var(--s-3);
+  }
+
+  .firing-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-3);
+    padding-top: var(--s-3);
+    border-top: var(--hair);
+  }
+
+  .firing-stat { text-align: center; }
+
+  .firing-stat-val {
+    font-family: var(--font-mono);
+    font-size: var(--t-base);
+    color: var(--mn-900);
+    margin-bottom: 2px;
+  }
+
+  .firing-stat-lbl {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  /* ── Inquiry ── */
+  .inquiry {
+    border-top: var(--hair-strong);
+    padding-top: var(--s-6);
+    margin-top: var(--s-8);
+  }
+
+  .inquiry-status {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-700);
+    border: 1px solid var(--accent-500);
+    background: var(--accent-50);
+    padding: 4px 12px;
+    margin-bottom: var(--s-4);
+  }
+
+  .inquiry-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+
+  .btn-inquire {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: var(--s-3) var(--s-6);
+    border: 1px solid var(--fe-500);
+    color: var(--fe-500);
+    transition: all 0.3s;
+    text-align: center;
+  }
+
+  .btn-inquire:hover {
+    background: var(--fe-500);
+    color: var(--bg);
+  }
+
+  .btn-inquire.ghost {
+    border-color: var(--mn-300);
+    color: var(--mn-700);
+  }
+
+  .btn-inquire.ghost:hover {
+    background: var(--mn-100);
+    color: var(--mn-900);
+  }
+
+  /* ── Related ── */
+  .related {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter);
+    border-top: var(--hair);
+  }
+
+  .related-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--s-8);
+    padding-bottom: var(--s-3);
+    border-bottom: var(--hair);
+  }
+
+  .related-head h2 {
+    font-family: var(--font-display);
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--mn-900);
+  }
+
+  .related-head h2 em { font-style: italic; color: var(--fe-500); }
+
+  .related-link {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-700);
+    border-bottom: 1px solid var(--fe-500);
+    padding-bottom: 2px;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-4);
+  }
+
+  .related-item {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    display: block;
+  }
+
+  .related-image {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 4 / 5;
+    margin-bottom: var(--s-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s;
+    overflow: hidden;
+  }
+
+  .related-item:hover .related-image { border-color: var(--fe-500); }
+
+  .placeholder-glyph {
+    font-family: var(--font-display);
+    font-size: var(--t-4xl);
+    color: var(--mn-300);
+  }
+
+  .related-acc {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--mn-500);
+    margin-bottom: 2px;
+  }
+
+  .related-name {
+    font-family: var(--font-display);
+    font-size: var(--t-base);
+    color: var(--mn-900);
+    line-height: 1.3;
+  }
+
+  .related-name em { font-style: italic; }
+
+  /* ── Responsive ── */
+  @media (max-width: 1100px) {
+    .work {
+      grid-template-columns: 1fr;
+      gap: var(--s-8);
+    }
+    .work-info { padding-top: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .work-title { font-size: var(--t-3xl); }
+    .tombstone dl { grid-template-columns: 100px 1fr; }
+    .material-row { grid-template-columns: 70px 1fr 90px; }
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

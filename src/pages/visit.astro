@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+
+<BaseLayout
+  title="Visit · 預約參觀 — Earthscape Studio"
+  description="Studio visits will open by appointment in late 2026. 工作室參觀預約即將開放。"
+  active="visit"
+  noindex
+>
+  <Breadcrumb slot="top" current="Visit" acc="VST · COMING SOON · 2026" />
+
+  <section class="coming-soon">
+    <span class="label-strong">§ Studio Visit · 工作室參觀</span>
+    <h1>Coming <em>Soon</em></h1>
+    <div class="zh">即 將 開 放</div>
+
+    <p class="message-en">
+      Studio visits will open by appointment in late 2026.
+    </p>
+    <p class="message-zh">
+      工作室參觀預約即將開放。
+    </p>
+
+    <div class="notify">
+      <span class="notify-label">§ Get Notified · 接收通知</span>
+      <a href="mailto:hello@earthscape-studio.com?subject=Notify%20me%20when%20visits%20open" class="btn-notify">
+        hello@earthscape-studio.com →
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .coming-soon {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-24) var(--gutter);
+    text-align: center;
+    animation: rise 0.6s ease both;
+  }
+
+  .coming-soon :global(.label-strong) {
+    display: block;
+    margin-bottom: var(--s-6);
+  }
+
+  .coming-soon h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 9vw, var(--t-5xl));
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  .coming-soon h1 em { font-style: italic; color: var(--fe-500); }
+
+  .zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-2xl);
+    color: var(--mn-700);
+    letter-spacing: 0.5em;
+    margin-bottom: var(--s-12);
+    font-weight: 300;
+  }
+
+  .message-en {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    color: var(--mn-700);
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 auto var(--s-4);
+  }
+
+  .message-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    color: var(--mn-900);
+    line-height: 2;
+    max-width: 560px;
+    margin: 0 auto var(--s-16);
+  }
+
+  .notify {
+    border-top: var(--hair);
+    padding-top: var(--s-8);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .notify-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    margin-bottom: var(--s-4);
+  }
+
+  .btn-notify {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    letter-spacing: 0.2em;
+    color: var(--mn-900);
+    border-bottom: 1px solid var(--fe-500);
+    padding-bottom: 4px;
+    transition: all 0.3s;
+  }
+
+  .btn-notify:hover {
+    color: var(--fe-500);
+    letter-spacing: 0.25em;
+  }
+
+  @media (max-width: 600px) {
+    .coming-soon { padding: var(--s-16) var(--gutter); }
+    .zh { letter-spacing: 0.3em; }
+  }
+</style>

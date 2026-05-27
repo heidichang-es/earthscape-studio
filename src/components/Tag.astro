@@ -1,0 +1,10 @@
+---
+interface Props {
+  /** Filled (accent-50 background) variant used in research-paper contexts */
+  filled?: boolean;
+}
+
+const { filled = false } = Astro.props;
+---
+
+<span class:list={['tag', { filled }]}><slot /></span>

@@ -1,0 +1,342 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import Tag from '../../components/Tag.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('journal');
+  const sorted = entries.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      older: i > 0 ? sorted[i - 1] : null,
+      newer: i < sorted.length - 1 ? sorted[i + 1] : null,
+    },
+  }));
+}
+
+const { entry, older, newer } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+
+const d = data.date;
+const dateStr = `${d.getUTCFullYear()} · ${String(d.getUTCMonth() + 1).padStart(2, '0')} · ${String(d.getUTCDate()).padStart(2, '0')}`;
+const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getUTCDay()];
+---
+
+<BaseLayout
+  title={`${data.title} · ${data.accession} — Earthscape`}
+  description={data.excerpt}
+  active="journal"
+  noindex
+>
+  <Breadcrumb
+    slot="top"
+    current={data.accession}
+    acc={`JNL · ${d.getUTCFullYear()} · ${data.accession.split('·').pop()?.trim()}`}
+    trail={[{ label: 'Journal', href: '/journal' }]}
+  />
+
+  <!-- ENTRY HEAD -->
+  <header class="entry-head">
+    <div class="entry-head-meta">
+      <span class="seq">{data.accession.replace('JNL ·', `JNL · ${d.getUTCFullYear()} ·`)}</span>
+      <span>Field Notes · 工作日誌</span>
+    </div>
+
+    <h1 class="entry-head-title">{data.title}</h1>
+    {data.titleZh && <div class="entry-head-zh">{data.titleZh}</div>}
+
+    <dl class="entry-head-dl">
+      <dt>Date</dt>
+      <dd>{dateStr} · {weekday}</dd>
+
+      {data.session && <><dt>Location</dt><dd>{data.session}</dd></>}
+      {data.weather && <><dt>Weather</dt><dd>{data.weather}</dd></>}
+      {data.readTime && <><dt>Read time</dt><dd>{data.readTime}</dd></>}
+
+      <dt>Filed under</dt>
+      <dd class="entry-head-tags">
+        {data.tags.map(t => <Tag filled>{t}</Tag>)}
+      </dd>
+    </dl>
+  </header>
+
+  <!-- ABSTRACT -->
+  {data.abstract && (
+    <section class="abstract">
+      <div class="abstract-label">§ Abstract · 摘要</div>
+      <p class="abstract-body">{data.abstract}</p>
+    </section>
+  )}
+
+  <!-- ARTICLE BODY -->
+  <article class="entry">
+    <Content />
+  </article>
+
+  <!-- ENTRY FOOT -->
+  <footer class="entry-foot">
+    <div class="entry-foot-meta">
+      <span>End of entry · {data.accession}</span>
+      <span>{dateStr}</span>
+    </div>
+
+    <div class="entry-nav">
+      {older ? (
+        <a href={`/journal/${older.id}`} class="entry-nav-item">
+          <div class="entry-nav-dir">← Older · {older.data.accession}</div>
+          <div class="entry-nav-title">{older.data.title}</div>
+        </a>
+      ) : (
+        <span class="entry-nav-item" style="opacity: 0.4; cursor: default;">
+          <div class="entry-nav-dir">← Older</div>
+          <div class="entry-nav-title">(尚無更早)</div>
+        </span>
+      )}
+
+      {newer ? (
+        <a href={`/journal/${newer.id}`} class="entry-nav-item next">
+          <div class="entry-nav-dir">Newer →</div>
+          <div class="entry-nav-title">{newer.data.title}</div>
+        </a>
+      ) : (
+        <span class="entry-nav-item next" style="opacity: 0.4; cursor: default;">
+          <div class="entry-nav-dir">Newer →</div>
+          <div class="entry-nav-title">(尚未發表)</div>
+        </span>
+      )}
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .entry-head {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter) var(--s-8);
+    border-bottom: var(--hair);
+    animation: rise 0.6s ease both;
+  }
+
+  .entry-head-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-bottom: var(--s-8);
+    padding-bottom: var(--s-3);
+    border-bottom: var(--hair);
+  }
+
+  .entry-head-meta .seq { color: var(--fe-500); }
+
+  h1.entry-head-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5.5vw, var(--t-4xl));
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  h1.entry-head-title em { font-style: italic; color: var(--fe-500); }
+
+  .entry-head-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-lg);
+    color: var(--mn-700);
+    margin-bottom: var(--s-6);
+    letter-spacing: 0.15em;
+    font-weight: 300;
+  }
+
+  .entry-head-dl {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--s-3) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    margin-top: var(--s-6);
+    padding-top: var(--s-6);
+    border-top: var(--hair);
+  }
+
+  .entry-head-dl dt {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    padding-top: 2px;
+  }
+
+  .entry-head-dl dd { color: var(--mn-900); }
+
+  .entry-head-tags {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+  }
+
+  /* ── Abstract ── */
+  .abstract {
+    max-width: 760px;
+    margin: var(--s-12) auto 0;
+    padding: var(--s-8) var(--gutter);
+    background: var(--bg-paper);
+    border-top: var(--hair);
+    border-bottom: var(--hair);
+    animation: rise 0.6s ease 0.1s both;
+  }
+
+  .abstract-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .abstract-body {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    line-height: 1.7;
+    color: var(--mn-700);
+  }
+
+  /* ── Article body (renders markdown) ── */
+  article.entry {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter);
+  }
+
+  article.entry :global(p) {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+    margin-bottom: var(--s-6);
+  }
+
+  article.entry :global(p:first-of-type::first-letter) {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 0.85;
+    float: left;
+    color: var(--fe-500);
+    margin: 6px 12px 0 0;
+    font-weight: 400;
+  }
+
+  article.entry :global(h2) {
+    font-family: var(--font-display);
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--mn-900);
+    margin: var(--s-12) 0 var(--s-4);
+    padding-bottom: var(--s-3);
+    border-bottom: var(--hair);
+    line-height: 1.3;
+  }
+
+  article.entry :global(h2 em) { font-style: italic; color: var(--fe-500); }
+
+  article.entry :global(blockquote) {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-xl);
+    line-height: 1.6;
+    color: var(--mn-700);
+    border-left: var(--hair-accent);
+    padding: var(--s-2) 0 var(--s-2) var(--s-6);
+    margin: var(--s-8) 0;
+    max-width: 600px;
+  }
+
+  article.entry :global(em) {
+    color: var(--fe-500);
+    font-style: italic;
+  }
+
+  article.entry :global(strong) {
+    color: var(--mn-900);
+    font-weight: 500;
+  }
+
+  /* ── Entry foot / nav ── */
+  .entry-foot {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s-8) var(--gutter) var(--s-16);
+    border-top: var(--hair);
+  }
+
+  .entry-foot-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-bottom: var(--s-6);
+  }
+
+  .entry-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-6);
+    margin-top: var(--s-8);
+  }
+
+  .entry-nav-item {
+    padding: var(--s-4) var(--s-6);
+    border: var(--hair);
+    background: var(--bg-elev);
+    transition: all 0.2s;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .entry-nav-item:hover {
+    border-color: var(--fe-500);
+    background: var(--bg);
+  }
+
+  .entry-nav-dir {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-bottom: var(--s-2);
+  }
+
+  .entry-nav-title {
+    font-family: var(--font-display);
+    font-size: var(--t-base);
+    color: var(--mn-900);
+    line-height: 1.3;
+  }
+
+  .entry-nav-item.next { text-align: right; }
+
+  @media (max-width: 600px) {
+    .entry-head-dl { grid-template-columns: 1fr; gap: var(--s-1) 0; }
+    .entry-head-dl dt { margin-top: var(--s-3); }
+    article.entry :global(p:first-of-type::first-letter) { font-size: 3rem; }
+    .entry-nav { grid-template-columns: 1fr; }
+    .entry-nav-item.next { text-align: left; }
+  }
+</style>

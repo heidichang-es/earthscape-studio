@@ -1,0 +1,679 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SectionHead from '../components/SectionHead.astro';
+---
+
+<BaseLayout
+  title="About · 關於 — Earthscape Studio"
+  description="A peninsula of earth — the studio behind Earthscape."
+  active="about"
+>
+  <Breadcrumb slot="top" current="About" acc="ABT · INSTITUTIONAL · 2026" />
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="hero-left">
+      <span class="label-strong">§ Studio Portrait</span>
+
+      <div class="hero-portrait">
+        <svg class="portrait-svg" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hands" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#A8421C" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#4A1B0C" stop-opacity="0.7"/>
+            </linearGradient>
+            <linearGradient id="clay-blob" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8B6B4F"/>
+              <stop offset="100%" stop-color="#3D2820"/>
+            </linearGradient>
+          </defs>
+
+          <ellipse cx="100" cy="270" rx="45" ry="3" fill="rgba(26,22,20,0.15)"/>
+
+          <ellipse cx="100" cy="160" rx="42" ry="48" fill="url(#clay-blob)"/>
+          <ellipse cx="92" cy="148" rx="12" ry="8" fill="rgba(255,200,160,0.18)"/>
+        </svg>
+      </div>
+
+      <div class="portrait-caption">
+        Prototype I · Hands &amp; clay<br />
+        Photograph by · CWY<br />
+        2026 · Spring
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <h1><em>About</em><br />Earthscape</h1>
+      <div class="hero-zh">關 於 埴 角</div>
+
+      <p class="hero-statement">
+        A peninsula of earth — still attached to the mainland, but already reaching into another sea.
+      </p>
+
+      <p class="hero-statement-zh">
+        有一塊地正在從我身上伸出去——<br />
+        在每日通勤的辦公室與每個週末沾滿土的雙手之間，<br />
+        仍然連著本土，但已經探進另一片水域。
+      </p>
+    </div>
+  </section>
+
+  <!-- ARTIST STATEMENT -->
+  <section class="about-section">
+    <SectionHead num="§ 01 / 05"><em>Statement</em> · 自述</SectionHead>
+
+    <div class="statement-grid">
+      <dl class="statement-side">
+        <dt>Title</dt>
+        <dd>From a Dining Table</dd>
+        <dt>Origin</dt>
+        <dd>Frontend engineer · Hand-built ceramicist</dd>
+        <dt>Method</dt>
+        <dd>Coil-built · Self-mixed glaze</dd>
+        <dt>Format</dt>
+        <dd>Long version · 中英對照</dd>
+        <dt>Language</dt>
+        <dd>中文 · English</dd>
+        <dt>Use</dt>
+        <dd>Press · Gallery proposal · About page</dd>
+        <dt>Revision</dt>
+        <dd>2026 · 05 · 27</dd>
+      </dl>
+
+      <div class="statement-body">
+        <p>
+          目前本業是前端工程師。陶藝的起點不在工作室，是在家裡的餐桌上——煮飯的時候，總希望盤子、杯子、收納罐能更好看一點。後來開始自己學做陶，才發現這是一個比想像中更廣袤的世界：有人用最古老的方法做最日常的器物，也有人把陶當作百變多端的雕塑材料。
+        </p>
+
+        <p>
+          我花了一段時間試各種風格——拉坯<sup>(出師不利、中道崩殂)</sup>、手捏、各種釉色、各種燒法——也看了很多藝術家與工藝師的作品。最近才慢慢找到自己最舒服的方向：手捏盤泥條的器物、自配釉藥、能用、能安靜地放在生活裡。
+        </p>
+
+        <p>
+          Earthscape 是這個生活方式的名字。
+        </p>
+
+        <p>
+          台灣人的諧音病是不可能放過工作室取名機會的。英文裡藏著四個讀法：earthscape（大地的景緻）、earth scape（土的紋理）、earth's cape（陶土的岬角）、escape（出走）。四件事原本就是同一件事。
+        </p>
+
+        <p>
+          中文取名「埴角」。<em>「埴」是製陶用的黏土</em>——來自一段我最喜歡的文字，《道德經》「埏埴以為器，當其無，有器之用。有之以為利，無之以為用。」。<em>「角」即海岬</em>，與「岬」字互通——鵝鑾鼻是岬角，好望角是 Cape of Good Hope。
+        </p>
+
+        <p>
+          埴角——黏土的岬角。從日常生活的餐桌出發，走到這裡。
+        </p>
+
+        <div class="statement-en">
+          <p>
+            By day I'm a frontend engineer. Ceramics didn't start in a studio — it started at my own dining table. While cooking, I kept wishing the plates, cups, and storage jars looked a little better. So I tried making them myself. The deeper I went, the wider the world became: some people use the oldest methods to make the most everyday objects; others treat clay as endlessly transformable sculptural material.
+          </p>
+
+          <p>
+            I spent a while trying everything — wheel throwing <sup>(disastrous, abandoned mid-way)</sup>, hand-building, various glazes, various firings — and looked at a lot of work by other artists and craftspeople. Only recently have I found the direction that feels most like mine: coil-built vessels, glazes I mix myself, functional, quiet enough to live with.
+          </p>
+
+          <p>
+            Earthscape is the name of this way of working.
+          </p>
+
+          <p>
+            Taiwanese can't resist a good pun when naming a studio. The English hides four readings: earthscape (the landscape of earth), earth scape (the texture of earth), earth's cape (a cape made of clay), escape. All four are, in the end, the same thing.
+          </p>
+
+          <p>
+            The Chinese name is 埴角. <em>「埴」(zhí)</em> is the classical character for ceramic clay, from a passage I love in the Dao De Jing: <em>"Knead clay to form a vessel; it is the emptiness within that makes it useful. What is, provides advantage; what is not, provides use."</em> <em>「角」(jiǎo)</em> means a headland or cape — like Cape of Good Hope, or Taiwan's southernmost point, Eluanbi.
+          </p>
+
+          <p>
+            埴角 — the cape of clay. From a dining table to here.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICE / PROCESS -->
+  <section class="about-section">
+    <SectionHead num="§ 02 / 05"><em>Practice</em> · 工法</SectionHead>
+
+    <div class="process-grid">
+      <article class="process-card">
+        <div class="process-num">§ 02 · A</div>
+        <h3 class="process-title">Slow <em>Making</em></h3>
+        <div class="process-title-zh">緩 慢 製 作</div>
+        <p class="process-desc">
+          每件作品從手捏到出窯約需 4-6 週。超慢。緩慢不是美學選擇，是材料的特性——土需要時間乾燥、釉藥需要時間調配整理、窯需要時間升降溫。
+        </p>
+      </article>
+
+      <article class="process-card">
+        <div class="process-num">§ 02 · B</div>
+        <h3 class="process-title">Hand-built · <em>Coiled</em></h3>
+        <div class="process-title-zh">手 捏 · 盤 泥 條</div>
+        <p class="process-desc">
+        以手捏與盤泥條成形。從一塊土開始，一圈一圈的堆疊。指紋的轉折、泥條的接縫、口沿的歪斜——這些是手作的痕跡，也是時間的紀錄。
+        </p>
+      </article>
+
+      <article class="process-card">
+        <div class="process-num">§ 02 · C</div>
+        <h3 class="process-title">Oxidation and Reduction <em>Fire</em></h3>
+        <div class="process-title-zh">氧 化 · 還 原</div>
+        <p class="process-desc">
+          以 1230°C 燒成，依作品需要選擇還原焰或氧化焰。還原焰讓作品充滿各種驚喜，也許是火痕，也許是還原強弱間的色彩變化；氧化焰則是提供更穩定與安靜的氣氛與色調。
+        </p>
+      </article>
+
+      <article class="process-card">
+        <div class="process-num">§ 02 · D</div>
+        <h3 class="process-title">Mixed <em>Clay</em></h3>
+        <div class="process-title-zh">在 地 土 混 用 進 口 材 料</div>
+        <p class="process-desc">
+          依照作品表現需求混合使用 <em>台灣黃土</em> <em>美國土</em> <em>日本土</em>，呈現多樣化的紋理與色彩。
+        </p>
+      </article>
+
+      <article class="process-card">
+        <div class="process-num">§ 02 · E</div>
+        <h3 class="process-title">Glazes from <em>Scratch</em></h3>
+        <div class="process-title-zh">釉 從 原 料 始</div>
+        <p class="process-desc">
+          所有釉藥皆自行調配，從原料開始。長石、石英、高嶺土作為基底，加入氧化鐵、銅、鈷或草木灰調色。像是做菜，同樣的材料經過不同的程序，結果可能是小籠湯包，也可能是一碗什錦麵。
+        </p>
+      </article>
+
+      <article class="process-card">
+        <div class="process-num">§ 02 · F</div>
+        <h3 class="process-title">Numbered <em>Editions</em></h3>
+        <div class="process-title-zh">編 號 系 列</div>
+        <p class="process-desc">
+          所有作品皆編號、登記、簽款。每件都有唯一的 accession number——ES · 年份 · 系列 · 類別 · 序號。
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- TIMELINE / CV -->
+  <section class="about-section">
+    <SectionHead num="§ 03 / 05"><em>Timeline</em> · 紀年</SectionHead>
+
+    <div class="cv-list">
+
+      <div class="cv-row">
+        <span class="cv-year">2026 ‧ 6</span>
+        <span class="cv-tag">Series · Cape · 01</span>
+        <span class="cv-desc">開始製作第一個展覽系列 <em>儲物</em> ，預計完成 64 件作品。</span>
+      </div>
+
+      <div class="cv-row">
+        <span class="cv-year">2026 ‧ 6</span>
+        <span class="cv-tag">Studio Founded</span>
+        <span class="cv-desc">創立 <em>Earthscape · 埴角工作室</em>。註冊 <em>earthscape-studio.com</em>。</span>
+      </div>
+
+      <div class="cv-row">
+        <span class="cv-year">2026 ‧ 5</span>
+        <span class="cv-tag">Prototype</span>
+        <span class="cv-desc">完成 4 件 prototype 試作，釉藥配方與燒成曲線初步定型。</span>
+      </div>
+
+      <div class="cv-row">
+        <span class="cv-year">2021 ‧ 11</span>
+        <span class="cv-tag">Equipment</span>
+        <span class="cv-desc">購置電窯、材料與基本工具，工作室空間正式啟用。</span>
+      </div>
+
+      <div class="cv-row">
+        <span class="cv-year">2021 ‧ 2</span>
+        <span class="cv-tag">Glaze</span>
+        <span class="cv-desc">報名 <em>新北市陶瓷釉藥研究協會</em> 開設之課程，學習各種釉藥原料的特性與安全使用規範。</span>
+      </div>
+
+      <div class="cv-row">
+        <span class="cv-year">2017</span>
+        <span class="cv-tag">Beginning</span>
+        <span class="cv-desc">第一次接觸陶藝，於迪化街工作室開始週末玩土的習慣。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESS / EXHIBITION -->
+  <section class="about-section">
+    <SectionHead num="§ 04 / 05"><em>Forthcoming</em> · 近期</SectionHead>
+
+    <!-- <div>
+      <div class="press-row">
+        <span class="press-date">2026 · Autumn</span>
+        <span class="press-title">Cape · 01 — A First Peninsula, solo exhibition</span>
+        <span class="press-source">Forthcoming</span>
+      </div>
+
+      <div class="press-row">
+        <span class="press-date">2026 · Summer</span>
+        <span class="press-title">Studio open visits by appointment</span>
+        <span class="press-source">Ongoing</span>
+      </div>
+
+      <div class="press-row">
+        <span class="press-date">2027 · Spring</span>
+        <span class="press-title">Cape · 02 — The Second Peninsula</span>
+        <span class="press-source">Planned</span>
+      </div>-->
+
+      <div class="press-row">
+        <span class="press-date">—</span>
+        <span class="press-title" style="color: var(--mn-500); font-style: normal;">無。敬請期待。</span>
+        <!-- <span class="press-source" style="color: var(--mn-300);">Press</span> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="about-section" style="border-bottom: none;">
+    <SectionHead num="§ 05 / 05"><em>Contact</em> · 聯絡</SectionHead>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-label">§ General Inquiry</div>
+        <div class="contact-value"><a href="mailto:hello@earthscape-studio.com">hello@earthscape-studio.com</a></div>
+        <p class="contact-desc">
+          作品洽詢、合作邀約、媒體採訪、其他任何問題。<br />
+          通常 3 個工作天內回覆。
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-label">§ Visit the Studio</div>
+        <div class="contact-value"><a href="/visit">Book an appointment →</a></div>
+        <p class="contact-desc">
+          工作室位於台北，僅接受預約訪問。<br />
+          週末為主，平日視情況開放。
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-label">§ Press Kit</div>
+        <div class="contact-value"><a href="#">Download (Under Construction) →</a></div>
+        <p class="contact-desc">
+          高解析度作品照、藝術家照片、自述文字、技術規格。<br />
+          媒體與策展人專用。
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-label">§ Social</div>
+        <div class="contact-value"><a href="https://instagram.com/earthscape.studio" rel="noopener" target="_blank">@earthscape.studio</a></div>
+        <p class="contact-desc">
+          Instagram · 製作過程、新作預告、工作日誌片段。<br />
+          無其他社群帳號，以避免訊息分散。
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .about-hero {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter) var(--s-12);
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: var(--s-16);
+    border-bottom: var(--hair);
+  }
+
+  .hero-left :global(.label-strong) {
+    display: block;
+    margin-bottom: var(--s-4);
+  }
+
+  .hero-portrait {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 3 / 4;
+    margin-bottom: var(--s-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .portrait-svg {
+    width: 65%;
+    opacity: 0.85;
+  }
+
+  .portrait-caption {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+
+  .hero-right h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, var(--t-5xl));
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  .hero-right h1 em { font-style: italic; color: var(--fe-500); }
+
+  .hero-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-xl);
+    color: var(--mn-700);
+    letter-spacing: 0.3em;
+    margin-bottom: var(--s-8);
+    font-weight: 300;
+  }
+
+  .hero-statement {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-2xl);
+    line-height: 1.45;
+    color: var(--mn-700);
+    border-left: var(--hair-accent);
+    padding-left: var(--s-6);
+    margin-bottom: var(--s-6);
+    max-width: 720px;
+    font-weight: 300;
+  }
+
+  .hero-statement-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+    border-left: var(--hair);
+    padding-left: var(--s-6);
+    max-width: 720px;
+  }
+
+  @media (max-width: 880px) {
+    .about-hero { grid-template-columns: 1fr; gap: var(--s-8); padding: var(--s-8) var(--gutter); }
+  }
+
+  /* ── Section wrapper ── */
+  .about-section {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter);
+    border-bottom: var(--hair);
+  }
+
+  /* ── Statement ── */
+  .statement-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--s-12);
+  }
+
+  .statement-side {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    line-height: 2;
+  }
+
+  .statement-side dt {
+    color: var(--fe-500);
+    margin-top: var(--s-3);
+  }
+  .statement-side dt:first-child { margin-top: 0; }
+  .statement-side dd {
+    color: var(--mn-900);
+    margin-bottom: var(--s-2);
+  }
+
+  .statement-body {
+    max-width: 680px;
+  }
+
+  .statement-body p {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+    margin-bottom: var(--s-6);
+  }
+
+  .statement-body p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    line-height: 0.85;
+    float: left;
+    color: var(--fe-500);
+    margin: 6px 14px 0 0;
+    font-weight: 400;
+  }
+
+  .statement-body em {
+    color: var(--fe-500);
+    font-style: italic;
+  }
+
+  .statement-en {
+    margin-top: var(--s-12);
+    padding-top: var(--s-8);
+    border-top: var(--hair);
+  }
+
+  .statement-en p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-base);
+    line-height: 1.85;
+    color: var(--mn-700);
+  }
+
+  .statement-en p::first-letter { all: unset; }
+
+  @media (max-width: 768px) {
+    .statement-grid { grid-template-columns: 1fr; gap: var(--s-6); }
+  }
+
+  /* ── CV ── */
+  .cv-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .cv-row {
+    display: grid;
+    grid-template-columns: 120px 200px 1fr;
+    gap: var(--s-6);
+    padding: var(--s-4) 0;
+    border-bottom: var(--hair);
+    align-items: baseline;
+  }
+
+  .cv-year {
+    font-family: var(--font-display);
+    font-size: var(--t-lg);
+    color: var(--fe-500);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .cv-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  .cv-desc {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 1.7;
+    color: var(--mn-900);
+  }
+
+  .cv-desc em {
+    color: var(--fe-500);
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .cv-row { grid-template-columns: 80px 1fr; }
+    .cv-tag { grid-column: 2; }
+    .cv-desc { grid-column: 2; }
+  }
+
+  /* ── Process ── */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-left: var(--hair);
+  }
+
+  .process-card {
+    padding: var(--s-6);
+    border-right: var(--hair);
+    border-bottom: var(--hair);
+    border-top: var(--hair);
+    background: var(--bg-elev);
+  }
+
+  .process-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .process-title {
+    font-family: var(--font-display);
+    font-size: var(--t-xl);
+    color: var(--mn-900);
+    line-height: 1.3;
+    margin-bottom: var(--s-2);
+  }
+  .process-title em { font-style: italic; color: var(--fe-500); }
+
+  .process-title-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    color: var(--mn-700);
+    letter-spacing: 0.15em;
+    margin-bottom: var(--s-4);
+  }
+
+  .process-desc {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    line-height: 1.85;
+    color: var(--mn-700);
+  }
+
+  @media (max-width: 880px) {
+    .process-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Press ── */
+  .press-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 100px;
+    gap: var(--s-6);
+    padding: var(--s-4) 0;
+    border-bottom: var(--hair);
+    align-items: baseline;
+  }
+
+  .press-row:first-child { border-top: var(--hair); }
+
+  .press-date {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+  }
+
+  .press-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-base);
+    color: var(--mn-900);
+    line-height: 1.4;
+  }
+
+  .press-source {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    .press-row { grid-template-columns: 80px 1fr; gap: var(--s-3); }
+    .press-source { grid-column: 2; text-align: left; }
+  }
+
+  /* ── Contact ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-6);
+  }
+
+  .contact-card {
+    padding: var(--s-8);
+    background: var(--bg-elev);
+    border: var(--hair);
+  }
+
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .contact-value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-2xl);
+    color: var(--mn-900);
+    line-height: 1.3;
+    margin-bottom: var(--s-3);
+    word-break: break-all;
+  }
+  .contact-value a { color: inherit; }
+  .contact-value a:hover { color: var(--fe-500); }
+
+  .contact-desc {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    color: var(--mn-700);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Entrance animation (rise keyframes in global.css) ── */
+  .about-hero > :global(*) { animation: rise 0.6s ease both; }
+  .about-hero > :global(*:nth-child(2)) { animation-delay: 0.1s; }
+</style>

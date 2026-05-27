@@ -1,0 +1,371 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import SectionHead from '../../components/SectionHead.astro';
+
+const works = await getCollection('works');
+
+// Group by series, sort within each by canonical type order then serial
+const typeOrder = ['LV', 'MV', 'CP', 'BW', 'JR', 'OB'];
+const typeLabels: Record<string, string> = {
+  LV: 'Large Vessel · 大型花器',
+  MV: 'Mid Vessel · 中型花器',
+  CP: 'Cup · 杯',
+  BW: 'Bowl · 缽',
+  JR: 'Jar · 罐',
+  OB: 'Object · 擺件',
+};
+
+const bySeries = new Map<string, typeof works>();
+for (const w of works) {
+  if (!bySeries.has(w.data.series)) bySeries.set(w.data.series, []);
+  bySeries.get(w.data.series)!.push(w);
+}
+for (const list of bySeries.values()) {
+  list.sort((a, b) => {
+    const t = typeOrder.indexOf(a.data.type) - typeOrder.indexOf(b.data.type);
+    return t !== 0 ? t : a.data.serial.localeCompare(b.data.serial);
+  });
+}
+
+// Planned inventory per series (hardcoded for Cape · 01 right now;
+// when more series ship, drive this from a separate config or series collection)
+const plannedInventory: Record<string, Record<string, number>> = {
+  'Cape · 01 — A First Peninsula': { LV: 8, MV: 16, CP: 8, BW: 8, JR: 8, OB: 8 },
+};
+
+function plannedTotal(series: string): number {
+  const inv = plannedInventory[series] ?? {};
+  return Object.values(inv).reduce((a, b) => a + b, 0);
+}
+---
+
+<BaseLayout
+  title="Works · 作品目錄 — Earthscape Studio"
+  description="Catalog of works from Earthscape Studio. 所有作品依系列、類別與藏品編號編列。"
+  active="works"
+  noindex
+>
+  <Breadcrumb slot="top" current="Works" acc={`CAT · ${works.length} OF ${plannedTotal('Cape · 01 — A First Peninsula')}`} />
+
+  <!-- HERO -->
+  <section class="catalog-hero">
+    <span class="label-strong">§ Catalog · 作品目錄</span>
+    <h1><em>The</em> Catalog</h1>
+    <div class="hero-zh">作 品 目 錄</div>
+    <p class="hero-desc">
+      All works archived by series, type and accession number.<br />
+      所有作品依系列、類別與藏品編號編列。
+    </p>
+  </section>
+
+  {Array.from(bySeries.entries()).map(([series, items]) => {
+    const planned = plannedInventory[series] ?? {};
+    const plannedSum = plannedTotal(series);
+    const seriesShort = series.split('—')[0].trim();
+    const seriesLong = series.split('—')[1]?.trim() ?? '';
+    return (
+      <section class="series-catalog">
+        <SectionHead num={`§ ${seriesShort}`}>
+          <em>{seriesLong}</em>
+        </SectionHead>
+
+        <div class="series-summary">
+          <div class="summary-line">
+            <span class="summary-num">{items.length}</span>
+            <span class="summary-of">of</span>
+            <span class="summary-num">{plannedSum}</span>
+            <span class="summary-label">pieces completed</span>
+          </div>
+          <div class="summary-inventory">
+            {typeOrder.map(t => {
+              const made = items.filter(i => i.data.type === t).length;
+              const total = planned[t] ?? 0;
+              if (total === 0) return null;
+              return (
+                <div class="inv-cell">
+                  <span class="inv-type">{t}</span>
+                  <span class="inv-progress">{made}/{total}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div class="catalog-grid">
+          {items.map(w => (
+            <a href={`/works/${w.id}`} class="catalog-card">
+              <div class="card-thumb">
+                <span class="thumb-glyph">◇</span>
+                <span class="thumb-type">{w.data.type} · {w.data.serial}</span>
+              </div>
+              <div class="card-acc">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
+              <h3 class="card-name">{w.data.title}</h3>
+              <div class="card-name-zh">{w.data.titleZh}</div>
+              {w.data.dimensions && <div class="card-dim">{w.data.dimensions}</div>}
+            </a>
+          ))}
+
+          {items.length < plannedSum && (
+            <div class="catalog-card planned">
+              <div class="card-thumb">
+                <span class="thumb-glyph">·</span>
+                <span class="thumb-type">{plannedSum - items.length} forthcoming</span>
+              </div>
+              <div class="card-acc">尚未編列</div>
+              <h3 class="card-name">In Production</h3>
+              <div class="card-name-zh">製 作 中</div>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  })}
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .catalog-hero {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter) var(--s-12);
+    text-align: center;
+    border-bottom: var(--hair);
+    animation: rise 0.6s ease both;
+  }
+
+  .catalog-hero :global(.label-strong) {
+    display: block;
+    margin-bottom: var(--s-4);
+  }
+
+  .catalog-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, var(--t-5xl));
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  .catalog-hero h1 em { font-style: italic; color: var(--fe-500); }
+
+  .hero-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-xl);
+    color: var(--mn-700);
+    letter-spacing: 0.3em;
+    margin-bottom: var(--s-6);
+    font-weight: 300;
+  }
+
+  .hero-desc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    color: var(--mn-700);
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* ── Per-series section ── */
+  .series-catalog {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter);
+    border-bottom: var(--hair);
+  }
+
+  /* ── Series summary bar ── */
+  .series-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    padding: var(--s-4) 0;
+    margin-bottom: var(--s-8);
+    border-bottom: var(--hair);
+  }
+
+  .summary-line {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-2);
+  }
+
+  .summary-num {
+    font-family: var(--font-display);
+    font-size: var(--t-3xl);
+    font-weight: 300;
+    color: var(--fe-500);
+    line-height: 1;
+  }
+
+  .summary-of {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--mn-500);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .summary-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-700);
+    margin-left: var(--s-2);
+  }
+
+  .summary-inventory {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+  }
+
+  .inv-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--s-2) var(--s-3);
+    border: var(--hair);
+    background: var(--bg-elev);
+    min-width: 56px;
+  }
+
+  .inv-type {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--fe-500);
+    text-transform: uppercase;
+  }
+
+  .inv-progress {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--mn-900);
+    margin-top: 2px;
+  }
+
+  /* ── Grid ── */
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .catalog-card {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.25s ease;
+  }
+
+  .catalog-card:hover { transform: translateY(-2px); }
+  .catalog-card:hover .card-thumb { border-color: var(--fe-500); }
+  .catalog-card:hover .card-name { color: var(--fe-500); }
+
+  .card-thumb {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 4 / 5;
+    margin-bottom: var(--s-3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+    position: relative;
+    transition: border-color 0.25s ease;
+  }
+
+  .thumb-glyph {
+    font-family: var(--font-display);
+    font-size: var(--t-5xl);
+    color: var(--mn-300);
+    line-height: 1;
+  }
+
+  .thumb-type {
+    position: absolute;
+    bottom: var(--s-3);
+    left: var(--s-3);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  .card-acc {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--fe-500);
+    margin-bottom: var(--s-1);
+    text-transform: uppercase;
+  }
+
+  .card-name {
+    font-family: var(--font-display);
+    font-size: var(--t-lg);
+    font-weight: 400;
+    color: var(--mn-900);
+    line-height: 1.3;
+    margin-bottom: 2px;
+    transition: color 0.2s;
+  }
+
+  .card-name em { font-style: italic; color: var(--fe-500); }
+
+  .card-name-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    color: var(--mn-700);
+    letter-spacing: 0.15em;
+    margin-bottom: var(--s-1);
+  }
+
+  .card-dim {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--mn-500);
+    margin-top: 2px;
+  }
+
+  /* Planned placeholder (single cumulative card showing what's forthcoming) */
+  .catalog-card.planned {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  .catalog-card.planned:hover { transform: none; }
+  .catalog-card.planned:hover .card-thumb { border-color: var(--mn-100); }
+  .catalog-card.planned:hover .card-name { color: var(--mn-900); }
+
+  .catalog-card.planned .card-thumb {
+    border-style: dashed;
+  }
+
+  @media (max-width: 768px) {
+    .series-catalog { padding: var(--s-12) var(--gutter); }
+    .summary-num { font-size: var(--t-2xl); }
+  }
+
+  @media (max-width: 600px) {
+    .catalog-hero { padding: var(--s-12) var(--gutter) var(--s-8); }
+    .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
+    .thumb-glyph { font-size: var(--t-4xl); }
+  }
+
+  @media (max-width: 380px) {
+    .catalog-grid { grid-template-columns: 1fr; }
+  }
+</style>

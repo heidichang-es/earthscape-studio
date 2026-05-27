@@ -1,0 +1,29 @@
+---
+interface Props {
+  /** Current page label (shown at the end of the path) */
+  current: string;
+  /** Accession-style code shown on the right */
+  acc: string;
+  /** Optional intermediate crumbs between Index and `current` */
+  trail?: Array<{ label: string; href: string }>;
+}
+
+const { current, acc, trail = [] } = Astro.props;
+---
+
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <div class="breadcrumb-path">
+      <a href="/">Index</a>
+      {trail.map(({ label, href }) => (
+        <>
+          <span class="sep">/</span>
+          <a href={href}>{label}</a>
+        </>
+      ))}
+      <span class="sep">/</span>
+      <span style="color: var(--mn-900);">{current}</span>
+    </div>
+    <div class="breadcrumb-acc">{acc}</div>
+  </div>
+</div>

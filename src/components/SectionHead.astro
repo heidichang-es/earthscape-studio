@@ -1,0 +1,13 @@
+---
+interface Props {
+  /** Numbered tag on the left, e.g. "§ 01 / 05" */
+  num: string;
+}
+
+const { num } = Astro.props;
+---
+
+<div class="sec-head">
+  <span class="sec-num">{num}</span>
+  <h2 class="sec-title"><slot /></h2>
+</div>

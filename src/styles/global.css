@@ -289,6 +289,22 @@ button {
   .nav-menu { gap: var(--s-4); font-size: 0.65rem; }
 }
 
+@media (max-width: 600px) {
+  .nav-inner { gap: var(--s-3); }
+  .brand-full { display: none; }
+  .nav-menu { gap: var(--s-3); font-size: 0.6rem; letter-spacing: 0.14em; }
+}
+
+@media (max-width: 420px) {
+  .nav-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: var(--s-2);
+  }
+  .nav-menu { justify-content: center; flex-wrap: wrap; }
+}
+
 
 /* ═══════════════════════════════════════════
    07 · BREADCRUMB

@@ -28,3 +28,6 @@ dist/
 # Misc
 .history/
 *.log
+
+# Local-only docs (kept out of the repo by convention)
+HANDOFF.md

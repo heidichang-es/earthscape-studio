@@ -1,0 +1,54 @@
+---
+interface Props {
+  vol?: string;
+  est?: string;
+  updated?: string;
+}
+
+const {
+  vol = 'Studio Archive · Vol. I',
+  est = 'Est. 2026 · Taiwan',
+  updated,
+} = Astro.props;
+
+const today = updated ?? new Intl.DateTimeFormat('en-US', {
+  year: 'numeric', month: '2-digit', day: '2-digit',
+}).format(new Date()).replace(/\//g, ' · ');
+---
+
+<div class="archive-head">
+  <div class="archive-meta">
+    <span>{vol}</span>
+    <span>{est}</span>
+    <span>Updated {today}</span>
+  </div>
+</div>
+
+<style>
+  .archive-head {
+    border-bottom: var(--hair);
+    padding: var(--s-3) var(--gutter);
+    background: var(--bg-elev);
+  }
+
+  .archive-meta {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  @media (max-width: 600px) {
+    .archive-meta {
+      flex-direction: column;
+      gap: var(--s-1);
+    }
+  }
+</style>

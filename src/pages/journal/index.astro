@@ -1,0 +1,525 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import Tag from '../../components/Tag.astro';
+
+const entries = (await getCollection('journal'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const totalEntries = entries.length;
+
+// Group by year
+const byYear = new Map<number, typeof entries>();
+for (const entry of entries) {
+  const y = entry.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(entry);
+}
+
+const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
+---
+
+<BaseLayout
+  title="Journal · Field Notes — Earthscape Studio"
+  description="Working notes from the studio. 工作室的田野紀錄與日誌。"
+  active="journal"
+  noindex
+>
+  <Breadcrumb slot="top" current="Journal" acc={`JNL · 2026 · 全 ${totalEntries} 篇`} />
+
+  <!-- HERO -->
+  <section class="journal-hero">
+    <dl class="hero-meta">
+      <dt>Collection</dt><dd>Field Notes &amp; Observations</dd>
+      <dt>Format</dt><dd>Working journal</dd>
+      <dt>Frequency</dt><dd>Weekly · 不定期</dd>
+      <dt>Started</dt><dd>2026 · Spring</dd>
+      <dt>Entries</dt><dd>{totalEntries} (and counting)</dd>
+      <dt>Language</dt><dd>中文 · English</dd>
+    </dl>
+
+    <div>
+      <h1 class="hero-title"><em>Journal</em></h1>
+      <div class="hero-zh">工 作 日 誌</div>
+      <p class="hero-desc">
+        Notes from the workbench — failures, glazes, firings, thoughts.<br />
+        A field journal kept while building the first peninsula.
+      </p>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-tags">
+      <span class="filter-label">FILTER §</span>
+      <button class="filter-tag active" data-tag="">All · 全部</button>
+      {allTags.map(t => <button class="filter-tag" data-tag={t}>{t}</button>)}
+    </div>
+    <div class="filter-count">Showing {totalEntries} of {totalEntries} entries</div>
+  </div>
+
+  <!-- ENTRIES -->
+  <section class="entries">
+    {Array.from(byYear.entries()).map(([year, yearEntries]) => (
+      <div class="year-group" data-year={year}>
+        <div class="year-marker">
+          <span class="year-num">{year}</span>
+          <span class="year-count">§ <span class="year-count-num">{yearEntries.length}</span> entries</span>
+        </div>
+
+        {yearEntries.map(entry => (
+          <a
+            href={`/journal/${entry.id}`}
+            class="entry-row"
+            data-tags={entry.data.tags.join(',')}
+          >
+            <div class="entry-date">
+              <span class="day">{String(entry.data.date.getUTCDate()).padStart(2, '0')}</span>
+              <span class="month">{months[entry.data.date.getUTCMonth()]}</span>
+            </div>
+            <div class="entry-body">
+              <div class="entry-num">{entry.data.accession}</div>
+              <h3 class="entry-title">{entry.data.title}</h3>
+              <p class="entry-excerpt">{entry.data.excerpt}</p>
+            </div>
+            <div class="entry-meta">
+              <div class="entry-tags">
+                {entry.data.tags.map(t => <Tag>{t}</Tag>)}
+              </div>
+              {entry.data.readTime && <span class="entry-readtime">{entry.data.readTime} read</span>}
+            </div>
+          </a>
+        ))}
+      </div>
+    ))}
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section class="subscribe">
+    <div class="sub-inner">
+      <div class="sub-label">§ Optional</div>
+      <h2 class="sub-title">A letter from the peninsula.</h2>
+      <p class="sub-desc">
+        Quarterly notes on what's being made, what's failed, and what's next.<br />
+        季度通訊 · 製作、失敗、與下一步的紀錄。
+      </p>
+      <form class="sub-form">
+        <input type="email" class="sub-input" placeholder="your email" required />
+        <button type="submit" class="sub-btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-tag');
+  const entryRows = document.querySelectorAll<HTMLAnchorElement>('.entry-row');
+  const yearGroups = document.querySelectorAll<HTMLElement>('.year-group');
+  const countEl = document.querySelector<HTMLElement>('.filter-count');
+  const totalEntries = entryRows.length;
+
+  function applyFilter(tag: string) {
+    let visible = 0;
+
+    entryRows.forEach(row => {
+      const tags = (row.dataset.tags ?? '').split(',').filter(Boolean);
+      const show = tag === '' || tags.includes(tag);
+      row.hidden = !show;
+      if (show) visible++;
+    });
+
+    // Hide a year-group entirely if it has no visible rows
+    yearGroups.forEach(group => {
+      const visibleRows = group.querySelectorAll<HTMLAnchorElement>('.entry-row:not([hidden])');
+      group.hidden = visibleRows.length === 0;
+      // Update per-year count text
+      const yearCount = group.querySelector<HTMLElement>('.year-count-num');
+      if (yearCount) yearCount.textContent = String(visibleRows.length);
+    });
+
+    if (countEl) {
+      countEl.textContent = `Showing ${visible} of ${totalEntries} entries`;
+    }
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.tag ?? '');
+    });
+  });
+
+  // Newsletter subscribe is not yet wired to a real service; prevent the form
+  // from reloading the page and show a placeholder confirmation.
+  const subForm = document.querySelector<HTMLFormElement>('.sub-form');
+  subForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Subscription would be wired to your email service of choice.');
+  });
+</script>
+
+<style>
+  /* ── Page header ── */
+  .journal-hero {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter) var(--s-8);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--s-16);
+    border-bottom: var(--hair);
+    animation: rise 0.6s ease both;
+  }
+
+  .hero-meta dt {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-top: var(--s-2);
+  }
+  .hero-meta dd {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--mn-900);
+    margin-bottom: var(--s-2);
+  }
+  .hero-meta dt:first-child { margin-top: 0; }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, var(--t-5xl));
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--mn-900);
+    margin-bottom: var(--s-3);
+  }
+  .hero-title em { font-style: italic; color: var(--fe-500); }
+
+  .hero-zh {
+    font-family: var(--font-zh);
+    font-size: var(--t-xl);
+    color: var(--mn-700);
+    letter-spacing: 0.3em;
+    margin-bottom: var(--s-6);
+    font-weight: 300;
+  }
+
+  .hero-desc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-lg);
+    color: var(--mn-700);
+    line-height: 1.65;
+    max-width: 540px;
+    border-left: var(--hair-accent);
+    padding-left: var(--s-6);
+  }
+
+  @media (max-width: 880px) {
+    .journal-hero { grid-template-columns: 1fr; gap: var(--s-6); padding: var(--s-8) var(--gutter); }
+  }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-6) var(--gutter);
+    border-bottom: var(--hair);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-4);
+    flex-wrap: wrap;
+    background: var(--bg-elev);
+  }
+
+  .filter-tags {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+    margin-right: var(--s-2);
+  }
+
+  .filter-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mn-700);
+    padding: 4px 10px;
+    border: 1px solid var(--mn-100);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+  }
+
+  .filter-tag:hover {
+    border-color: var(--accent-500);
+    color: var(--accent-700);
+  }
+
+  .filter-tag.active {
+    border-color: var(--accent-500);
+    background: var(--accent-500);
+    color: var(--fe-50);
+  }
+
+  .filter-count {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  /* ── Entry list ── */
+  .entries {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter) var(--s-16);
+  }
+
+  .year-marker {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--s-8);
+    align-items: baseline;
+    padding-bottom: var(--s-6);
+    margin-bottom: var(--s-6);
+    border-bottom: 1px solid var(--mn-300);
+  }
+
+  .year-marker .year-num {
+    font-family: var(--font-display);
+    font-size: var(--t-3xl);
+    font-weight: 300;
+    color: var(--fe-500);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .year-marker .year-count {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  .entry-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px;
+    gap: var(--s-8);
+    padding: var(--s-6) 0;
+    border-bottom: var(--hair);
+    align-items: baseline;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .entry-row[hidden],
+  .year-group[hidden] { display: none; }
+
+  .entry-row:hover {
+    background: var(--bg-elev);
+    padding-left: var(--s-3);
+    padding-right: var(--s-3);
+    margin-left: calc(var(--s-3) * -1);
+    margin-right: calc(var(--s-3) * -1);
+  }
+
+  .entry-row:hover .entry-title { color: var(--fe-500); }
+
+  .entry-date {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+  }
+
+  .entry-date .day {
+    font-family: var(--font-display);
+    font-size: var(--t-2xl);
+    color: var(--mn-900);
+    display: block;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .entry-date .month {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mn-500);
+  }
+
+  .entry-body { min-width: 0; }
+
+  .entry-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--mn-500);
+    margin-bottom: var(--s-1);
+  }
+
+  .entry-title {
+    font-family: var(--font-display);
+    font-size: var(--t-xl);
+    font-weight: 400;
+    color: var(--mn-900);
+    line-height: 1.3;
+    margin-bottom: var(--s-2);
+    transition: color 0.2s;
+  }
+
+  .entry-title em { font-style: italic; }
+
+  .entry-excerpt {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    line-height: 1.8;
+    color: var(--mn-700);
+    max-width: 60ch;
+  }
+
+  .entry-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    align-items: flex-end;
+    justify-self: end;
+  }
+
+  .entry-tags {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .entry-readtime {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--mn-500);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 880px) {
+    .entry-row { grid-template-columns: 60px 1fr; gap: var(--s-4); }
+    .entry-meta {
+      grid-column: 1 / -1;
+      align-items: flex-start;
+      padding-left: calc(60px + var(--s-4));
+      margin-top: var(--s-3);
+    }
+    .entry-tags { justify-content: flex-start; }
+    .year-marker { grid-template-columns: 60px 1fr; gap: var(--s-4); }
+  }
+
+  @media (max-width: 480px) {
+    .entry-meta { padding-left: 0; }
+  }
+
+  /* ── Subscribe ── */
+  .subscribe {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-12) var(--gutter);
+    border-top: var(--hair);
+    background: var(--bg-paper);
+  }
+
+  .sub-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .sub-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fe-500);
+    margin-bottom: var(--s-3);
+  }
+
+  .sub-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--t-3xl);
+    color: var(--mn-900);
+    line-height: 1.2;
+    margin-bottom: var(--s-3);
+    font-weight: 300;
+  }
+
+  .sub-desc {
+    font-family: var(--font-zh);
+    font-size: var(--t-sm);
+    line-height: 1.85;
+    color: var(--mn-700);
+    margin-bottom: var(--s-6);
+  }
+
+  .sub-form {
+    display: flex;
+    gap: var(--s-2);
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .sub-input {
+    flex: 1;
+    padding: var(--s-3) var(--s-4);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--mn-300);
+    background: var(--bg);
+    color: var(--mn-900);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .sub-input:focus { border-color: var(--fe-500); }
+  .sub-input::placeholder { color: var(--mn-300); text-transform: uppercase; }
+
+  .sub-btn {
+    padding: var(--s-3) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    border: 1px solid var(--fe-500);
+    background: var(--fe-500);
+    color: var(--bg);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .sub-btn:hover {
+    background: var(--fe-700);
+    border-color: var(--fe-700);
+  }
+</style>
