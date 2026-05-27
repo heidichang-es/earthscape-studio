@@ -31,3 +31,6 @@ dist/
 
 # Local-only docs (kept out of the repo by convention)
 HANDOFF.md
+
+# Claude Code workspace config (per-user, local-only)
+.claude/

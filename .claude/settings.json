@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(curl -sI http://localhost:4321/favicon.png)"
-    ]
-  }
-}
