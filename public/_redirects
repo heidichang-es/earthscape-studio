@@ -1,0 +1,8 @@
+# Cloudflare Pages redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Force traffic from the .pages.dev preview origin to the canonical apex
+# domain. Avoids SEO duplicate content and keeps the brand URL consistent.
+# The 301! marker forces the redirect even if a matching static asset exists.
+
+https://earthscape-studio.pages.dev/*  https://earthscape-studio.com/:splat  301!
