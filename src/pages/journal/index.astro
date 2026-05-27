@@ -198,7 +198,7 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     color: var(--mn-900);
     margin-bottom: var(--s-3);
   }
-  .hero-title em { font-style: italic; color: var(--fe-500); }
+  .hero-title em { color: var(--fe-500); }
 
   .hero-zh {
     font-family: var(--font-zh);
@@ -390,7 +390,7 @@ const allTags = Array.from(new Set(entries.flatMap(e => e.data.tags)));
     transition: color 0.2s;
   }
 
-  .entry-title em { font-style: italic; }
+  /* .entry-title em uses the global em rule (upright, weight 400) */
 
   .entry-excerpt {
     font-family: var(--font-zh);

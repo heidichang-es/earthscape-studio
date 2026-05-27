@@ -74,7 +74,7 @@
   --s-32: 8rem;
 
   /* ── Type families ── */
-  --font-display: 'Fraunces', 'Cormorant Garamond', 'Noto Serif TC', serif;
+  --font-display: 'Cormorant Garamond', 'EB Garamond', 'Noto Serif TC', Georgia, serif;
   --font-body:    'Source Serif 4', 'Noto Serif TC', Georgia, serif;
   --font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
   --font-zh:      'Noto Serif TC', 'Source Han Serif TC', serif;
@@ -124,6 +124,13 @@ body {
 }
 
 img, picture, svg { display: block; max-width: 100%; height: auto; }
+
+/* <em> is used as a color-accent emphasis, not as italic. Per-component rules
+   add the accent color (--fe-500 etc); the upright weight-400 baseline lives here. */
+em {
+  font-style: normal;
+  font-weight: 400;
+}
 
 a {
   color: inherit;
@@ -456,7 +463,7 @@ footer.site-foot {
   letter-spacing: -0.01em;
 }
 
-.sec-title em { font-style: italic; color: var(--fe-500); }
+.sec-title em { color: var(--fe-500); }
 
 @media (max-width: 768px) {
   .sec-head { grid-template-columns: 1fr; gap: var(--s-3); }
