@@ -40,10 +40,12 @@ const today = updated ?? new Intl.DateTimeFormat('en-US', {
     gap: var(--s-2) var(--s-6);
   }
 
-  @media (max-width: 600px) {
-    .archive-meta {
-      flex-direction: column;
-      gap: var(--s-1);
+  @media (max-width: 768px) {
+    .archive-meta span{
+      letter-spacing: 0.1em;
+    }
+    .archive-meta span:last-child{
+      display:none;
     }
   }
 </style>

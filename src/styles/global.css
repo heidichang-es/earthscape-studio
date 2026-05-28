@@ -317,12 +317,16 @@ h1, h2, h3 {
 
 @media (max-width: 420px) {
   .nav-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: 32px 1fr;
     justify-items: center;
     text-align: center;
     gap: var(--s-2);
   }
-  .nav-menu { justify-content: center; flex-wrap: wrap; }
+  .nav-menu { 
+    width: 100%;
+    justify-content: right; 
+    flex-wrap: wrap;
+  }
 }
 
 
