@@ -18,8 +18,8 @@ const items: Array<{ key: NavKey; label: string; href: string }> = [
 
 <nav class="nav">
   <div class="nav-inner">
-    <div class="nav-brand"><strong>ES</strong><span class="brand-full"> · earthscape-studio.com</span></div>
-    <div class="nav-center">埴 角</div>
+    <div class="nav-brand"><a href="/"><strong>ES</strong><span class="brand-full"> · earthscape-studio.com</span></a></div>
+    <div class="nav-center"><a href="/">埴 角</a></div>
     <div class="nav-menu">
       {items.map(({ key, label, href }) => (
         <a href={href} style={active === key ? 'color: var(--fe-500);' : undefined}>{label}</a>

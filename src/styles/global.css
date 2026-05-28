@@ -187,6 +187,15 @@ h1, h2, h3 {
   font-weight: 500;
 }
 
+@media (max-width: 768px) {
+  section [class*="-head"] { 
+    flex-direction: column;
+    margin-bottom: 3em !important;
+  }
+  section [class*="-head"] .label { margin-bottom: -3.5em;}
+  section { border-bottom: 0px !important;}
+}
+
 
 /* ═══════════════════════════════════════════
    04 · GRAIN — paper texture overlay
@@ -369,6 +378,12 @@ h1, h2, h3 {
 .breadcrumb-acc {
   color: var(--fe-500);
   letter-spacing: 0.2em;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb { padding: var(--s-2) var(--gutter); }
+  .breadcrumb-inner, .breadcrumb-acc { letter-spacing: 0; }
+  .breadcrumb-path .sep { margin: 0 var(--s-1); }
 }
 
 
