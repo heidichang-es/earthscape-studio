@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import SectionHead from '../components/SectionHead.astro';
 import studioShelf from '../assets/studio-shelf.jpg';
+import statementPottery from '../assets/statement-pottery.jpg';
 ---
 
 <BaseLayout
@@ -125,6 +126,23 @@ import studioShelf from '../assets/studio-shelf.jpg';
           </p>
         </div>
       </div>
+
+      <figure class="statement-figure">
+        <div class="statement-figure-frame">
+          <Image
+            class="statement-figure-img"
+            src={statementPottery}
+            alt="Hand-built pottery from the studio"
+            widths={[400, 600, 900]}
+            sizes="(max-width: 1024px) 100vw, 280px"
+            loading="lazy"
+          />
+        </div>
+        <figcaption class="statement-figure-caption label">
+          Coil-built vessel · Studio<br />
+          2026
+        </figcaption>
+      </figure>
     </div>
   </section>
 
@@ -403,7 +421,7 @@ import studioShelf from '../assets/studio-shelf.jpg';
   /* ── Statement ── */
   .statement-grid {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 200px 3fr 2fr;
     gap: var(--s-12);
   }
 
@@ -462,6 +480,40 @@ import studioShelf from '../assets/studio-shelf.jpg';
   }
 
   .statement-en p::first-letter { all: unset; }
+
+  /* ── Statement figure ── */
+  .statement-figure {
+    margin: 0;
+    position: sticky;
+    top: var(--s-8);
+  }
+
+  .statement-figure-frame {
+    background: var(--bg-elev);
+    border: var(--hair);
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    margin-bottom: var(--s-3);
+  }
+
+  .statement-figure-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .statement-figure-caption {
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .statement-grid { grid-template-columns: 200px 1fr; }
+    .statement-figure {
+      grid-column: 1 / -1;
+      position: static;
+    }
+  }
 
   @media (max-width: 768px) {
     .statement-grid { grid-template-columns: 1fr; gap: var(--s-6); }
