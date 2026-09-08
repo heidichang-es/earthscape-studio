@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import Tag from '../../components/Tag.astro';
@@ -70,6 +71,25 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
       <div class="abstract-label label">§ Abstract · 摘要</div>
       <p class="abstract-body">{data.abstract}</p>
     </section>
+  )}
+
+  <!-- LEAD FIGURE -->
+  {data.image && (
+    <figure class="entry-figure">
+      <div class="entry-figure-frame">
+        <Image
+          class="entry-figure-img"
+          src={data.image}
+          alt={data.imageAlt ?? ''}
+          widths={[400, 760, 1140, 1520]}
+          sizes="(max-width: 800px) 100vw, 760px"
+          loading="lazy"
+        />
+      </div>
+      {data.imageCaption && (
+        <figcaption class="entry-figure-caption label">{data.imageCaption}</figcaption>
+      )}
+    </figure>
   )}
 
   <!-- ARTICLE BODY -->
@@ -200,6 +220,32 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
     font-size: var(--t-lg);
     line-height: 1.7;
     color: var(--mn-700);
+  }
+
+  /* ── Lead figure ── */
+  .entry-figure {
+    max-width: 760px;
+    margin: var(--s-12) auto 0;
+    padding: 0 var(--gutter);
+    animation: rise 0.6s ease 0.15s both;
+  }
+
+  .entry-figure-frame {
+    background: var(--bg-elev);
+    border: var(--hair);
+    overflow: hidden;
+    margin-bottom: var(--s-3);
+  }
+
+  .entry-figure-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .entry-figure-caption {
+    line-height: 1.6;
+    color: var(--mn-500);
   }
 
   /* ── Article body (renders markdown) ── */

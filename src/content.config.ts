@@ -7,7 +7,7 @@ import { glob } from 'astro/loaders';
  */
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     titleZh: z.string().optional(),
     accession: z.string(),                 // e.g. "JNL · 001"
@@ -19,6 +19,9 @@ const journal = defineCollection({
     session: z.string().optional(),        // studio session window
     weather: z.string().optional(),        // weather snapshot
     abstract: z.string().optional(),       // italic teaser shown above body
+    image: image().optional(),             // lead figure, path relative to the .md file
+    imageAlt: z.string().optional(),
+    imageCaption: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
