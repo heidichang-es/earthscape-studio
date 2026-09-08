@@ -32,7 +32,9 @@ for (const list of bySeries.values()) {
 // Planned inventory per series (hardcoded for Cape · 01 right now;
 // when more series ship, drive this from a separate config or series collection)
 const plannedInventory: Record<string, Record<string, number>> = {
-  'Cape · 01 — A First Peninsula': { LV: 8, MV: 16, CP: 8, BW: 8, JR: 8, OB: 8 },
+  // UD = the 8 "Undefined" pieces on the cover inventory; not a filed type yet,
+  // counted here so the planned total matches the 64 shown on the home page
+  'Cape · 01 — A First Peninsula': { LV: 8, MV: 16, CP: 8, BW: 8, JR: 8, OB: 8, UD: 8 },
 };
 
 function plannedTotal(series: string): number {
