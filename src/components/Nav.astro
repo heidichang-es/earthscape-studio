@@ -11,8 +11,10 @@ const items: Array<{ key: NavKey; label: string; href: string }> = [
   { key: 'index',   label: 'Index',   href: '/' },
   { key: 'works',   label: 'Works',   href: '/works' },
   { key: 'journal', label: 'Journal', href: '/journal' },
-  { key: 'visit',   label: 'Visit',   href: '/visit' },
   { key: 'about',   label: 'About',   href: '/about' },
+  // Visit is withdrawn: the page still builds (noindex) but nothing on the
+  // site links to it. Restore this entry, the footer link and the CTAs on
+  // index / about / works together when appointments reopen.
 ];
 ---
 
