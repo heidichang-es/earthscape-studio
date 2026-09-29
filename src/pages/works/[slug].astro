@@ -1,7 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 export async function getStaticPaths() {
   const works = await getCollection('works');
@@ -23,19 +26,21 @@ const related = allWorks
 
 const statusLabel = {
   available: 'Available · 可洽詢',
+  consignment: 'On consignment · 寄售中',
   reserved: 'Reserved · 已預訂',
   sold: 'Sold · 已售出',
   'not-for-sale': 'Not for sale · 非售品',
 }[data.status];
 
 const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
+
+const plates = data.images;
 ---
 
 <BaseLayout
   title={`${data.accession} — Earthscape Studio`}
   description={data.statement ?? data.titleZh}
   active="works"
-  noindex
 >
   <Breadcrumb
     slot="top"
@@ -45,9 +50,34 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   />
 
   <!-- MAIN -->
-  <section class="work">
-    <!-- LEFT: image stack -->
+  <section class:list={['work', { 'has-rail': plates.length > 0 }]}>
+    <!-- LEFT: main plate -->
     <div class="work-images">
+      {plates.length > 0 ? (
+          <div class="work-image-main" data-gallery>
+            <div class="image-corner label" data-plate-label>
+              Plate {ROMAN[0]} · {plates[0].plate}
+            </div>
+
+            {plates.map((p, i) => (
+              <Image
+                class:list={['work-plate', { active: i === 0 }]}
+                data-plate={i}
+                src={p.src}
+                alt={p.alt}
+                widths={[400, 760, 1140, 1520]}
+                sizes="(max-width: 900px) 100vw, 55vw"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            ))}
+
+            <div class="image-scale">
+              <span>0</span>
+              <div class="scale-bar"></div>
+              <span>10cm</span>
+            </div>
+          </div>
+      ) : (
       <div class="work-image-main">
         <div class="image-corner label">Plate I · Front view</div>
 
@@ -76,13 +106,27 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
         </div>
       </div>
 
-      <div class="work-image-thumbs">
-        <div class="work-thumb active"><div class="work-thumb-label label">I · Front</div></div>
-        <div class="work-thumb"><div class="work-thumb-label label">II · Profile</div></div>
-        <div class="work-thumb"><div class="work-thumb-label label">III · Rim</div></div>
-        <div class="work-thumb"><div class="work-thumb-label label">IV · Base</div></div>
-      </div>
+      )}
     </div>
+
+    <!-- MIDDLE: plate rail -->
+    {plates.length > 0 && (
+      <div class="work-image-thumbs" data-thumbs>
+        {plates.map((p, i) => (
+          <button
+            type="button"
+            class:list={['work-thumb', { active: i === 0 }]}
+            data-plate-btn={i}
+            data-plate-roman={ROMAN[i]}
+            data-plate-name={p.plate}
+            aria-label={`Plate ${ROMAN[i]} · ${p.plate}`}
+          >
+            <Image class="work-thumb-img" src={p.src} alt="" widths={[120, 240]} sizes="120px" loading="lazy" />
+            <span class="work-thumb-label label">{ROMAN[i]} · {p.plate}</span>
+          </button>
+        ))}
+      </div>
+    )}
 
     <!-- RIGHT: information -->
     <div class="work-info">
@@ -192,10 +236,23 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
       <div class="inquiry">
         <div class="inquiry-status label">{statusLabel}</div>
 
-        <div class="inquiry-actions">
-          <a href={`mailto:hello@earthscape-studio.com?subject=${inquirySubject}`} class="btn-inquire label">Inquire</a>
-          <a href="/visit" class="btn-inquire ghost label">Book a Studio Visit</a>
-        </div>
+        {data.consignedTo && (
+          <div class="inquiry-consignee">
+            <span class="label">Available at</span>
+            {data.consignedToUrl ? (
+              <a href={data.consignedToUrl} target="_blank" rel="noopener noreferrer">{data.consignedTo}</a>
+            ) : (
+              <span>{data.consignedTo}</span>
+            )}
+          </div>
+        )}
+
+        {data.status !== 'consignment' && (
+          <div class="inquiry-actions">
+            <a href={`mailto:hello@earthscape-studio.com?subject=${inquirySubject}`} class="btn-inquire label">Inquire</a>
+            <a href="/visit" class="btn-inquire ghost label">Book a Studio Visit</a>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -212,7 +269,11 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
         {related.map(w => (
           <a href={`/works/${w.id}`} class="related-item">
             <div class="related-image">
-              <span class="placeholder-glyph">◇</span>
+              {w.data.images.length > 0 ? (
+                <Image class="related-img" src={w.data.images[0].src} alt="" widths={[200, 400]} sizes="200px" loading="lazy" />
+              ) : (
+                <span class="placeholder-glyph">◇</span>
+              )}
             </div>
             <div class="related-acc label">{w.data.accession.replace('ES · 2026 · ', '')}</div>
             <div class="related-name">{w.data.title}</div>
@@ -230,9 +291,17 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     margin: 0 auto;
     padding: var(--s-12) var(--gutter) var(--s-16);
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
     gap: var(--s-16);
   }
+
+  /* With plates, a narrow thumbnail rail sits between image and text */
+  .work.has-rail {
+    grid-template-columns: 1.2fr 144px 1fr;
+    column-gap: var(--s-4);
+  }
+
+  .work.has-rail .work-info { padding-left: var(--s-8); }
 
   .work-images, .work-info {
     animation: rise 0.6s ease both;
@@ -262,6 +331,17 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     height: 70%;
     opacity: 0.85;
   }
+
+  .work-plate {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .work-plate.active { opacity: 1; }
 
   .image-corner {
     position: absolute;
@@ -301,9 +381,11 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
   .scale-bar::after { right: 0; }
 
   .work-image-thumbs {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: var(--s-2);
+    align-self: start;
+    animation: rise 0.6s ease 0.05s both;
   }
 
   .work-thumb {
@@ -315,6 +397,11 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    font: inherit;
+    color: inherit;
   }
 
   .work-thumb:hover { border-color: var(--fe-500); }
@@ -323,9 +410,27 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     box-shadow: inset 0 0 0 1px var(--fe-500);
   }
 
+  .work-thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .work-thumb-label {
-    font-size: 0.55rem;
-    letter-spacing: 0.15em;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    position: relative;
+    align-self: flex-end;
+    width: 100%;
+    padding: 2px 3px;
+    background: var(--bg);
+    border-top: var(--hair);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* ── Info ── */
@@ -504,6 +609,25 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     margin-bottom: var(--s-4);
   }
 
+  .inquiry-consignee {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-2);
+    font-family: var(--font-display);
+    font-size: var(--t-base);
+    color: var(--mn-900);
+  }
+
+  .inquiry-consignee .label { color: var(--mn-500); }
+
+  .inquiry-consignee a {
+    color: var(--fe-500);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .inquiry-consignee a:hover { border-bottom-color: var(--fe-500); }
+
   .inquiry-actions {
     display: flex;
     flex-direction: column;
@@ -592,6 +716,13 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
   .related-item:hover .related-image { border-color: var(--fe-500); }
 
+  .related-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   .placeholder-glyph {
     font-family: var(--font-display);
     font-size: var(--t-4xl);
@@ -614,11 +745,18 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
   /* ── Responsive ── */
   @media (max-width: 1100px) {
-    .work {
+    .work,
+    .work.has-rail {
       grid-template-columns: 1fr;
       gap: var(--s-8);
     }
     .work-info { padding-top: 0; }
+    .work.has-rail .work-info { padding-left: 0; }
+
+    /* Rail folds back into a horizontal strip under the main plate */
+    .work-image-thumbs { flex-direction: row; }
+    .work-thumb { flex: 1; }
+    .work-thumb-label { font-size: 0.55rem; letter-spacing: 0.15em; }
   }
 
   @media (max-width: 768px) {
@@ -628,3 +766,24 @@ const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
     .related-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
+
+<script>
+  const gallery = document.querySelector('[data-gallery]');
+  const thumbs = document.querySelector('[data-thumbs]');
+
+  if (gallery && thumbs) {
+    const plates = Array.from(gallery.querySelectorAll('[data-plate]'));
+    const buttons = Array.from(thumbs.querySelectorAll('[data-plate-btn]'));
+    const label = gallery.querySelector('[data-plate-label]');
+
+    buttons.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        plates.forEach((p, j) => p.classList.toggle('active', i === j));
+        buttons.forEach((b, j) => b.classList.toggle('active', i === j));
+        if (label) {
+          label.textContent = `Plate ${btn.dataset.plateRoman} · ${btn.dataset.plateName}`;
+        }
+      });
+    });
+  }
+</script>

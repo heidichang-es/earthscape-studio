@@ -198,7 +198,8 @@ const fmt = (d: Date) =>
         </div>
 
         <div class="series-actions">
-          <span class="label">64 pieces · 14 weeks · Catalog forthcoming</span>
+          <span class="label">64 pieces</span>
+          <a href="/works" class="label series-catalog-link">View catalog →</a>
         </div>
       </div>
     </article>
@@ -614,6 +615,14 @@ const fmt = (d: Date) =>
     gap: var(--s-4);
     align-items: center;
   }
+
+  .series-catalog-link {
+    color: var(--fe-500);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .series-catalog-link:hover { border-bottom-color: var(--fe-500); }
 
   @media (max-width: 880px) {
     .series-card { grid-template-columns: 1fr; gap: var(--s-6); }

@@ -32,7 +32,7 @@ const journal = defineCollection({
  */
 const works = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/works' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     accession: z.string(),                 // e.g. "ES · 2026 · CAPE-01 · LV · 001"
     title: z.string(),                     // e.g. "Cape · 01 · I"
     titleZh: z.string(),                   // e.g. "第一岬角 · 巨石"
@@ -47,6 +47,13 @@ const works = defineCollection({
     weight: z.string().optional(),
     medium: z.string().optional(),
     edition: z.string().optional(),
+
+    // Plates — first one is the lead image; empty falls back to the drawn placeholder
+    images: z.array(z.object({
+      src: image(),
+      alt: z.string(),
+      plate: z.string(),                   // e.g. "Front view"
+    })).default([]),
 
     // Statement
     statement: z.string().optional(),
@@ -67,7 +74,9 @@ const works = defineCollection({
     }).optional(),
 
     // Inquiry / availability
-    status: z.enum(['available', 'reserved', 'sold', 'not-for-sale']).default('available'),
+    status: z.enum(['available', 'consignment', 'reserved', 'sold', 'not-for-sale']).default('available'),
+    consignedTo: z.string().optional(),     // e.g. "miki w. studio"
+    consignedToUrl: z.string().url().optional(),
 
     draft: z.boolean().default(false),
   }),

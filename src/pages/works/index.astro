@@ -1,8 +1,62 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import SectionHead from '../../components/SectionHead.astro';
+import seriesGroup from '../../assets/works/cape-01/series-2.jpg';
+
+// Reference objects behind Cape · 01, as catalogued by the Musée du Louvre
+const references = [
+  {
+    title: 'Jarre',
+    period: 'Nagada I–II A–B · −3800 / −3600',
+    material: 'Basalte',
+    dim: 'H 42.8 cm',
+    inv: 'E 23175',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010003854',
+  },
+  {
+    title: 'Jarre à anse',
+    period: 'Nagada II C–D · −3600 / −3200',
+    material: 'Basalte',
+    dim: 'H 14 cm',
+    inv: 'E 10801 8',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010011510',
+  },
+  {
+    title: 'Jarre ; bouteille',
+    period: 'VIe dynastie · −2413 / −2250',
+    material: 'Albâtre égyptien',
+    dim: 'H 28 cm',
+    inv: 'E 10931',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010008193',
+  },
+  {
+    title: 'Cruche cannelée',
+    period: 'Enkomi, tombe 5 · fouille 1949',
+    material: 'Terre cuite, engobe',
+    dim: 'H 19.2 cm',
+    inv: 'AM 2321',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010131722',
+  },
+  {
+    title: "Cruchon « white shaved »",
+    period: 'Bronze récent · −1550 / −1150',
+    material: 'Terre cuite raclée',
+    dim: 'H 15.5 cm',
+    inv: 'AM 2289',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010131662',
+  },
+  {
+    title: 'Cruche monochrome',
+    period: 'Chypro-géométrique · Ktima, tombe IV',
+    material: 'Terre cuite',
+    dim: 'H 16.5 cm',
+    inv: 'AM 1889',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010131274',
+  },
+];
 
 const works = await getCollection('works');
 
@@ -34,7 +88,7 @@ for (const list of bySeries.values()) {
 const plannedInventory: Record<string, Record<string, number>> = {
   // UD = the 8 "Undefined" pieces on the cover inventory; not a filed type yet,
   // counted here so the planned total matches the 64 shown on the home page
-  'Cape · 01 — A First Peninsula': { LV: 8, MV: 16, CP: 8, BW: 8, JR: 8, OB: 8, UD: 8 },
+  'Cape · 01 — Gathering The Food': { LV: 8, MV: 16, CP: 8, BW: 8, JR: 8, OB: 8, UD: 8 },
 };
 
 function plannedTotal(series: string): number {
@@ -47,9 +101,8 @@ function plannedTotal(series: string): number {
   title="Works · 作品目錄 — Earthscape Studio"
   description="Catalog of works from Earthscape Studio. 所有作品依系列、類別與藏品編號編列。"
   active="works"
-  noindex
 >
-  <Breadcrumb slot="top" current="Works" acc={`CAT · ${works.length} OF ${plannedTotal('Cape · 01 — A First Peninsula')}`} />
+  <Breadcrumb slot="top" current="Works" acc={`CAT · ${works.length} OF ${plannedTotal('Cape · 01 — Gathering The Food')}`} />
 
   <!-- HERO -->
   <section class="catalog-hero">
@@ -62,17 +115,73 @@ function plannedTotal(series: string): number {
     </p>
   </section>
 
+  <!-- REFERENCE · CAPE · 01 -->
+  <section class="series-reference">
+    <SectionHead num="§ Cape · 01"><em>Gathering The Food</em> · 儲物</SectionHead>
+
+    <div class="reference-grid">
+      <figure class="reference-figure">
+        <Image
+          class="reference-img"
+          src={seriesGroup}
+          alt="Five coil-built storage vessels grouped on a cloth-covered table"
+          widths={[400, 700, 1000]}
+          sizes="(max-width: 900px) 100vw, 40vw"
+          loading="lazy"
+        />
+        <figcaption class="reference-caption label">Cape · 01 · 儲物 · 2026</figcaption>
+      </figure>
+
+      <div class="reference-note">
+        <p class="zh">
+          靈感來源於古地中海地區用來保存運送糧食、橄欖油與葡萄酒的器物。憨厚圓潤的外型與古樸的材質都讓我覺得十分迷人——材質可能是陶，是玄武岩，也可能是高級的雪花石膏。<br>
+          從最貼近原型的大花器開始製作第一批作品，擷取並且調整成可以好好站著實用花器，期待花與葉的生命力填滿完整作品！
+        </p>
+
+        <p class="reference-stories zh">
+          查找資料與製作時，有幾個有趣的小知識想分享。
+        </p>
+
+        <ol class="reference-stories zh">
+          <li>
+            這批器物從米黃、赭紅、深褐到近黑的強烈差異，並非來自不同的釉，而是化妝土中鐵含量的多寡——在相同的基底化妝土中，分別添加 2%～10% 不等的氧化鐵（還有微量氧化錳），最後呈現出氣質十分不同的色彩效果。
+          </li>
+          <li>
+            雙耳罐的耳朵未必是把手——有時候看到某些高罐的耳朵小到很幽默，讓人困惑它到底是用來做什麼的；查找後才發現，在許多古代器物上，它更常是為了綁繩封口而存在。
+          </li>
+          <li>
+            關於高瘦甚至尖底的瓶罐，一眼望去真的是看不懂它們為什麼會做成這樣站不住的造型，查找資料後才知道：它們不需要「站好」。作為儲藏的用品，它們的舞台並不是日常的桌面或是櫥櫃，而是半埋在倉庫、酒窖裡的砂土中；在船艙裡層層互相咬合、彼此支撐，穩穩度過整趟地中海的航行。
+          </li>
+        </ol>
+
+        <div class="reference-keywords label">
+          Egyptian · Badarian · Nagada · Enkomi · Ktima
+        </div>
+
+        <span class="reference-source label">Inspiration · Musée du Louvre · 6 objects</span>
+
+        <ul class="reference-cards">
+          {references.map((r) => (
+            <li>
+              <a class="ref-card" href={r.url} target="_blank" rel="noopener noreferrer">
+                <span class="ref-card-inv label">{r.inv}</span>
+                <span class="ref-card-title">{r.title}</span>
+                <span class="ref-card-period">{r.period}</span>
+                <span class="ref-card-material">{r.material}</span>
+                <span class="ref-card-dim label">{r.dim}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
   {Array.from(bySeries.entries()).map(([series, items]) => {
     const planned = plannedInventory[series] ?? {};
     const plannedSum = plannedTotal(series);
-    const seriesShort = series.split('—')[0].trim();
-    const seriesLong = series.split('—')[1]?.trim() ?? '';
     return (
       <section class="series-catalog">
-        <SectionHead num={`§ ${seriesShort}`}>
-          <em>{seriesLong}</em>
-        </SectionHead>
-
         <div class="series-summary">
           <div class="summary-line">
             <span class="summary-num">{items.length}</span>
@@ -99,7 +208,18 @@ function plannedTotal(series: string): number {
           {items.map(w => (
             <a href={`/works/${w.id}`} class="catalog-card">
               <div class="card-thumb">
-                <span class="thumb-glyph">◇</span>
+                {w.data.images.length > 0 ? (
+                  <Image
+                    class="card-thumb-img"
+                    src={w.data.images[0].src}
+                    alt=""
+                    widths={[300, 600]}
+                    sizes="(max-width: 600px) 45vw, 260px"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span class="thumb-glyph">◇</span>
+                )}
                 <span class="thumb-type label">{w.data.type} · {w.data.serial}</span>
               </div>
               <div class="card-acc label">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
@@ -168,6 +288,154 @@ function plannedTotal(series: string): number {
     line-height: 1.65;
     max-width: 540px;
     margin: 0 auto;
+  }
+
+  /* ── Reference ── */
+  .series-reference {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--s-16) var(--gutter);
+    border-bottom: var(--hair);
+  }
+
+  .reference-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: var(--s-12);
+    align-items: start;
+  }
+
+  .reference-figure { margin: 0; }
+
+  .reference-figure .reference-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: var(--hair);
+    background: var(--bg-elev);
+    margin-bottom: var(--s-3);
+  }
+
+  .reference-caption { color: var(--mn-500); }
+
+  .reference-note p {
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+    margin-bottom: var(--s-4);
+  }
+
+  .reference-stories {
+    list-style: none;
+    counter-reset: story;
+    margin: 0 0 var(--s-6);
+    padding: 0;
+  }
+
+  .reference-stories li {
+    counter-increment: story;
+    position: relative;
+    padding-left: var(--s-8);
+    margin-bottom: var(--s-4);
+    font-size: var(--t-base);
+    line-height: 2;
+    color: var(--mn-900);
+  }
+
+  .reference-stories li:last-child { margin-bottom: 0; }
+
+  .reference-stories li::before {
+    content: counter(story, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--fe-500);
+    line-height: 2.7;
+  }
+
+  .reference-keywords {
+    color: var(--fe-500);
+    letter-spacing: 0.22em;
+    padding-bottom: var(--s-6);
+    border-bottom: var(--hair);
+  }
+
+  .reference-source {
+    display: block;
+    color: var(--mn-500);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    margin: var(--s-6) 0 var(--s-3);
+  }
+
+  .reference-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--s-3);
+  }
+
+  .ref-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    height: 100%;
+    padding: var(--s-4);
+    border: var(--hair);
+    background: var(--bg-elev);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .ref-card:hover {
+    border-color: var(--fe-500);
+    background: var(--bg);
+  }
+  .ref-card:hover .ref-card-title { color: var(--fe-500); }
+
+  .ref-card-inv {
+    color: var(--fe-500);
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    margin-bottom: var(--s-1);
+  }
+
+  .ref-card-title {
+    font-family: var(--font-display);
+    font-size: var(--t-base);
+    line-height: 1.25;
+    color: var(--mn-900);
+    transition: color 0.2s;
+  }
+
+  .ref-card-period {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    line-height: 1.5;
+    color: var(--mn-500);
+  }
+
+  .ref-card-material {
+    font-size: var(--t-sm);
+    color: var(--mn-700);
+    margin-top: auto;
+    padding-top: var(--s-2);
+  }
+
+  .ref-card-dim {
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    color: var(--mn-500);
+  }
+
+  @media (max-width: 900px) {
+    .reference-grid { grid-template-columns: 1fr; gap: var(--s-8); }
   }
 
   /* ── Per-series section ── */
@@ -279,6 +547,15 @@ function plannedTotal(series: string): number {
     font-size: var(--t-5xl);
     color: var(--mn-300);
     line-height: 1;
+  }
+
+  .card-thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .thumb-type {
