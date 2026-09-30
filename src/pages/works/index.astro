@@ -5,8 +5,28 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import seriesGroup from '../../assets/works/cape-01/series-2.jpg';
+import louvre01 from '../../assets/works/cape-01/louvre/louvre-01.jpg';
+import louvre02 from '../../assets/works/cape-01/louvre/louvre-02.jpg';
+import louvre03 from '../../assets/works/cape-01/louvre/louvre-03.jpg';
+import louvre04 from '../../assets/works/cape-01/louvre/louvre-04.jpg';
+import louvre05 from '../../assets/works/cape-01/louvre/louvre-05.jpg';
+import louvre06 from '../../assets/works/cape-01/louvre/louvre-06.jpg';
+import louvre07 from '../../assets/works/cape-01/louvre/louvre-07.jpg';
 
-// Reference objects behind Cape · 01, as catalogued by the Musée du Louvre
+// Snapshots taken in the galleries on the 2024 visit — the studio's own photographs
+const visitShots = [
+  { src: louvre01, alt: 'Shallow marble bowls and a footed cup in a display case, each with its number label' },
+  { src: louvre02, alt: 'Marble jars with pierced lug handles beside a wide bowl, the vaulted gallery behind them' },
+  { src: louvre03, alt: 'Painted pottery: a stirrup jar, a small jug and a footed cup with banded decoration' },
+  { src: louvre04, alt: 'A Cycladic marble head on a stand, the long nose in relief' },
+  { src: louvre05, alt: 'A footed krater painted with a striding lion' },
+  { src: louvre06, alt: 'A lugged marble jar, a shallow bowl and a small spouted vessel on a glass shelf' },
+  { src: louvre07, alt: 'Close view of a marble bowl with pierced lugs, two more vessels beside it' },
+];
+
+// Reference objects behind Cape · 01, as catalogued by the Musée du Louvre.
+// `viewBox` + `paths` hold an original line drawing of each object, traced by
+// hand from reference photographs — the museum's own images are not reused.
 const references = [
   {
     title: 'Jarre',
@@ -15,6 +35,15 @@ const references = [
     dim: 'H 42.8 cm',
     inv: 'E 23175',
     url: 'https://collections.louvre.fr/en/ark:/53355/cl010003854',
+    viewBox: '-73.12 -338.66 146.25 403.63',
+    paths: [
+      'M -32.53,-324.75 C -39.09,-324.75 -41.52,-325.12 -38.94,-322.78 C -34.1,-318.37 -18.93,-317.92 -15.77,-317.85 C -0.5,-317.49 14.79,-318.18 30.07,-318.34',
+      'M -18.24,-327.22 C 9.75,-327.22 10.51,-327.66 50.28,-322.78 C 53.59,-322.37 54.02,-321.13 44.86,-318.34 C 42.79,-317.71 40.59,-317.69 38.45,-317.36',
+      'M -37.46,-314.4 C -34.6,-280.04 -37.75,-330.19 -39.44,-286.3 C -43.56,-179.18 -36.37,-248.85 -42.39,-165.03 C -48.07,-86.01 -57.59,-30.87 -27.61,45.45',
+      'M 44.86,-310.46 C 54.29,-263.31 49.73,-298.69 49.3,-251.79 C 48.89,-208.42 50.13,-165.03 49.3,-121.66 C 48.98,-105.35 46.64,-89.14 45.84,-72.85 C 44.06,-36.55 47.3,-48.26 42.89,-14.69 C 41.91,-7.24 39.83,0.04 38.94,7.5 C 38.11,14.46 39.72,30.71 34.51,39.05 C 23.92,55.98 0.13,56.51 -16.76,50.88',
+      'M -40.91,-290.74 C -43.22,-290.9 -45.77,-292.29 -47.82,-291.23 C -61.2,-284.31 -56.2,-275.8 -45.35,-274.96',
+      'M 51.76,-291.23 C 64.66,-284.19 62.75,-278.56 52.75,-268.55',
+    ],
   },
   {
     title: 'Jarre à anse',
@@ -23,6 +52,15 @@ const references = [
     dim: 'H 14 cm',
     inv: 'E 10801 8',
     url: 'https://collections.louvre.fr/en/ark:/53355/cl010011510',
+    viewBox: '-142.9 -319.52 285.81 375.72',
+    paths: [
+      'M -67.04,-284.33 C -34.43,-304.71 18.69,-300.43 54.22,-290.74',
+      'M 59.65,-288.77 C 54.06,-286.14 48.8,-282.65 42.89,-280.88 C 25.45,-275.65 -35.78,-277.77 -59.65,-282.36',
+      'M -65.07,-281.37 C -49.98,-264.39 -86.79,-243.84 -96.13,-233.56 C -105.26,-223.49 -108.1,-202.47 -108.45,-190.18 C -110.51,-117.53 -112.31,-86.47 -82.82,-22.57 C -65.78,14.34 -68.15,10.29 -49.3,28.2',
+      'M 60.63,-284.82 C 53.1,-259.41 54.38,-277.37 79.37,-244.89 C 93.37,-226.68 101.36,-207.67 106.48,-185.25 C 116.6,-140.91 107.81,-64.8 86.27,-22.57 C 77.6,-5.58 63.77,22.21 45.35,32.64 C 37.23,37.23 22.81,37.43 14.3,37.57 C -32.82,38.33 -16.58,41.39 -46.34,32.64',
+      'M -98.59,-233.06 C -101.88,-232.73 -105.58,-233.71 -108.45,-232.08 C -118.36,-226.42 -128.09,-202.77 -111.41,-196.09',
+      'M 90.21,-230.1 C 94.32,-230.43 98.7,-232.61 102.53,-231.09 C 117.37,-225.22 124.83,-204.51 106.97,-198.56',
+    ],
   },
   {
     title: 'Jarre ; bouteille',
@@ -31,6 +69,12 @@ const references = [
     dim: 'H 28 cm',
     inv: 'E 10931',
     url: 'https://collections.louvre.fr/en/ark:/53355/cl010008193',
+    viewBox: '-71.19 -277.19 142.39 285.48',
+    paths: [
+      'M -14.79,-262.15 C -17.84,-254.51 -7.94,-253.36 -6.41,-246.37 C -5.35,-241.55 -4.58,-236.45 -5.42,-231.58 C -7.08,-222.01 -16.09,-217.8 -18.24,-208.41 C -27.91,-166.09 -17.92,-125.55 -9.86,-84.68 C -6.81,-69.2 -5.24,-22.57 18.24,-22.57',
+      'M 51.76,-264.12 C 52.8,-254.75 36.86,-249.82 42.39,-228.63 C 43.91,-222.8 49.89,-219.13 52.75,-213.84 C 62.9,-195.03 57.38,-171.02 55.21,-149.75 C 51.61,-114.38 45.5,-79.3 39.44,-44.26 C 38.26,-37.5 37.13,-30.38 33.52,-24.54 C 31.22,-20.82 26.64,-19 22.68,-17.15 C 21.09,-16.41 24.98,-19.78 26.13,-21.09',
+      'M 40.91,-268.06 C 29.58,-268.23 18.24,-268.9 6.9,-268.55 C 2.09,-268.41 -2.71,-267.69 -7.39,-266.58 C -9.04,-266.19 -13.52,-264.19 -11.83,-264.12 C 12.58,-263.02 62.75,-261.68 43.87,-267.08',
+    ],
   },
   {
     title: 'Cruche cannelée',
@@ -39,6 +83,12 @@ const references = [
     dim: 'H 19.2 cm',
     inv: 'AM 2321',
     url: 'https://collections.louvre.fr/en/ark:/53355/cl010131722',
+    viewBox: '-114.11 -306.72 228.22 328.09',
+    paths: [
+      'M 17.75,-284.82 C 1.22,-292.72 1.35,-294.53 -23.66,-291.23 C -27.77,-290.69 -48.39,-282.03 -43.38,-272.01 C -42.52,-270.29 -40.35,-269.32 -38.45,-269.05 C -29.82,-267.81 -20.99,-266.61 -12.32,-267.57 C 4.85,-269.46 53.31,-292.39 62.6,-260.17 C 64.17,-254.75 64.82,-249.06 65.07,-243.41 C 65.64,-230.61 65.88,-217.75 65.07,-204.96 C 64.24,-191.91 61.78,-179 60.14,-166.02',
+      'M 19.23,-272.01 C 10.72,-241.78 11.88,-205.24 30.56,-178.34 C 43.15,-160.21 68.41,-161.08 82.82,-145.32 C 88.67,-138.91 90.33,-121 90.7,-116.23 C 91.45,-106.57 92.02,-96.75 90.7,-87.15 C 88.25,-69.25 69.31,-40.89 54.72,-29.47 C 47.18,-23.57 38.52,-19.2 31.06,-13.21 C 29.21,-11.72 27.67,-9.6 27.11,-7.29 C 26.61,-5.19 29.84,-2.16 28.1,-0.88 C 23.69,2.35 17.67,2.46 12.32,3.55 C 5.87,4.88 -18.59,9.17 -27.11,7 C -31.17,5.97 -41.55,0.74 -36.48,-4.33',
+      'M -40.91,-265.6 C -27.01,-258.64 -29.7,-230.51 -30.56,-219.26 C -31.99,-200.77 -37.74,-183.94 -51.27,-170.95 C -70.98,-152.02 -82.76,-150.22 -90.7,-125.11 C -101.92,-89.67 -47.22,-23.83 -35.99,-6.3',
+    ],
   },
   {
     title: "Cruchon « white shaved »",
@@ -47,6 +97,12 @@ const references = [
     dim: 'H 15.5 cm',
     inv: 'AM 2289',
     url: 'https://collections.louvre.fr/en/ark:/53355/cl010131662',
+    viewBox: '-101.58 -341.1 203.16 366.14',
+    paths: [
+      'M 26.62,-320.31 C 5.17,-321.72 -40.15,-328.73 -57.18,-319.33 C -69.1,-312.75 -58.53,-299.36 -55.7,-291.72 C -51.9,-281.45 -51.52,-274.17 -52.75,-262.64 C -55.79,-233.92 -75.82,-210.91 -83.31,-183.77 C -90.53,-157.6 -85.86,-117.44 -75.91,-92.08 C -67.13,-69.69 -55.47,-35.93 -38.94,-14.69 C -32.13,-5.93 -23.39,9.47 -10.35,12.92 C -6.3,13.99 3.98,11.95 7.39,11.44',
+      'M 36.48,-317.36 C 25.02,-288.38 18.57,-260.53 37.96,-232.57 C 40.34,-229.13 58.99,-210.14 62.11,-201.51 C 73.74,-169.35 71.39,-146.61 63.1,-113.77 C 53.63,-76.26 51.59,-58.18 35.49,-29.47 C 26.97,-14.28 17.21,5.08 1.48,13.41',
+      'M 30.56,-318.84 C 52.98,-330.05 90,-313.39 84.79,-284.33 C 80.54,-260.68 63.19,-241.39 51.76,-220.25',
+    ],
   },
   {
     title: 'Cruche monochrome',
@@ -55,6 +111,28 @@ const references = [
     dim: 'H 16.5 cm',
     inv: 'AM 1889',
     url: 'https://collections.louvre.fr/en/ark:/53355/cl010131274',
+    viewBox: '-127.01 -266.26 254.03 286.99',
+    paths: [
+      'M -71.97,-239.47 C -36.5,-252.89 -12.49,-251.18 30.56,-247.85 C 42.96,-246.89 78.95,-238.93 66.55,-237.99 C 31.86,-235.36 -3.17,-233.6 -37.96,-233.06 C -44.53,-232.96 -51.14,-232.37 -57.68,-233.06 C -63.79,-233.71 -73.42,-239.01 -80.35,-237.01 C -83.77,-236.02 -86.5,-233.37 -89.22,-231.09 C -108.78,-214.69 -99.36,-198.61 -90.21,-180.32',
+      'M -73.45,-231.58 C -68.73,-220 -64.46,-214.99 -69.01,-201.51 C -76.39,-179.68 -96.41,-168.29 -102.04,-144.82 C -113.65,-96.46 -70.2,-48.9 -41.9,-17.64 C -38.49,-13.88 -33.63,-10.82 -28.59,-10.25 C -11.45,-8.3 5.92,-10.25 23.17,-10.25',
+      'M 62.6,-234.54 C 60.47,-229.94 57.35,-225.68 56.2,-220.74 C 50.88,-197.96 69.48,-185.18 76.9,-166.02 C 91.12,-129.29 92.72,-112.47 77.89,-73.84 C 70.74,-55.24 55.74,-34.61 42.89,-19.61 C 38.88,-14.94 33.23,-11.76 29.58,-6.8 C 28.77,-5.71 31.81,-3.37 30.56,-2.85 C 23.89,-0.09 16.55,0.84 9.37,1.58 C 3.97,2.14 -36.07,7.37 -37.96,-5.81',
+    ],
+  },
+  {
+    title: 'Vase incisé et incrusté',
+    period: 'Chypriote ancien · −2300 / −2000 · Vounous, tombe 65',
+    material: 'Terre cuite',
+    dim: 'H 20.3 cm',
+    inv: 'AO 18815',
+    url: 'https://collections.louvre.fr/en/ark:/53355/cl010143642',
+    viewBox: '-104.83 -242.62 209.67 257.16',
+    paths: [
+      'M -39.93,-221.23 C -45,-221.23 -45.13,-229.22 -39.93,-229.61 C -30.09,-230.36 -20.19,-231.27 -10.35,-230.6 C 13.4,-228.97 37.05,-225.96 60.63,-222.71 C 64.55,-222.17 68.78,-221.58 71.97,-219.26 C 76.5,-215.97 62.07,-209.06 61.13,-202.99 C 58.66,-187.16 57.84,-171.11 56.2,-155.18',
+      'M 57.18,-150.25 C 61.41,-131.24 74.84,-115.55 76.41,-95.53 C 76.97,-88.35 77.49,-78.23 74.44,-70.88 C 68.56,-56.75 63.14,-42.35 55.7,-28.98 C 37.8,3.19 -3.73,-1.01 -33.52,-8.28',
+      'M -40.42,-217.78 C -40.77,-197.83 -39.17,-171.12 -53.24,-154.19 C -69.96,-134.07 -78.7,-136.18 -84.79,-112.78 C -93.49,-79.36 -68.38,-24.96 -36.97,-9.26',
+      'M -43.87,-175.88 C -46.41,-176.58 -56.09,-180.13 -59.65,-178.34 C -68.46,-173.94 -76.25,-155.78 -56.69,-149.26',
+      'M 57.68,-166.02 C 60.3,-165.53 63.24,-165.87 65.56,-164.54 C 73.01,-160.28 65.79,-149.01 60.63,-147.29',
+    ],
   },
 ];
 
@@ -134,12 +212,12 @@ function plannedTotal(series: string): number {
 
       <div class="reference-note">
         <p class="zh">
-          靈感來源於古地中海地區用來保存運送糧食、橄欖油與葡萄酒的器物。憨厚圓潤的外型與古樸的材質都讓我覺得十分迷人——材質可能是陶，是玄武岩，也可能是高級的雪花石膏。<br>
-          從最貼近原型的大花器開始製作第一批作品，擷取並且調整成可以好好站著實用花器，期待花與葉的生命力填滿完整作品！
+          靈感來源於古地中海到近東一帶用來保存運送糧食、橄欖油與葡萄酒的器物。厚實圓潤的外型與樸拙的紋理都讓我覺得十分迷人——材質可能是陶、玄武岩、大理石，也可能是細膩的雪花石膏。<br>
+          從最貼近原型的大花器開始製作第一批作品，擷取並且調整成可以好好站著的實用花器，期待花與葉的生命力填滿完整作品！
         </p>
 
         <p class="reference-stories zh">
-          查找資料與製作時，有幾個有趣的小知識想分享。
+          蒐集資料與製作時，有幾個有趣的小知識想分享。
         </p>
 
         <ol class="reference-stories zh">
@@ -150,7 +228,7 @@ function plannedTotal(series: string): number {
             雙耳罐的耳朵未必是把手——有時候看到某些高罐的耳朵小到很幽默，讓人困惑它到底是用來做什麼的；查找後才發現，在許多古代器物上，它更常是為了綁繩封口而存在。
           </li>
           <li>
-            關於高瘦甚至尖底的瓶罐，一眼望去真的是看不懂它們為什麼會做成這樣站不住的造型，查找資料後才知道：它們不需要「站好」。作為儲藏的用品，它們的舞台並不是日常的桌面或是櫥櫃，而是半埋在倉庫、酒窖裡的砂土中；在船艙裡層層互相咬合、彼此支撐，穩穩度過整趟地中海的航行。
+            關於高瘦甚至尖底的瓶罐，一眼望去真的是看不懂它們為什麼會做成這樣站不住的造型，閱讀資料後才知道：它們不需要「站好」。作為儲藏的用品，它們的舞台並不是日常的桌面或是櫥櫃，而是半埋在倉庫、酒窖的砂土中；在船艙裡層層互相咬合、彼此支撐，穩穩度過整趟地中海的航行。
           </li>
         </ol>
 
@@ -158,23 +236,73 @@ function plannedTotal(series: string): number {
           Egyptian · Badarian · Nagada · Enkomi · Ktima
         </div>
 
-        <span class="reference-source label">Inspiration · Musée du Louvre · 6 objects</span>
+        <span class="reference-source label">Inspiration · Musée du Louvre</span>
 
-        <ul class="reference-cards">
-          {references.map((r) => (
+        <ul class="visit-shots">
+          {visitShots.map((s, i) => (
             <li>
-              <a class="ref-card" href={r.url} target="_blank" rel="noopener noreferrer">
-                <span class="ref-card-inv label">{r.inv}</span>
-                <span class="ref-card-title">{r.title}</span>
-                <span class="ref-card-period">{r.period}</span>
-                <span class="ref-card-material">{r.material}</span>
-                <span class="ref-card-dim label">{r.dim}</span>
-              </a>
+              <button
+                type="button"
+                class="visit-shot"
+                data-shot={i}
+                aria-label={`放大第 ${i + 1} 張，共 ${visitShots.length} 張`}
+              >
+                <Image src={s.src} alt={s.alt} widths={[160, 320, 640]} sizes="120px" loading="lazy" />
+              </button>
             </li>
           ))}
         </ul>
+
+        <span class="reference-source label">
+          最早的製作靈感來源，應該可以追溯到 2024 年的小歐旅，在暈呼呼時差攻擊下抵達羅浮宮。一進去就被卡在近東文物的陷阱中！一切都好新奇好迷人：經過土壤與時間醃漬發酵的大理石紋理，敦厚的口緣搭配飽滿的造型，突然之間獲得了好多很棒的搜尋關鍵字。
+        </span>
+
       </div>
     </div>
+
+    <ul class="reference-cards">
+      {references.map((r) => (
+        <li>
+          <a class="ref-card" href={r.url} target="_blank" rel="noopener noreferrer">
+            {r.paths && (
+              <span class="ref-card-glyph">
+                <svg viewBox={r.viewBox} aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                  {r.paths.map((d) => <path d={d} vector-effect="non-scaling-stroke" />)}
+                </svg>
+              </span>
+            )}
+            <span class="ref-card-inv label">{r.inv}</span>
+            <span class="ref-card-title">{r.title}</span>
+            <span class="ref-card-period">{r.period}</span>
+            <span class="ref-card-material">{r.material}</span>
+            <span class="ref-card-dim label">{r.dim}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Lightbox for the gallery snapshots -->
+    <dialog class="lightbox" id="lightbox" aria-label="Gallery snapshots">
+      <button type="button" class="lb-close" data-lb-close aria-label="關閉">✕</button>
+      <button type="button" class="lb-nav prev" data-lb-prev aria-label="上一張">‹</button>
+
+      <div class="lb-stage">
+        {visitShots.map((s, i) => (
+          <Image
+            class="lb-img"
+            data-lb-img={i}
+            src={s.src}
+            alt={s.alt}
+            widths={[800, 1200, 1800]}
+            sizes="92vw"
+            loading="lazy"
+          />
+        ))}
+      </div>
+
+      <button type="button" class="lb-nav next" data-lb-next aria-label="下一張">›</button>
+      <div class="lb-count label"><span data-lb-index>1</span> / {visitShots.length}</div>
+    </dialog>
   </section>
 
   {Array.from(bySeries.entries()).map(([series, items]) => {
@@ -300,7 +428,7 @@ function plannedTotal(series: string): number {
 
   .reference-grid {
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--s-12);
     align-items: start;
   }
@@ -309,14 +437,18 @@ function plannedTotal(series: string): number {
 
   .reference-figure .reference-img {
     width: 100%;
+    max-width: 600px;
     height: auto;
     display: block;
     border: var(--hair);
     background: var(--bg-elev);
-    margin-bottom: var(--s-3);
+    margin: 0 auto var(--s-3);
   }
 
-  .reference-caption { color: var(--mn-500); }
+  .reference-caption { 
+    color: var(--mn-500); 
+    text-align: center;
+  }
 
   .reference-note p {
     font-size: var(--t-base);
@@ -361,22 +493,169 @@ function plannedTotal(series: string): number {
     letter-spacing: 0.22em;
     padding-bottom: var(--s-6);
     border-bottom: var(--hair);
+    text-align: center;
+    font-size: .8rem;
   }
 
   .reference-source {
     display: block;
     color: var(--mn-500);
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     letter-spacing: 0.2em;
     margin: var(--s-6) 0 var(--s-3);
   }
 
-  .reference-cards {
+  /* Same face as the `Inspiration · Musée du Louvre` label above it */
+  .reference-origin {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    letter-spacing: 0.08em;
+    line-height: 2;
+    color: var(--mn-500);
+    margin: calc(var(--s-3) * -1) 0 var(--s-4);
+  }
+
+  .visit-shots {
     list-style: none;
-    margin: 0;
+    margin: 0 0 var(--s-6);
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+    gap: var(--s-2);
+  }
+
+  .visit-shots li {
+    aspect-ratio: 1;
+    border: var(--hair);
+    background: var(--bg-elev);
+    overflow: hidden;
+  }
+
+  .visit-shots :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.9);
+    transition: filter 0.25s, transform 0.25s;
+  }
+
+  .visit-shots li:hover :global(img) {
+    filter: saturate(1);
+    transform: scale(1.04);
+  }
+
+  .visit-shot {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  /* ── Lightbox ──
+     The backdrop is always dark, so this UI uses fixed light values rather
+     than the theme tokens, which invert between light and dark mode. */
+  dialog.lightbox {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  dialog.lightbox[open] {
+    display: grid;
+    grid-template-columns: 72px 1fr 72px;
+    /* An explicit row is what lets the picture's max-height: 100% resolve —
+       against an auto row it has nothing to measure and the image overflows. */
+    grid-template-rows: 100%;
+    align-items: stretch;
+  }
+
+  dialog.lightbox::backdrop { background: rgba(13, 11, 15, 0.93); }
+
+  .lb-stage {
+    grid-column: 2;
+    display: grid;
+    /* The track must be definite too, not just the dialog's row: a percentage
+       max-height resolves against the grid AREA, and an auto track gives it
+       nothing to measure, so the picture keeps its intrinsic 1800px. */
+    grid-template-rows: 100%;
+    grid-template-columns: 100%;
+    place-items: center;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+    padding: var(--s-12) 0;
+  }
+
+  .lb-img {
+    grid-area: 1 / 1;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+  }
+
+  .lb-img.active { opacity: 1; visibility: visible; }
+
+  .lb-nav,
+  .lb-close {
+    align-self: center;
+    background: none;
+    border: 0;
+    color: #b9b2ab;
+    cursor: pointer;
+    line-height: 1;
+    padding: var(--s-4);
+    transition: color 0.2s;
+  }
+  .lb-nav:hover,
+  .lb-close:hover { color: var(--fe-500); }
+
+  .lb-nav { font-size: 2.5rem; }
+  .lb-nav.prev { grid-column: 1; justify-self: start; }
+  .lb-nav.next { grid-column: 3; justify-self: end; }
+
+  .lb-close {
+    position: absolute;
+    top: var(--s-3);
+    right: var(--s-4);
+    font-size: 1.1rem;
+  }
+
+  .lb-count {
+    position: absolute;
+    bottom: var(--s-6);
+    left: 50%;
+    transform: translateX(-50%);
+    color: #8b847d;
+  }
+
+  @media (max-width: 600px) {
+    dialog.lightbox[open] { grid-template-columns: 40px 1fr 40px; }
+    .lb-nav { font-size: 1.75rem; padding: var(--s-1); }
+    .lb-stage { padding: var(--s-16) 0; }
+  }
+
+  /* Sibling of .reference-grid — spans the full section width */
+  .reference-cards {
+    list-style: none;
+    margin: var(--s-12) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: var(--s-3);
   }
 
@@ -398,6 +677,28 @@ function plannedTotal(series: string): number {
     background: var(--bg);
   }
   .ref-card:hover .ref-card-title { color: var(--fe-500); }
+
+  .ref-card-glyph {
+    display: block;
+    height: 92px;
+    margin-bottom: var(--s-3);
+    color: var(--mn-700);
+    transition: color 0.2s;
+  }
+
+  .ref-card-glyph svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.43;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ref-card:hover .ref-card-glyph { color: var(--fe-500); }
 
   .ref-card-inv {
     color: var(--fe-500);
@@ -625,3 +926,41 @@ function plannedTotal(series: string): number {
     .catalog-grid { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  const lb = document.getElementById('lightbox') as HTMLDialogElement | null;
+
+  if (lb) {
+    const imgs = Array.from(lb.querySelectorAll<HTMLElement>('[data-lb-img]'));
+    const indexEl = lb.querySelector<HTMLElement>('[data-lb-index]');
+    let cur = 0;
+
+    const show = (i: number) => {
+      if (!imgs.length) return;
+      cur = (i + imgs.length) % imgs.length;
+      imgs.forEach((im, k) => im.classList.toggle('active', k === cur));
+      if (indexEl) indexEl.textContent = String(cur + 1);
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-shot]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        show(Number(btn.dataset.shot));
+        lb.showModal();
+      });
+    });
+
+    lb.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(cur - 1));
+    lb.querySelector('[data-lb-next]')?.addEventListener('click', () => show(cur + 1));
+    lb.querySelector('[data-lb-close]')?.addEventListener('click', () => lb.close());
+
+    // Clicking the surrounding area — not a control or the picture — closes it
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb || (e.target as HTMLElement).classList.contains('lb-stage')) lb.close();
+    });
+
+    lb.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
+    });
+  }
+</script>

@@ -34,3 +34,6 @@ HANDOFF.md
 
 # Claude Code workspace config (per-user, local-only)
 .claude/
+
+# Local-only authoring tools (tracer, reference underlays) — never committed
+tools/
