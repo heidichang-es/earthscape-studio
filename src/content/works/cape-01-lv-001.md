@@ -23,7 +23,7 @@ images:
     alt: "The jar from a three-quarter angle, the rim and lip catching the light"
     plate: "Three-quarter view"
 
-status: "consignment"
+status: "sold"
 consignedTo: "miki w. studio"
 consignedToUrl: "https://www.instagram.com/mikiw_studio/"
 ---

@@ -149,6 +149,15 @@ const typeLabels: Record<string, string> = {
   OB: 'Object · 擺件',
 };
 
+// Short English markers shown on the thumbnail; `available` stays unmarked
+const statusMarker: Record<string, string> = {
+  sold: 'Collected',
+  reserved: 'Reserved',
+  'artist-hold': "Artist's hold",
+  consignment: 'On consignment',
+  'not-for-sale': 'Not for sale',
+};
+
 const bySeries = new Map<string, typeof works>();
 for (const w of works) {
   if (!bySeries.has(w.data.series)) bySeries.set(w.data.series, []);
@@ -349,6 +358,9 @@ function plannedTotal(series: string): number {
                   <span class="thumb-glyph">◇</span>
                 )}
                 <span class="thumb-type label">{w.data.type} · {w.data.serial}</span>
+                {statusMarker[w.data.status] && (
+                  <span class={`thumb-status label is-${w.data.status}`}>{statusMarker[w.data.status]}</span>
+                )}
               </div>
               <div class="card-acc label">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
               <h3 class="card-name">{w.data.title}</h3>
@@ -658,6 +670,11 @@ function plannedTotal(series: string): number {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: var(--s-3);
   }
+  @media (max-width: 600px) {
+    .reference-cards{
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 
   .ref-card {
     display: flex;
@@ -865,6 +882,53 @@ function plannedTotal(series: string): number {
     left: var(--s-3);
     font-size: 0.6rem;
     letter-spacing: 0.18em;
+  }
+
+  /* Availability marker — only rendered for non-available pieces.
+     Base = neutral outline (On consignment); each status overrides below. */
+  .thumb-status {
+    position: absolute;
+    top: -17px;
+    left: 93%;
+    transform: rotate(88deg);
+    transform-origin: center left;
+    font-size: 0.56rem;
+    letter-spacing: 0.16em;
+    padding: 2px var(--s-2);
+    color: var(--mn-700);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border: var(--hair);
+    backdrop-filter: blur(2px);
+    white-space: nowrap;
+  }
+
+  /* Collected — solid, final: like a stamp */
+  .thumb-status.is-sold {
+    color: var(--bg);
+    background: var(--mn-900);
+    border-color: var(--mn-900);
+  }
+
+  /* Reserved — accent, solid outline: committed to a buyer */
+  .thumb-status.is-reserved {
+    color: var(--fe-500);
+    border-color: var(--fe-500);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+  }
+
+  /* Artist's hold — accent with a faint tint: retained, still open to talk */
+  .thumb-status.is-artist-hold {
+    color: var(--fe-500);
+    border-color: color-mix(in srgb, var(--fe-500) 40%, transparent);
+    background: color-mix(in srgb, var(--fe-500) 12%, var(--bg));
+  }
+
+  /* Not for sale — plain muted text, no frame: a quiet note */
+  .thumb-status.is-not-for-sale {
+    color: var(--mn-500);
+    border-color: transparent;
+    background: transparent;
+    backdrop-filter: none;
   }
 
   .card-acc {

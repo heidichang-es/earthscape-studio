@@ -116,7 +116,7 @@ body {
   font-size: var(--t-base);
   line-height: var(--lh-base);
   color: var(--mn-900);
-  background: var(--bg);
+  background: var(--bg-elev);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -239,7 +239,7 @@ h1, h2, h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: var(--hair);
@@ -347,7 +347,7 @@ h1, h2, h3 {
 .breadcrumb {
   border-bottom: var(--hair);
   padding: var(--s-3) var(--gutter);
-  background: var(--bg-elev);
+  background: var(--bg);
 }
 
 .breadcrumb-inner {
@@ -384,6 +384,13 @@ h1, h2, h3 {
   .breadcrumb { padding: var(--s-2) var(--gutter); }
   .breadcrumb-inner, .breadcrumb-acc { letter-spacing: 0; }
   .breadcrumb-path .sep { margin: 0 var(--s-1); }
+
+  /* Stack path over accession so neither wraps into the other */
+  .breadcrumb-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-1);
+  }
 }
 
 

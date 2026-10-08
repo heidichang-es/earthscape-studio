@@ -23,7 +23,7 @@ images:
     alt: "The jar turned to face the viewer, the loop handle seen head-on below the rim"
     plate: "Handle"
 
-status: "consignment"
+status: "sold"
 consignedTo: "miki w. studio"
 consignedToUrl: "https://www.instagram.com/mikiw_studio/"
 ---

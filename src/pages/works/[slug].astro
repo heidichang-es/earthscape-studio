@@ -28,9 +28,22 @@ const statusLabel = {
   available: 'Available · 可洽詢',
   consignment: 'On consignment · 寄售中',
   reserved: 'Reserved · 已預訂',
-  sold: 'Sold · 已售出',
+  'artist-hold': "Artist's hold · 作者保留中",
+  sold: 'Collected · 已入藏',
   'not-for-sale': 'Not for sale · 非售品',
 }[data.status];
+
+// Consignee line: "Sold via …" once the piece has sold, otherwise "Available at …"
+const consigneeLabel = data.status === 'sold' ? 'Sold via' : 'Available at';
+
+// Short English markers for the related-works thumbnails; `available` stays unmarked
+const statusMarker: Record<string, string> = {
+  sold: 'Collected',
+  reserved: 'Reserved',
+  'artist-hold': "Artist's hold",
+  consignment: 'On consignment',
+  'not-for-sale': 'Not for sale',
+};
 
 const inquirySubject = encodeURIComponent(`Inquiry · ${data.accession}`);
 
@@ -234,11 +247,11 @@ const plates = data.images;
 
       <!-- Inquiry -->
       <div class="inquiry">
-        <div class="inquiry-status label">{statusLabel}</div>
+        <div class={`inquiry-status label is-${data.status}`}>{statusLabel}</div>
 
         {data.consignedTo && (
           <div class="inquiry-consignee">
-            <span class="label">Available at</span>
+            <span class="label">{consigneeLabel}</span>
             {data.consignedToUrl ? (
               <a href={data.consignedToUrl} target="_blank" rel="noopener noreferrer">{data.consignedTo}</a>
             ) : (
@@ -247,7 +260,7 @@ const plates = data.images;
           </div>
         )}
 
-        {data.status !== 'consignment' && (
+        {data.status !== 'consignment' && data.status !== 'sold' && (
           <div class="inquiry-actions">
             <a href={`mailto:hello@earthscape-studio.com?subject=${inquirySubject}`} class="btn-inquire label">Inquire</a>
           </div>
@@ -272,6 +285,9 @@ const plates = data.images;
                 <Image class="related-img" src={w.data.images[0].src} alt="" widths={[200, 400]} sizes="200px" loading="lazy" />
               ) : (
                 <span class="placeholder-glyph">◇</span>
+              )}
+              {statusMarker[w.data.status] && (
+                <span class={`related-status label is-${w.data.status}`}>{statusMarker[w.data.status]}</span>
               )}
             </div>
             <div class="related-acc label">{w.data.accession.replace('ES · 2026 · ', '')}</div>
@@ -598,14 +614,51 @@ const plates = data.images;
     margin-top: var(--s-8);
   }
 
+  /* Status pill — same palette as the thumbnail markers.
+     Base = neutral outline (On consignment); each status overrides below. */
   .inquiry-status {
     display: inline-block;
     letter-spacing: 0.25em;
-    color: var(--accent-700);
-    border: 1px solid var(--accent-500);
-    background: var(--accent-50);
     padding: 4px 12px;
     margin-bottom: var(--s-4);
+    color: var(--mn-700);
+    border: var(--hair);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+  }
+
+  /* Available — accent, open to inquiry */
+  .inquiry-status.is-available {
+    color: var(--fe-500);
+    border-color: var(--fe-500);
+    background: color-mix(in srgb, var(--fe-500) 10%, var(--bg));
+  }
+
+  /* Reserved — accent, solid outline: committed to a buyer */
+  .inquiry-status.is-reserved {
+    color: var(--fe-500);
+    border-color: var(--fe-500);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+  }
+
+  /* Artist's hold — accent with a faint tint: retained, still open to talk */
+  .inquiry-status.is-artist-hold {
+    color: var(--fe-500);
+    border-color: color-mix(in srgb, var(--fe-500) 40%, transparent);
+    background: color-mix(in srgb, var(--fe-500) 12%, var(--bg));
+  }
+
+  /* Collected — solid, final: like a stamp */
+  .inquiry-status.is-sold {
+    color: var(--bg);
+    border-color: var(--mn-900);
+    background: var(--mn-900);
+  }
+
+  /* Not for sale — plain muted text, no frame: a quiet note */
+  .inquiry-status.is-not-for-sale {
+    color: var(--mn-500);
+    border-color: transparent;
+    background: transparent;
   }
 
   .inquiry-consignee {
@@ -710,7 +763,7 @@ const plates = data.images;
     align-items: center;
     justify-content: center;
     transition: border-color 0.3s;
-    overflow: hidden;
+    position: relative;
   }
 
   .related-item:hover .related-image { border-color: var(--fe-500); }
@@ -726,6 +779,53 @@ const plates = data.images;
     font-family: var(--font-display);
     font-size: var(--t-4xl);
     color: var(--mn-300);
+  }
+
+  /* Availability marker — same spine tag as the catalog thumbnails.
+     Base = neutral outline (On consignment); each status overrides below. */
+  .related-status {
+    position: absolute;
+    top: -16px;
+    left: 93%;
+    transform: rotate(88deg);
+    transform-origin: center left;
+    font-size: 0.56rem;
+    letter-spacing: 0.16em;
+    padding: 2px var(--s-2);
+    color: var(--mn-700);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border: var(--hair);
+    backdrop-filter: blur(2px);
+    white-space: nowrap;
+  }
+
+  /* Collected — solid, final: like a stamp */
+  .related-status.is-sold {
+    color: var(--bg);
+    background: var(--mn-900);
+    border-color: var(--mn-900);
+  }
+
+  /* Reserved — accent, solid outline: committed to a buyer */
+  .related-status.is-reserved {
+    color: var(--fe-500);
+    border-color: var(--fe-500);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+  }
+
+  /* Artist's hold — accent with a faint tint: retained, still open to talk */
+  .related-status.is-artist-hold {
+    color: var(--fe-500);
+    border-color: color-mix(in srgb, var(--fe-500) 40%, transparent);
+    background: color-mix(in srgb, var(--fe-500) 12%, var(--bg));
+  }
+
+  /* Not for sale — plain muted text, no frame: a quiet note */
+  .related-status.is-not-for-sale {
+    color: var(--mn-500);
+    border-color: transparent;
+    background: transparent;
+    backdrop-filter: none;
   }
 
   .related-acc {
@@ -746,9 +846,12 @@ const plates = data.images;
   @media (max-width: 1100px) {
     .work,
     .work.has-rail {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--s-8);
     }
+    /* Let the single column — and the flex children inside it — shrink below
+       their content's min-content, otherwise the main plate overflows the viewport */
+    .work-images, .work-info { min-width: 0; }
     .work-info { padding-top: 0; }
     .work.has-rail .work-info { padding-left: 0; }
 

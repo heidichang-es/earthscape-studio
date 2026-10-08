@@ -74,7 +74,7 @@ const works = defineCollection({
     }).optional(),
 
     // Inquiry / availability
-    status: z.enum(['available', 'consignment', 'reserved', 'sold', 'not-for-sale']).default('available'),
+    status: z.enum(['available', 'consignment', 'reserved', 'artist-hold', 'sold', 'not-for-sale']).default('available'),
     consignedTo: z.string().optional(),     // e.g. "miki w. studio"
     consignedToUrl: z.string().url().optional(),
 
