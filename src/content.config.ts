@@ -17,7 +17,6 @@ const journal = defineCollection({
     readTime: z.string().optional(),       // e.g. "6 min"
     author: z.string().default('Heidi'),
     session: z.string().optional(),        // studio session window
-    weather: z.string().optional(),        // weather snapshot
     abstract: z.string().optional(),       // italic teaser shown above body
     image: image().optional(),             // lead figure, path relative to the .md file
     imageAlt: z.string().optional(),
