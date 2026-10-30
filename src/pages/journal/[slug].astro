@@ -296,6 +296,66 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
     max-width: 600px;
   }
 
+  article.entry :global(ol),
+  article.entry :global(ul) {
+    font-family: var(--font-zh);
+    font-size: var(--t-base);
+    line-height: 1.9;
+    color: var(--mn-900);
+    margin: 0 0 var(--s-6);
+    padding-left: var(--s-6);
+  }
+
+  article.entry :global(li) {
+    margin-bottom: var(--s-2);
+    padding-left: var(--s-2);
+  }
+
+  article.entry :global(li::marker) {
+    color: var(--fe-500);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  /* Inline figures — standalone markdown images wrapped by rehype-journal-figures */
+  article.entry :global(figure.entry-fig) {
+    margin: var(--s-8) 0;
+  }
+
+  article.entry :global(figure.entry-fig img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: var(--hair);
+    background: var(--bg-elev);
+    margin-bottom: var(--s-3);
+  }
+
+  article.entry :global(figure.entry-fig figcaption) {
+    line-height: 1.6;
+    color: var(--mn-500);
+  }
+
+  /* Two or more images sharing one caption — laid side by side */
+  article.entry :global(figure.entry-fig--multi) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    align-items: flex-start;
+  }
+
+  article.entry :global(figure.entry-fig--multi img) {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  article.entry :global(figure.entry-fig--multi figcaption) {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
   article.entry :global(em) {
     color: var(--fe-500);
   }
@@ -391,5 +451,14 @@ const weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sa
     article.entry :global(p:first-of-type::first-letter) { font-size: 3rem; }
     .entry-nav { grid-template-columns: 1fr; }
     .entry-nav-item.next { text-align: left; }
+
+    /* Single inline figures stay small on phones — no larger than half the screen.
+       Multi-image figures keep their side-by-side split instead. */
+    article.entry :global(figure.entry-fig:not(.entry-fig--multi) img) {
+      max-width: 50%;
+      max-height: 60vh;
+      width: auto;
+      height: auto;
+    }
   }
 </style>
