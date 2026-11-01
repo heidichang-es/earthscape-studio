@@ -362,9 +362,7 @@ function plannedTotal(series: string): number {
                   <span class={`thumb-status label is-${w.data.status}`}>{statusMarker[w.data.status]}</span>
                 )}
               </div>
-              <div class="card-acc label">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
-              <h3 class="card-name">{w.data.title}</h3>
-              <div class="card-name-zh zh">{w.data.titleZh}</div>
+              <h3 class="card-acc-name">{w.data.accession.replace(/^ES · \d+ · /, '')}</h3>
               {w.data.dimensions && <div class="card-dim">{w.data.dimensions}</div>}
             </a>
           ))}
@@ -845,6 +843,7 @@ function plannedTotal(series: string): number {
   .catalog-card:hover { transform: translateY(-2px); }
   .catalog-card:hover .card-thumb { border-color: var(--fe-500); }
   .catalog-card:hover .card-name { color: var(--fe-500); }
+  .catalog-card:hover .card-acc-name { color: var(--fe-700); }
 
   .card-thumb {
     background: var(--bg-elev);
@@ -934,6 +933,18 @@ function plannedTotal(series: string): number {
   .card-acc {
     color: var(--fe-500);
     margin-bottom: var(--s-1);
+  }
+
+  /* Accession number used as the card's name */
+  .card-acc-name {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--fe-500);
+    line-height: 1.4;
+    margin-bottom: 2px;
+    transition: color 0.2s;
   }
 
   .card-name {

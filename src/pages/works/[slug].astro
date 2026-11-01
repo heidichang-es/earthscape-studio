@@ -52,7 +52,7 @@ const plates = data.images;
 
 <BaseLayout
   title={`${data.accession} — Earthscape Studio`}
-  description={data.statement ?? data.titleZh}
+  description={data.statement ?? data.accession}
   active="works"
 >
   <Breadcrumb
@@ -145,8 +145,7 @@ const plates = data.images;
     <div class="work-info">
       <div class="work-accession label">{data.accession}</div>
 
-      <h1 class="work-title">{data.title.replace(/No\.(\d+)/, '').trim()} <em>No.{data.serial}</em></h1>
-      <div class="work-title-zh zh">{data.titleZh}</div>
+      <h1 class="work-title">{data.accession.replace(/^ES · \d+ · /, '').replace(/ · \d+$/, ' · ')}<em>{data.serial}</em></h1>
 
       <!-- Tombstone -->
       <div class="tombstone">
@@ -291,7 +290,7 @@ const plates = data.images;
               )}
             </div>
             <div class="related-acc label">{w.data.accession.replace('ES · 2026 · ', '')}</div>
-            <div class="related-name">{w.data.title}</div>
+            <div class="related-name">{w.data.accession.replace(/^ES · \d+ · /, '')}</div>
           </a>
         ))}
       </div>
