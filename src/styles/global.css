@@ -10,7 +10,7 @@
    07 · BREADCRUMB     sub-nav strip (internal pages)
    08 · FOOTER         site footer
    09 · SECTION HEAD   § num + title pattern
-   10 · TAG            inline cyan badge (+ .filled variant)
+   10 · TAG            inline cyan badge
    ═══════════════════════════════════════════ */
 
 
@@ -37,10 +37,10 @@
   --mn-50:  #EBE5DD;
 
   /* ── Kaolin background ── */
-  --bg:        #F7F1E6;
-  --bg-elev:   #FCF8EF;
-  --bg-sunken: #EFE8DA;
-  --bg-paper:  #F2EBDC;
+  --bg:        #f4f4f4;
+  --bg-elev:   white;
+  --bg-sunken: #f4f4f4;
+  --bg-paper:  #f4f4f4;
 
   /* ── Pyrolusite Streak (accent) — fluorescent mineral ── */
   --accent-50:   #E5F4FA;
@@ -50,6 +50,7 @@
   --accent-900:  #062940;
 
   /* ── Type scale (modular, 1.25) ── */
+  --t-2xs:  0.6rem;
   --t-xs:  0.75rem;
   --t-sm:  0.875rem;
   --t-base: 1rem;
@@ -93,8 +94,7 @@
 
   /* ── Borders ── */
   --hair: 1px solid var(--mn-100);
-  --hair-strong: 1px solid var(--mn-300);
-  --hair-accent: 1px solid var(--fe-500);
+  --hair-accent: 2px solid var(--accent-300);
 }
 
 
@@ -183,7 +183,7 @@ h1, h2, h3 {
   font-size: var(--t-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--fe-500);
+  color: var(--fe-700);
   font-weight: 500;
 }
 
@@ -271,7 +271,7 @@ h1, h2, h3 {
 .nav-center {
   font-family: var(--font-display);
   font-size: var(--t-lg);
-  color: var(--fe-500);
+  color: var(--fe-700);
   letter-spacing: 0.02em;
 }
 
@@ -346,7 +346,7 @@ h1, h2, h3 {
 
 .breadcrumb {
   border-bottom: var(--hair);
-  padding: var(--s-3) var(--gutter);
+  padding: var(--s-2) var(--gutter);
   background: var(--bg);
 }
 
@@ -357,9 +357,10 @@ h1, h2, h3 {
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: var(--t-xs);
+  font-size: var(--t-2xs);
   letter-spacing: 0.15em;
   color: var(--mn-500);
+  font-weight: 500;
 }
 
 .breadcrumb-path a {
@@ -368,7 +369,7 @@ h1, h2, h3 {
   transition: color 0.2s;
 }
 
-.breadcrumb-path a:hover { color: var(--fe-500); }
+.breadcrumb-path a:hover { color: var(--accent-300); }
 
 .breadcrumb-path .sep {
   margin: 0 var(--s-3);
@@ -376,7 +377,7 @@ h1, h2, h3 {
 }
 
 .breadcrumb-acc {
-  color: var(--fe-500);
+  color: var(--mn-500);
   letter-spacing: 0.2em;
 }
 
@@ -384,13 +385,6 @@ h1, h2, h3 {
   .breadcrumb { padding: var(--s-2) var(--gutter); }
   .breadcrumb-inner, .breadcrumb-acc { letter-spacing: 0; }
   .breadcrumb-path .sep { margin: 0 var(--s-1); }
-
-  /* Stack path over accession so neither wraps into the other */
-  .breadcrumb-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s-1);
-  }
 }
 
 
@@ -417,13 +411,13 @@ footer.site-foot {
 .foot-mark {
   font-family: var(--font-display);
   font-size: var(--t-3xl);
+  font-weight: 300;
   color: var(--fe-500);
   line-height: 1;
   margin-bottom: var(--s-3);
 }
 
 .foot-mark em {
-  font-style: italic;
   color: var(--fe-700);
   font-weight: 500;
 }
@@ -516,9 +510,7 @@ footer.site-foot {
 
 /* ═══════════════════════════════════════════
    10 · TAG
-   Inline cyan badge. Default is outlined;
-   `.tag.filled` adds the accent-50 fill used in
-   long-form contexts (e.g. journal entry head).
+   Inline cyan badge, borderless.
    ═══════════════════════════════════════════ */
 
 .tag {
@@ -527,12 +519,5 @@ footer.site-foot {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--accent-500);
-  padding: 2px 8px;
-  border: 1px solid var(--accent-500);
-  transition: all 0.25s ease;
-}
-
-.tag.filled {
-  color: var(--accent-700);
-  background: var(--accent-50);
+  padding: 2px 8px 2px 0;
 }

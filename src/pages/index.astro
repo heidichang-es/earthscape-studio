@@ -294,7 +294,6 @@ const fmt = (d: Date) =>
   }
 
   .cover-title em {
-    font-style: italic;
     font-weight: 500;
     color: var(--fe-700);
   }
@@ -681,7 +680,6 @@ const fmt = (d: Date) =>
     display: flex;
     flex-direction: column;
     gap: var(--s-3);
-    min-height: 240px;
     color: inherit;
     text-decoration: none;
   }
@@ -704,22 +702,15 @@ const fmt = (d: Date) =>
     flex-wrap: wrap;
   }
 
-  .journal-entry:hover :global(.tag) {
-    background: var(--accent-500);
-    color: var(--bg);
-    border-color: var(--accent-500);
-  }
-
   .journal-body {
     display: flex;
     flex-direction: column;
     gap: var(--s-2);
-    margin-top: auto;
   }
 
   .journal-title {
     font-size: var(--t-xl);
-    color: var(--mn-900);
+    color: var(--fe-700);
     line-height: 1.3;
   }
 

@@ -186,7 +186,7 @@ function plannedTotal(series: string): number {
 
 <BaseLayout
   title="Works · 作品目錄 — Earthscape Studio"
-  description="Catalog of works from Earthscape Studio. 所有作品依系列、類別與藏品編號編列。"
+  description="Catalog of works from Earthscape Studio. 作品依系列、類別與藏品編號編列。"
   active="works"
 >
   <Breadcrumb slot="top" current="Works" acc={`CAT · ${works.length} OF ${plannedTotal('Cape · 01 — Gathering The Food')}`} />
@@ -198,7 +198,7 @@ function plannedTotal(series: string): number {
     <div class="hero-zh zh">作 品 目 錄</div>
     <p class="hero-desc">
       All works archived by series, type and accession number.<br />
-      所有作品依系列、類別與藏品編號編列。
+      作品依系列、類別與藏品編號編列。
     </p>
   </section>
 
@@ -687,14 +687,8 @@ function plannedTotal(series: string): number {
     background: var(--bg-elev);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s, background 0.2s;
   }
-
-  .ref-card:hover {
-    border-color: var(--fe-500);
-    background: var(--bg);
-  }
-  .ref-card:hover .ref-card-title { color: var(--fe-500); }
+  .ref-card:hover .ref-card-title { color: var(--fe-500); font-weight: 500; }
 
   .ref-card-glyph {
     display: block;
@@ -711,7 +705,7 @@ function plannedTotal(series: string): number {
     overflow: visible;
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.43;
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -844,9 +838,9 @@ function plannedTotal(series: string): number {
   }
 
   .catalog-card:hover { transform: translateY(-2px); }
-  .catalog-card:hover .card-thumb { border-color: var(--fe-500); }
+  .catalog-card:hover .card-thumb { border-color: var(--accent-300); }
   .catalog-card:hover .card-name { color: var(--fe-500); }
-  .catalog-card:hover .card-acc-name { color: var(--fe-700); }
+  .catalog-card:hover .card-acc-name { font-weight: 500; }
 
   .card-thumb {
     background: var(--bg-elev);
@@ -947,7 +941,6 @@ function plannedTotal(series: string): number {
     color: var(--fe-500);
     line-height: 1.4;
     margin-bottom: 2px;
-    transition: color 0.2s;
   }
 
   .card-name {
