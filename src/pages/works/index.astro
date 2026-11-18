@@ -364,6 +364,9 @@ function plannedTotal(series: string): number {
               </div>
               <h3 class="card-acc-name">{w.data.accession.replace(/^ES · \d+ · /, '')}</h3>
               {w.data.dimensions && <div class="card-dim">{w.data.dimensions}</div>}
+              {w.data.price != null && w.data.status !== 'sold' && w.data.status !== 'not-for-sale' && (
+                <div class="card-price">NT$ {w.data.price.toLocaleString('en-US')}</div>
+              )}
             </a>
           ))}
 
@@ -970,6 +973,14 @@ function plannedTotal(series: string): number {
     letter-spacing: 0.1em;
     color: var(--mn-500);
     margin-top: 2px;
+  }
+
+  .card-price {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--mn-900);
+    margin-top: var(--s-1);
   }
 
   /* Planned placeholder (single cumulative card showing what's forthcoming) */

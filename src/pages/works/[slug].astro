@@ -36,6 +36,10 @@ const statusLabel = {
 // Consignee line: "Sold via …" once the piece has sold, otherwise "Available at …"
 const consigneeLabel = data.status === 'sold' ? 'Sold via' : 'Available at';
 
+// Price — hidden once sold or not for sale
+const showPrice = data.price != null && data.status !== 'sold' && data.status !== 'not-for-sale';
+const priceLabel = data.price != null ? `NT$ ${data.price.toLocaleString('en-US')}` : null;
+
 // Short English markers for the related-works thumbnails; `available` stays unmarked
 const statusMarker: Record<string, string> = {
   sold: 'Collected',
@@ -247,6 +251,8 @@ const plates = data.images;
       <!-- Inquiry -->
       <div class="inquiry">
         <div class={`inquiry-status label is-${data.status}`}>{statusLabel}</div>
+
+        {showPrice && <div class="inquiry-price">{priceLabel}</div>}
 
         {data.consignedTo && (
           <div class="inquiry-consignee">
@@ -658,6 +664,15 @@ const plates = data.images;
     color: var(--mn-500);
     border-color: transparent;
     background: transparent;
+  }
+
+  .inquiry-price {
+    font-family: var(--font-display);
+    font-size: var(--t-2xl);
+    font-weight: 300;
+    color: var(--mn-900);
+    letter-spacing: 0.02em;
+    margin-bottom: var(--s-4);
   }
 
   .inquiry-consignee {

@@ -42,6 +42,7 @@ images:
     plate: "Detail"
 
 status: "consignment"
+price: 5480
 consignedTo: "miki w. studio"
 consignedToUrl: "https://www.instagram.com/mikiw_studio/"
 draft: false

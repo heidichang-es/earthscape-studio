@@ -24,6 +24,7 @@ images:
     plate: "Three-quarter view"
 
 status: "consignment"
+price: 6880
 consignedTo: "miki w. studio"
 consignedToUrl: "https://www.instagram.com/mikiw_studio/"
 ---

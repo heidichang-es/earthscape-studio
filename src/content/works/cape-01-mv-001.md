@@ -30,6 +30,7 @@ images:
     plate: "Surface detail"
 
 status: "consignment"
+price: 2880
 consignedTo: "miki w. studio"
 consignedToUrl: "https://www.instagram.com/mikiw_studio/"
 draft: false
