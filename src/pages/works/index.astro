@@ -326,16 +326,27 @@ function plannedTotal(series: string): number {
             <span class="summary-num">{plannedSum}</span>
             <span class="summary-label label">pieces completed</span>
           </div>
-          <div class="summary-inventory">
+          <div class="summary-inventory" data-filter-group>
+            <button type="button" class="inv-cell is-active" data-filter-type="all" aria-pressed="true">
+              <span class="inv-type label">All</span>
+              <span class="inv-progress">{items.length}/{plannedSum}</span>
+            </button>
             {typeOrder.map(t => {
               const made = items.filter(i => i.data.type === t).length;
               const total = planned[t] ?? 0;
               if (total === 0) return null;
+              const filterable = made > 0;
               return (
-                <div class="inv-cell">
+                <button
+                  type="button"
+                  class="inv-cell"
+                  data-filter-type={filterable ? t : undefined}
+                  disabled={!filterable}
+                  aria-pressed="false"
+                >
                   <span class="inv-type label">{t}</span>
                   <span class="inv-progress">{made}/{total}</span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -343,7 +354,7 @@ function plannedTotal(series: string): number {
 
         <div class="catalog-grid">
           {items.map(w => (
-            <a href={`/works/${w.id}`} class="catalog-card">
+            <a href={`/works/${w.id}`} class="catalog-card" data-type={w.data.type}>
               <div class="card-thumb">
                 {w.data.images.length > 0 ? (
                   <Image
@@ -808,7 +819,25 @@ function plannedTotal(series: string): number {
     border: var(--hair);
     background: var(--bg-elev);
     min-width: 56px;
+    font: inherit;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
   }
+
+  .inv-cell:not(:disabled):hover { border-color: var(--mn-500); }
+
+  .inv-cell:disabled {
+    cursor: default;
+    opacity: 0.4;
+  }
+
+  .inv-cell.is-active {
+    background: var(--accent-300);
+    border-color: var(--accent-300);
+  }
+  .inv-cell.is-active .inv-type,
+  .inv-cell.is-active .inv-progress { color: #fff; }
 
   .inv-type {
     letter-spacing: 0.18em;
@@ -1042,4 +1071,27 @@ function plannedTotal(series: string): number {
       if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
     });
   }
+
+  // ── Catalog type filter (per series) ──
+  document.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((group) => {
+    const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('.inv-cell'));
+    const grid = group.closest('.series-catalog')?.querySelector('.catalog-grid');
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.catalog-card'));
+
+    const apply = (type: string) => {
+      buttons.forEach((b) => {
+        const on = b.dataset.filterType === type;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      cards.forEach((c) => {
+        c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
+      });
+    };
+
+    buttons.forEach((b) => {
+      b.addEventListener('click', () => apply(b.dataset.filterType || 'all'));
+    });
+  });
 </script>
