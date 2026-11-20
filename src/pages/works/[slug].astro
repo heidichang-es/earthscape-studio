@@ -29,7 +29,7 @@ const statusLabel = {
   consignment: 'On consignment · 寄售中',
   reserved: 'Reserved · 已預訂',
   'artist-hold': "Artist's hold · 作者保留中",
-  sold: 'Collected · 已入藏',
+  sold: 'Sold · 已售出',
   'not-for-sale': 'Not for sale · 非售品',
 }[data.status];
 
@@ -42,7 +42,7 @@ const priceLabel = data.price != null ? `NT$ ${data.price.toLocaleString('en-US'
 
 // Short English markers for the related-works thumbnails; `available` stays unmarked
 const statusMarker: Record<string, string> = {
-  sold: 'Collected',
+  sold: 'Sold',
   reserved: 'Reserved',
   'artist-hold': "Artist's hold",
   consignment: 'On consignment',
